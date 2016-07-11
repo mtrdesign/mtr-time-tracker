@@ -15,6 +15,7 @@ tests/coverage_html/
 tests/.coverage
 build/
 tests/report/
+local.py
 
 # ENV
 mtr-time-tracker-venv/
@@ -22,3 +23,6 @@ mtr-time-tracker-venv/
 
 # Vagrant
 .vagrant/
+
+# IDE
+.idea/
