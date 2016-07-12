@@ -26,3 +26,6 @@ mtr-time-tracker-venv/
 
 # IDE
 .idea/
+
+# Configs
+gunicorn_conf/
