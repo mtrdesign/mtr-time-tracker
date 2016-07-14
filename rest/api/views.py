@@ -22,4 +22,11 @@ class ProjectsViewSet(viewsets.ModelViewSet):
 class ProfilesViewSet(viewsets.ModelViewSet):
     queryset = Profiles.objects.all()
     serializer_class = ProfilesSerializer
+    
+    @list_route(methods=['get'], url_path='by_user_id/(?P<pk>[^/.]+)')
+    def by_user_id(self, request, pk=None):
+        queryset = Profiles.objects.all()
+        user = get_object_or_404(queryset, user_id=pk)
+        serializer = ProfilesSerializer(user)
+        return Response(serializer.data)
 
