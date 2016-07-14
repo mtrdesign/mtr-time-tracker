@@ -1,0 +1,37 @@
+﻿<p><a href="#/login" class="btn btn-primary">Logout</a></p>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        Companies
+    </div>
+    <div class="panel-body">
+        <ul>
+            <li ng-repeat="company in c.getCompanies">
+                {{company.name}}
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        Projects
+    </div>
+    <div class="panel-body">
+        <ul>
+            <li ng-repeat="project in c.getProjects">
+                {{project.name}}
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        Profiles
+    </div>
+    <div class="panel-body">
+        <ul>
+            <li ng-repeat="profile in c.getProfiles">
+                {{profile.first_name}} {{profile.last_name}}
+            </li>
+        </ul>
+    </div>
+</div>

@@ -1,0 +1,10 @@
+{
+      "name": "Time Tracking Application",
+      "version": "0.0.1",
+      "dependencies": {
+            "angular": "1.5.7",
+            "angular-cookies": "1.5.7",
+            "angular-route": "1.5.7",
+            "bootstrap": "3.3.6"
+      }
+}

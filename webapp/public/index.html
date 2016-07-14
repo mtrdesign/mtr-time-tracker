@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <title>Time Tracking Application</title>
+        <link type="text/css" rel="stylesheet" href="components/bower/bootstrap/dist/css/bootstrap.min.css">
+        <link type="text/css" rel="stylesheet" href="components/app/css/base.css">
+    </head>
+    <body ng-app="app">
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#" ng-href="#/">Time Tracking Application</a>
+                </div>
+            </div>
+        </nav>
+        <div class="container">
+            <div ng-class="{ 'alert': flash, 'alert-success': flash.type === 'success', 'alert-danger': flash.type === 'error' }" ng-if="flash" ng-bind="flash.message"></div>
+            <div ng-view></div>
+        </div>
+        <script src="components/bower/jquery/dist/jquery.min.js"></script>
+        <script src="components/bower/angular/angular.min.js"></script>
+        <script src="components/bower/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script src="components/bower/angular-cookies/angular-cookies.js"></script>
+        <script src="components/bower/angular-route/angular-route.js"></script>
+        <script src="components/app/angular/init.js"></script>
+        <script src="components/app/angular/services/authentication.js"></script>
+        <script src="components/app/angular/services/flash.js"></script>
+        <script src="components/app/angular/services/companies.js"></script>
+        <script src="components/app/angular/services/projects.js"></script>
+        <script src="components/app/angular/services/profiles.js"></script>
+        <script src="components/app/angular/controllers/home.js"></script>
+        <script src="components/app/angular/controllers/login.js"></script>
+    </body>
+</html>
