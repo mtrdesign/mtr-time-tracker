@@ -6,9 +6,9 @@ from api import views
 
 
 router = routers.DefaultRouter()
-router.register(r'companies', CompaniesViewSet)
-router.register(r'projects', ProjectsViewSet)
-router.register(r'profiles', ProfilesViewSet)
+router.register(r"companies", CompaniesViewSet)
+router.register(r"projects", ProjectsViewSet)
+router.register(r"profiles", ProfilesViewSet)
 
 urlpatterns = router.urls
 
