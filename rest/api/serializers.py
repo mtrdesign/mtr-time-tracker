@@ -1,10 +1,21 @@
-from django.contrib.auth.models import User
+from companies.models import Companies
+from projects.models import Projects
+from profiles.models import Profiles
 
 from rest_framework import serializers
 
 
-# Serializers define the API representation.
-class UserSerializer(serializers.HyperlinkedModelSerializer):
+class CompaniesSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = User
-        fields = ('url', 'username', 'email', 'is_staff')
+        model = Companies
+        fields = ('name',)
+
+class ProjectsSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Projects
+        fields = ('name',)
+
+class ProfilesSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Profiles
+        fields = ('id', 'first_name', 'last_name',)
