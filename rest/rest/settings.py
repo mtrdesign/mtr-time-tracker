@@ -42,11 +42,8 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'corsheaders',
-
-    'companies',
-    'profiles',
-    'projects',
-    'time_reports',
+    
+    'time_tracker',
 ]
 
 MIDDLEWARE_CLASSES = [
