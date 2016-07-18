@@ -12,7 +12,7 @@
         service.VerifyUser = VerifyUser;
         service.VerifyToken = VerifyToken;
         function Login(username, password, callback) {
-            $http.post(config.apiUrl + '/api/auth/jwt/new/', { username: username, password: password })
+            $http.post(config.apiUrl + '/auth/jwt/new/', { username: username, password: password })
                 .error(function (response) {
                     callback(response);
                 })
@@ -57,7 +57,7 @@
                 });  
         }
         function VerifyToken(token, callback) {
-            $http.post(config.apiUrl + '/api/auth/jwt/verify/', { token: token })
+            $http.post(config.apiUrl + '/auth/jwt/verify/', { token: token })
                 .error(function (response) {
                     callback(response);
                 })

@@ -22,8 +22,9 @@
             })
             .otherwise({ redirectTo: '/login' });
     }
-    run.$inject = ['$rootScope', '$location', '$cookieStore', '$http', 'AuthenticationService'];
-    function run($rootScope, $location, $cookieStore, $http, AuthenticationService) {
+    run.$inject = ['$rootScope', '$location', '$cookieStore', '$http', 'config', 'AuthenticationService'];
+    function run($rootScope, $location, $cookieStore, $http, config, AuthenticationService) {
+        config.apiUrl = config.apiUrl + '/time-tracker/api';
         $rootScope.globals = $cookieStore.get('globals') || {};
         if ($rootScope.globals.currentUser) {
             AuthenticationService.SetCredentials($rootScope.globals.currentUser.token, function(response) {

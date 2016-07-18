@@ -3,12 +3,12 @@
     angular
         .module('app')
         .factory('CompaniesService', CompaniesService);
-    CompaniesService.$inject = ['$http'];
-    function CompaniesService($http) {
+    CompaniesService.$inject = ['$http', 'config'];
+    function CompaniesService($http, config) {
         var service = {};
         service.GetAll = GetAll;
         function GetAll() {
-            return $http.get('http://127.0.0.1:8000/api/companies/')
+            return $http.get(config.apiUrl + '/companies/')
                         .then(handleSuccess, handleError('Error getting all users'));
         }
         function handleSuccess(res) {

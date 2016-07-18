@@ -3,17 +3,17 @@
     angular
         .module('app')
         .factory('ProfilesService', ProfilesService);
-    ProfilesService.$inject = ['$http'];
-    function ProfilesService($http) {
+    ProfilesService.$inject = ['$http', 'config'];
+    function ProfilesService($http, config) {
         var service = {};
         service.GetAll = GetAll;
         service.GetOneByUserID = GetOneByUserID;
         function GetAll() {
-            return $http.get('http://127.0.0.1:8000/api/profiles/')
+            return $http.get(config.apiUrl + '/profiles/')
                         .then(handleSuccess, handleError('Error getting all profiles.'));
         }
         function GetOneByUserID(id) {
-            return $http.get('http://127.0.0.1:8000/api/profiles/by_user_id/' + id + '/')
+            return $http.get(config.apiUrl + '/profiles/by_user_id/' + id + '/')
                         .then(handleSuccess, handleError('Error getting this profile.'));
         }
         function handleSuccess(res) {
