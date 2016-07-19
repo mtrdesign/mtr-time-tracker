@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils.functional import cached_property
 from django.utils.translation import ugettext as _
 
 from time_tracker.models import Company
@@ -23,7 +24,8 @@ class Profile(models.Model):
         verbose_name_plural = _("profiles")
 
     def __str__(self):
-        return self.get_full_name()
+        return self.full_name
 
-    def get_full_name(self):
+    @cached_property
+    def full_name(self):
         return "%s %s" % (self.first_name, self.last_name)

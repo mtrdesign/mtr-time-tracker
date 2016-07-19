@@ -5,7 +5,7 @@ from rest_framework_jwt.views import obtain_jwt_token
 from rest_framework_jwt.views import refresh_jwt_token
 from rest_framework_jwt.views import verify_jwt_token
 
-from time_tracker.views import CompanyViewSet , ProjectViewSet, ProfileViewSet
+from time_tracker.views import CompanyViewSet, ProjectViewSet, ProfileViewSet
 
 
 router = routers.DefaultRouter()
