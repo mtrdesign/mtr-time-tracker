@@ -3,11 +3,14 @@
     angular
         .module('app')
         .controller('LoginController', LoginController);
-    LoginController.$inject = ['$location', 'AuthenticationService', 'FlashService'];
-    function LoginController($location, AuthenticationService, FlashService) {
+    LoginController.$inject = ['$location', 'AuthenticationService', 'FlashService', 'PageService'];
+    function LoginController($location, AuthenticationService, FlashService, PageService) {
         var c = this;
         c.login = login;
         (function initController() {
+            PageService.resetData();
+            PageService.setHtmlTitle('Login');
+            PageService.setSlug('login');
             AuthenticationService.ClearCredentials();
         })();
         function login() {

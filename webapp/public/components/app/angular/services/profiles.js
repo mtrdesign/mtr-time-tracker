@@ -13,7 +13,7 @@
                         .then(handleSuccess, handleError('Error getting all profiles.'));
         }
         function GetOneByUserID(id) {
-            return $http.get(config.apiUrl + '/profiles/by_user_id/' + id + '/')
+            return $http.get(config.apiUrl + '/profiles/?user__id=' + id)
                         .then(handleSuccess, handleError('Error getting this profile.'));
         }
         function handleSuccess(res) {

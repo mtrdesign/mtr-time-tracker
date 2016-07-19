@@ -1,5 +1,4 @@
 from rest_framework import filters
-
 from rest_framework import viewsets
 
 from time_tracker.models import Profile

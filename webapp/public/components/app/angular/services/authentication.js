@@ -21,15 +21,17 @@
                 });
         }
         function SetCredentials(token, callback) {
-            VerifyToken(token, function(response) {
-                if (typeof response.token == 'string' && response.token.length > 0) {
+            VerifyToken(token, function(tokenResponse) {
+                if (typeof tokenResponse == 'object' && typeof tokenResponse.token == 'string' && tokenResponse.token.length > 0) {
                     $http.defaults.headers.common.Authorization = 'JWT ' + token;
-                    VerifyUser(token, function(response) {
-                        if (typeof response.id == 'number' && response.id > 0) {
+                    VerifyUser(token, function(userResponse) {
+                        if (typeof userResponse[0] == 'object' && 
+                            typeof userResponse[0].id == 'number' && 
+                            userResponse[0].id > 0) {
                             $rootScope.globals = {
                                 currentUser: {
                                     token: token,
-                                    profile: response
+                                    profile: userResponse[0]
                                 }
                             };
                             $cookieStore.put('globals', $rootScope.globals);

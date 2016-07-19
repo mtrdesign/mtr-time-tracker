@@ -4,6 +4,7 @@
         .module('app', ['ngRoute', 'ngCookies', 'angular-jwt'])
         .config(config)
         .constant('config', {  
+          appTitle: 'MTR Design Projects',
           apiUrl: 'http://127.0.0.1:8000',
         })
         .run(run);
@@ -15,6 +16,16 @@
                 templateUrl: 'components/app/angular/views/home.html',
                 controllerAs: 'c'
             })
+            .when('/account', {
+                controller: 'AccountController',
+                templateUrl: 'components/app/angular/views/account.html',
+                controllerAs: 'c'
+            })
+            .when('/projects/:id', {
+                controller: 'ProjectController',
+                templateUrl: 'components/app/angular/views/project.html',
+                controllerAs: 'c'
+            })
             .when('/login', {
                 controller: 'LoginController',
                 templateUrl: 'components/app/angular/views/login.html',
@@ -22,8 +33,8 @@
             })
             .otherwise({ redirectTo: '/login' });
     }
-    run.$inject = ['$rootScope', '$location', '$cookieStore', '$http', 'config', 'AuthenticationService'];
-    function run($rootScope, $location, $cookieStore, $http, config, AuthenticationService) {
+    run.$inject = ['$rootScope', '$location', '$cookieStore', '$http', 'config', 'AuthenticationService', 'PageService'];
+    function run($rootScope, $location, $cookieStore, $http, config, AuthenticationService, PageService) {
         config.apiUrl = config.apiUrl + '/time-tracker/api';
         $rootScope.globals = $cookieStore.get('globals') || {};
         if ($rootScope.globals.currentUser) {
