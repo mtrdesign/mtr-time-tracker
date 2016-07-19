@@ -10,3 +10,7 @@ class ProfileViewSet(viewsets.ModelViewSet):
     serializer_class = ProfileSerializer
     filter_backends = (filters.DjangoFilterBackend,)
     filter_fields = ('first_name', 'user__id')
+    
+    def get_queryset(self):
+        user = self.request.user
+        return Profile.objects.filter(user=user).all()
