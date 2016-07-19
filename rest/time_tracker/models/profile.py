@@ -9,8 +9,7 @@ from time_tracker.models import Company
 class Profile(models.Model):
     user = models.OneToOneField(User, verbose_name=_("User"), unique=False, null=True, blank=False,
                                 on_delete=models.PROTECT)
-    company = models.OneToOneField(Company, verbose_name=_("Company"), null=True, blank=False,
-                                   on_delete=models.PROTECT)
+    company = models.ForeignKey(Company, verbose_name=_("Company"), null=True, blank=False, on_delete=models.PROTECT)
     first_name = models.CharField(verbose_name=_("First name"), max_length=254, unique=False, null=True, blank=False)
     last_name = models.CharField(verbose_name=_("Last name"), max_length=254, unique=False, null=True, blank=False)
     job_title = models.CharField(verbose_name=_("Job title"), max_length=254, unique=False, null=True, blank=True)
