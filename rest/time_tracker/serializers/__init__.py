@@ -2,3 +2,4 @@ from time_tracker.serializers.user import UserSerializer
 from time_tracker.serializers.company import CompanySerializer
 from time_tracker.serializers.project import ProjectSerializer
 from time_tracker.serializers.profile import ProfileSerializer
+from time_tracker.serializers.time_report import TimeReportSerializer
