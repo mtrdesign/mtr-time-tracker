@@ -11,16 +11,16 @@
     function config($routeProvider, $locationProvider, envServiceProvider) {
         envServiceProvider.config({
             domains: {
-                development: ['mtr-time-tracker'],
                 production: ['mtr-time-tracker.aws.mtrdev.com'],
+                development: ['mtr-time-tracker'],
             },
             vars: {
-                development: {
-                    apiUrl: '//127.0.0.1:8000/time-tracker/api'
-                },
                 production: {
                     apiUrl: '//api.mtr-time-tracker.aws.mtrdev.com/time-tracker/api'
                 },
+                development: {
+                    apiUrl: '//127.0.0.1:8000/time-tracker/api'
+                }
             }
         });
         $routeProvider
