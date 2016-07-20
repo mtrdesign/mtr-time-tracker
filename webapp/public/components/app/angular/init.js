@@ -1,15 +1,28 @@
 ﻿(function () {
     'use strict';
     angular
-        .module('app', ['ngRoute', 'ngCookies', 'angular-jwt'])
+        .module('app', ['ngRoute', 'ngCookies', 'angular-jwt', 'environment'])
         .config(config)
         .constant('config', {  
-          appTitle: 'MTR Design Projects',
-          apiUrl: 'http://127.0.0.1:8000',
+            appTitle: 'MTR Design Projects'
         })
         .run(run);
-    config.$inject = ['$routeProvider', '$locationProvider'];
-    function config($routeProvider, $locationProvider) {
+    config.$inject = ['$routeProvider', '$locationProvider', 'envServiceProvider'];
+    function config($routeProvider, $locationProvider, envServiceProvider) {
+        envServiceProvider.config({
+            domains: {
+                development: ['mtr-time-tracker'],
+                production: ['mtr-time-tracker.aws.mtrdev.com'],
+            },
+            vars: {
+                development: {
+                    apiUrl: '//127.0.0.1:8000/time-tracker/api'
+                },
+                production: {
+                    apiUrl: '//api.mtr-time-tracker.aws.mtrdev.com/time-tracker/api'
+                },
+            }
+        });
         $routeProvider
             .when('/', {
                 controller: 'HomeController',
@@ -38,9 +51,8 @@
             })
             .otherwise({ redirectTo: '/404' });
     }
-    run.$inject = ['$rootScope', '$location', '$cookieStore', '$http', 'config', 'AuthenticationService', 'PageService'];
-    function run($rootScope, $location, $cookieStore, $http, config, AuthenticationService, PageService) {
-        config.apiUrl = config.apiUrl + '/time-tracker/api';
+    run.$inject = ['$rootScope', '$location', '$cookieStore', '$http', 'config', 'envService', 'AuthenticationService', 'PageService'];
+    function run($rootScope, $location, $cookieStore, $http, config, envService, AuthenticationService, PageService) {
         $rootScope.globals = $cookieStore.get('globals') || {};
         if ($rootScope.globals.currentUser) {
             AuthenticationService.SetCredentials($rootScope.globals.currentUser.token, function(response) {

@@ -3,22 +3,22 @@
     angular
         .module('app')
         .factory('ProfilesService', ProfilesService);
-    ProfilesService.$inject = ['$http', 'config', '$rootScope'];
-    function ProfilesService($http, config, $rootScope) {
+    ProfilesService.$inject = ['$http', 'config', 'envService', '$rootScope'];
+    function ProfilesService($http, config, envService, $rootScope) {
         var service = {};
         service.GetAll = GetAll;
         service.GetOneByUserID = GetOneByUserID;
         service.Edit = Edit;
         function GetAll() {
-            return $http.get(config.apiUrl + '/profiles/')
+            return $http.get(envService.read('apiUrl') + '/profiles/')
                         .then(handleSuccess, handleError('Error getting all profiles.'));
         }
         function GetOneByUserID(id) {
-            return $http.get(config.apiUrl + '/profiles/?user__id=' + id)
+            return $http.get(envService.read('apiUrl') + '/profiles/?user__id=' + id)
                         .then(handleSuccess, handleError('Error getting this profile.'));
         }
         function Edit(profileData, callback) {
-            $http.patch(config.apiUrl + '/profiles/' + $rootScope.globals.currentUser.profile.id + '/', profileData)
+            $http.patch(envService.read('apiUrl') + '/profiles/' + $rootScope.globals.currentUser.profile.id + '/', profileData)
                 .error(function (response) {
                     callback(response);
                 })

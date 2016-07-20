@@ -3,12 +3,12 @@
     angular
         .module('app')
         .factory('UsersService', UsersService);
-    UsersService.$inject = ['$http', 'config', '$rootScope'];
-    function UsersService($http, config, $rootScope) {
+    UsersService.$inject = ['$http', 'config', 'envService', '$rootScope'];
+    function UsersService($http, config, envService, $rootScope) {
         var service = {};
         service.Edit = Edit;
         function Edit(userData, callback) {
-            $http.patch(config.apiUrl + '/users/' + $rootScope.globals.currentUser.profile.user.id + '/', userData)
+            $http.patch(envService.read('apiUrl') + '/users/' + $rootScope.globals.currentUser.profile.user.id + '/', userData)
                 .error(function (response) {
                     callback(response);
                 })

@@ -3,8 +3,8 @@
     angular
         .module('app')
         .factory('AuthenticationService', AuthenticationService);
-    AuthenticationService.$inject = ['$http', '$cookieStore', '$rootScope', 'config', 'jwtHelper', 'ProfilesService'];
-    function AuthenticationService($http, $cookieStore, $rootScope, config, jwtHelper, ProfilesService) {
+    AuthenticationService.$inject = ['$http', '$cookieStore', '$rootScope', 'config', 'envService', 'jwtHelper', 'ProfilesService'];
+    function AuthenticationService($http, $cookieStore, $rootScope, config, envService, jwtHelper, ProfilesService) {
         var service = {};
         service.Login = Login;
         service.SetCredentials = SetCredentials;
@@ -12,7 +12,7 @@
         service.VerifyUser = VerifyUser;
         service.VerifyToken = VerifyToken;
         function Login(username, password, callback) {
-            $http.post(config.apiUrl + '/auth/jwt/new/', { username: username, password: password })
+            $http.post(envService.read('apiUrl') + '/auth/jwt/new/', { username: username, password: password })
                 .error(function (response) {
                     callback(response);
                 })
@@ -59,7 +59,7 @@
                 });  
         }
         function VerifyToken(token, callback) {
-            $http.post(config.apiUrl + '/auth/jwt/verify/', { token: token })
+            $http.post(envService.read('apiUrl') + '/auth/jwt/verify/', { token: token })
                 .error(function (response) {
                     callback(response);
                 })
