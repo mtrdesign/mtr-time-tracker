@@ -13,4 +13,4 @@ class ProfileViewSet(viewsets.ModelViewSet):
     
     def get_queryset(self):
         user = self.request.user
-        return Profile.objects.filter(user=user, is_active=True).all()
+        return Profile.objects.filter(user=user, is_active=True)

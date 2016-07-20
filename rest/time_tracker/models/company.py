@@ -11,6 +11,7 @@ class Company(models.Model):
     website_url = models.URLField(verbose_name=_("Website"), max_length=254, unique=False, null=True, blank=True)
     address = models.CharField(verbose_name=_("Address"), max_length=512, unique=False, null=True, blank=True)
     is_active = models.BooleanField(verbose_name=_("Is active"), default=True)
+
     created_at = models.DateTimeField(verbose_name=_("Created at"), auto_now_add=True)
     updated_at = models.DateTimeField(verbose_name=_("Updated at"), auto_now=True)
 
