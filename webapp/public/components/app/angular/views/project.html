@@ -3,6 +3,25 @@
         {{ c.getProject.name }}'s time reports
     </div>
     <div class="panel-body">
-
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Profile</th>
+                        <th>Details</th>
+                        <th>Hours</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="report in c.getProjectTimeReports">
+                        <td>{{ report.date }}</td>
+                        <td>{{ report.profile.full_name }}</td>
+                        <td>{{ report.name }}</td>
+                        <td>{{ report.get_hours }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>

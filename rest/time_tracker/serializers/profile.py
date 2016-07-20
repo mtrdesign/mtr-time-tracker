@@ -11,4 +11,5 @@ class ProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Profile
-        exclude = ('is_active', 'created_at', 'updated_at')
+        fields = ("id", "first_name", "last_name", "full_name", "email_address", "job_title", "phone_number", 
+                  "user", "company",)
