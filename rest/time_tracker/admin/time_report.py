@@ -3,8 +3,8 @@ from django.contrib import admin
 
 class TimeReportAdmin(admin.ModelAdmin):
     search_fields = ("id", "name",)
-    ordering = ("name",)
-    list_display = ("id", "name", "_get_hours", "is_active",)
+    ordering = ("date",)
+    list_display = ("id", "date", "name", "_get_hours", "is_active",)
     list_filter = ("profile", "project", "is_active",)
     
     def _get_hours(self, obj):
