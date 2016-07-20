@@ -8,7 +8,7 @@
         var service = {};
         service.GetReports = GetReports;
         function GetReports(project_id) {
-            return $http.get(envService.read('apiUrl') + '/time-reports/?project_id=' + project_id)
+            return $http.get(envService.read('apiUrl') + '/time-reports/?project__id=' + project_id)
                         .then(handleSuccess, handleError('Error getting time reports.'));
         }
         function handleSuccess(res) {
