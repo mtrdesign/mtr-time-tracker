@@ -4,7 +4,7 @@
     </div>
     <div class="panel-body">
         <div class="list-group" ng-repeat="project in c.getActiveProjects">
-            <a class="list-group-item" href="#/projects/{{ project.id }}">{{ project.name }}</a>
+            <a class="list-group-item" href="#/projects/{{ project.id }}/time-reports">{{ project.name }}</a>
         </div>
     </div>
 </div>
@@ -14,7 +14,7 @@
     </div>
     <div class="panel-body">
         <div class="list-group" ng-repeat="project in c.getFinishedProjects">
-            <a class="list-group-item" href="#/projects/{{ project.id }}">{{ project.name }}</a>
+            <a class="list-group-item" href="#/projects/{{ project.id }}/time-reports">{{ project.name }}</a>
         </div>
     </div>
 </div>

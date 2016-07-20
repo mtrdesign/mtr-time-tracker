@@ -1,0 +1,38 @@
+﻿<div class="panel panel-default">
+    <div class="panel-heading">
+        {{ c.getProject.name }}'s time reports
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-12">
+                <a class="btn btn-default btn-sm" href="#" ng-href="#/projects/{{ c.getProject.id }}/time-reports">
+                    Back
+                </a>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-md-12">
+                <form name="form" ng-submit="c.create()" role="form" novalidate>
+                    <div class="form-group">
+                        <label for="isSHxCc90F">Name <span class="required">*</span></label>
+                        <input id="isSHxCc90F" type="text" class="form-control" ng-model="c.timeReportData.name">
+                    </div>
+                    <div class="form-group">
+                        <label for="wbwejcgsX3">Hours <span class="required">*</span></label>
+                        <input id="wbwejcgsX3" type="text" class="form-control" ng-model="c.timeReportData.seconds">
+                    </div>
+                    <div class="form-group">
+                        <label for="nv21ZO6wqC">Description</label>
+                        <input id="nv21ZO6wqC" type="text" class="form-control" ng-model="c.timeReportData.description">
+                    </div>
+                    <div class="form-group">
+                        <label for="u4oXvFIvHI">Date <span class="required">*</span></label>
+                        <input id="u4oXvFIvHI" type="text" class="form-control" ng-model="c.timeReportData.date">
+                    </div>
+                    <button type="submit" class="btn btn-default">Submit</button>
+                </form> 
+            </div>
+        </div>
+    </div>
+</div>

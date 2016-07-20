@@ -10,9 +10,9 @@ import datetime
 
 
 class TimeReport(models.Model):
-    name = models.CharField(verbose_name=_("Name"), max_length=254, unique=True, null=False, blank=False)
-    project = models.ForeignKey(Project, verbose_name=_("Project"), null=True, blank=False, on_delete=models.PROTECT)
+    name = models.CharField(verbose_name=_("Name"), max_length=254, unique=False, null=False, blank=False)
     profile = models.ForeignKey(Profile, verbose_name=_("Profile"), null=True, blank=False, on_delete=models.PROTECT)
+    project = models.ForeignKey(Project, verbose_name=_("Project"), null=True, blank=False, on_delete=models.PROTECT)
     seconds = models.IntegerField(verbose_name=_("Seconds"), null=True, blank=False)
     date = models.DateField(verbose_name=_("Date"), default=datetime.date.today, null=True, blank=False)
     description = models.CharField(verbose_name=_("Description"), max_length=1024, unique=False, null=True, blank=True)

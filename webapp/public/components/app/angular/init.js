@@ -35,9 +35,14 @@
                 templateUrl: 'components/app/angular/views/account.html',
                 controllerAs: 'c'
             })
-            .when('/projects/:id', {
+            .when('/projects/:id/time-reports', {
                 controller: 'ProjectController',
                 templateUrl: 'components/app/angular/views/project.html',
+                controllerAs: 'c'
+            })
+            .when('/projects/:id/time-reports/new', {
+                controller: 'TimeReportNewController',
+                templateUrl: 'components/app/angular/views/time-report-form.html',
                 controllerAs: 'c'
             })
             .when('/404', {
