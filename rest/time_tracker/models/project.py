@@ -10,6 +10,7 @@ class Project(models.Model):
     description = models.CharField(verbose_name=_("Description"), max_length=512, unique=False, null=True, blank=True)
     is_finished = models.BooleanField(verbose_name=_("Is finished"), default=False)
     is_active = models.BooleanField(verbose_name=_("Is active"), default=True)
+
     created_at = models.DateTimeField(verbose_name=_("Created at"), auto_now_add=True)
     updated_at = models.DateTimeField(verbose_name=_("Updated at"), auto_now=True)
 

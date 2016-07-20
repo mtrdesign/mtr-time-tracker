@@ -17,6 +17,7 @@ class Profile(models.Model):
     job_title = models.CharField(verbose_name=_("Job title"), max_length=254, unique=False, null=True, blank=True)
     phone_number = models.CharField(verbose_name=_("Phone number"), max_length=254, unique=False, null=True, blank=True)
     is_active = models.BooleanField(verbose_name=_("Is active"), default=True)
+
     created_at = models.DateTimeField(verbose_name=_("Created at"), auto_now_add=True)
     updated_at = models.DateTimeField(verbose_name=_("Updated at"), auto_now=True)
 
