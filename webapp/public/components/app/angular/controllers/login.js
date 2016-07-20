@@ -20,11 +20,11 @@
                         if (typeof response.success == 'boolean' && response.success == true) {
                             $location.path('/');
                         } else {
-                            FlashService.Error('The username and password you entered don\'t match.');  
+                            FlashService.Error(['The username and password you entered don\'t match.']);  
                         }
                     });
                 } else {
-                    FlashService.Error('The username and password you entered don\'t match.');
+                    FlashService.Error(['The username and password you entered don\'t match.']);
                 }
             });
         };

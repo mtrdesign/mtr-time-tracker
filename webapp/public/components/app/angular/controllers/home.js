@@ -6,17 +6,25 @@
     HomeController.$inject = ['ProjectsService', '$rootScope', 'PageService'];
     function HomeController(ProjectsService, $rootScope, PageService) {
         var c = this;
-        c.getProjects = [];
+        c.getActiveProjects = [];
+        c.getFinishedProjects = [];
         (function initController() {
             PageService.resetData();
             PageService.setHtmlTitle('Home');
             PageService.setSlug('home');
-            loadAllProjects();
+            loadActiveProjects();
+            loadFinishedProjects();
         })();
-        function loadAllProjects() {
-            ProjectsService.GetAll()
+        function loadActiveProjects() {
+            ProjectsService.GetActiveProjects()
                 .then(function (projects) {
-                    c.getProjects = projects;
+                    c.getActiveProjects = projects;
+                });
+        }
+        function loadFinishedProjects() {
+            ProjectsService.GetFinishedProjects()
+                .then(function (projects) {
+                    c.getFinishedProjects = projects;
                 });
         }
     }

@@ -24,16 +24,16 @@
                 }
             }
         }
-        function Success(message, keepAfterLocationChange) {
+        function Success(messages, keepAfterLocationChange) {
             $rootScope.flash = {
-                message: message,
+                messages: messages,
                 type: 'success', 
                 keepAfterLocationChange: keepAfterLocationChange
             };
         }
-        function Error(message, keepAfterLocationChange) {
+        function Error(messages, keepAfterLocationChange) {
             $rootScope.flash = {
-                message: message,
+                messages: messages,
                 type: 'error',
                 keepAfterLocationChange: keepAfterLocationChange
             };

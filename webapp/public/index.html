@@ -19,8 +19,8 @@
                     <a class="navbar-brand" href="#" ng-href="#/">{{ page.website_title }}</a>
                 </div>
                 <div ng-if="globals.currentUser.profile.id > 0" id="navbar" class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav">
-                        <li ng-class="{ 'active': page.slug === 'home' }"><a href="#" ng-href="#/">Projects</a></li>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li ng-class="{ 'active': page.slug == 'home' || page.slug == 'projects' }"><a href="#" ng-href="#/">Projects</a></li>
                         <li ng-class="{ 'active': page.slug === 'account' }"><a href="#" ng-href="#/account">Account</a></li>
                         <li><a href="#" ng-href="#/login">Logout</a></li>
                     </ul>
@@ -28,7 +28,11 @@
             </div>
         </nav>
         <div class="container">
-            <div ng-class="{ 'alert': flash, 'alert-success': flash.type === 'success', 'alert-danger': flash.type === 'error' }" ng-if="flash" ng-bind="flash.message"></div>
+            <div ng-class="{ 'alert': flash, 'alert-success': flash.type === 'success', 'alert-danger': flash.type === 'error' }" ng-if="flash">
+                <span ng-repeat="message in flash.messages">
+                    {{ message }}
+                </span>
+            </div>
             <div ng-view></div>
         </div>
         <script src="components/bower/jquery/dist/jquery.min.js"></script>
@@ -46,6 +50,7 @@
         <script src="components/app/angular/services/projects.js"></script>
         <script src="components/app/angular/services/profiles.js"></script>
         <script src="components/app/angular/controllers/page.js"></script>
+        <script src="components/app/angular/controllers/404.js"></script>
         <script src="components/app/angular/controllers/home.js"></script>
         <script src="components/app/angular/controllers/account.js"></script>
         <script src="components/app/angular/controllers/project.js"></script>

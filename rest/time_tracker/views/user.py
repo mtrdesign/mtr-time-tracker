@@ -12,4 +12,4 @@ class UserViewSet(viewsets.ModelViewSet):
     
     def get_queryset(self):
         user = self.request.user
-        return User.objects.filter(id=user.id).all()
+        return User.objects.filter(id=user.id, is_active=True).all()

@@ -28,10 +28,12 @@
             PageService.setSlug('account');
         })();
         function change() {
+            var messages = [];
             ProfilesService.Edit(c.accountData.profile, function (response) {
                 if (typeof response.id == 'number' && response.id > 0) {
                     AuthenticationService.SetCredentials($rootScope.globals.currentUser.token, function(response) {});
-                    UsersService.Edit(c.accountData.user, function (response) {
+                    FlashService.Success(['Your account has been successfully updated.']);
+                    /*UsersService.Edit(c.accountData.user, function (response) {
                         if (typeof response.id == 'number' && response.id > 0) {
                             AuthenticationService.SetCredentials($rootScope.globals.currentUser.token, function(response) {});
                             FlashService.Success('Your account has been successfully updated.');
@@ -42,13 +44,12 @@
                             });
                             FlashService.Error(error.join('<br>'));
                         }
-                    });
+                    });*/
                 } else {
-                    var error = [];
                     angular.forEach(response, function(value, key) {
-                        error.push(c.readableKeys[key] + ': ' + value);
+                        messages.push(c.readableKeys[key] + ': ' + value);
                     });
-                    FlashService.Error(error.join('<br>'));
+                    FlashService.Error(messages);
                 }
             });
         };

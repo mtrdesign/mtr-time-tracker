@@ -9,8 +9,8 @@ class ProfileViewSet(viewsets.ModelViewSet):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
     filter_backends = (filters.DjangoFilterBackend,)
-    filter_fields = ('first_name', 'user__id')
+    filter_fields = ('user__id',)
     
     def get_queryset(self):
         user = self.request.user
-        return Profile.objects.filter(user=user).all()
+        return Profile.objects.filter(user=user, is_active=True).all()

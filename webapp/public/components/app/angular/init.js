@@ -26,12 +26,17 @@
                 templateUrl: 'components/app/angular/views/project.html',
                 controllerAs: 'c'
             })
+            .when('/404', {
+                controller: 'NotFoundController',
+                templateUrl: 'components/app/angular/views/404.html',
+                controllerAs: 'c'
+            })
             .when('/login', {
                 controller: 'LoginController',
                 templateUrl: 'components/app/angular/views/login.html',
                 controllerAs: 'c'
             })
-            .otherwise({ redirectTo: '/login' });
+            .otherwise({ redirectTo: '/404' });
     }
     run.$inject = ['$rootScope', '$location', '$cookieStore', '$http', 'config', 'AuthenticationService', 'PageService'];
     function run($rootScope, $location, $cookieStore, $http, config, AuthenticationService, PageService) {
@@ -47,7 +52,7 @@
             $http.defaults.headers.common.Authorization = 'JWT ' + $rootScope.globals.currentUser.token;
         }
         $rootScope.$on('$locationChangeStart', function (event, next, current) {
-            var restrictedPage = $.inArray($location.path(), ['/login']) === -1;
+            var restrictedPage = $.inArray($location.path(), ['/login', '/404']) === -1;
             if (restrictedPage && !$rootScope.globals.currentUser) {
                 $location.path('/login');
             }

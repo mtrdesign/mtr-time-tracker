@@ -1,12 +1,24 @@
-﻿<div class="panel panel-default">
+﻿<div ng-if="c.getActiveProjects.length" class="panel panel-default">
     <div class="panel-heading">
-        Projects
+        My projects
     </div>
     <div class="panel-body">
-        <ul>
-            <li ng-repeat="project in c.getProjects">
-                <a href="#/projects/{{ project.id }}">{{ project.name }}</a>
-            </li>
-        </ul>
+        <div class="list-group">
+            <div ng-repeat="project in c.getActiveProjects">
+                <a class="list-group-item" href="#/projects/{{ project.id }}">{{ project.name }}</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div ng-if="c.getFinishedProjects.length" class="panel panel-default">
+    <div class="panel-heading">
+        Finished projects
+    </div>
+    <div class="panel-body">
+        <div class="list-group">
+            <div ng-repeat="project in c.getFinishedProjects">
+                <a class="list-group-item" href="#/projects/{{ project.id }}">{{ project.name }}</a>
+            </div>
+        </div>
     </div>
 </div>
