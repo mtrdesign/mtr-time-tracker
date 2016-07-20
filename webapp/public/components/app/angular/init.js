@@ -23,6 +23,7 @@
                 }
             }
         });
+        envServiceProvider.check();
         $routeProvider
             .when('/', {
                 controller: 'HomeController',
