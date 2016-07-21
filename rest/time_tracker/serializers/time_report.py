@@ -15,5 +15,5 @@ class TimeReportSerializer(serializers.HyperlinkedModelSerializer):
     
     class Meta:
         model = TimeReport
-        fields = ("id", "name", "date", "description", "get_hours", "seconds", "profile_entry", "project_entry", 
+        fields = ("id", "name", "date", "description", "hours", "seconds", "profile_entry", "project_entry",
                   "profile", "project",)

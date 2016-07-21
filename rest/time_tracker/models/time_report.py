@@ -28,11 +28,14 @@ class TimeReport(models.Model):
     def __str__(self):
         return self.name
 
-    def get_hours(self):
+    def hours(self):
+        """
+        Convert time from seconds to hours
+        """
         return time.strftime("%H:%M", time.gmtime(self.seconds))
 
     def clean_fields(self, exclude=None):
-        super(TimeReport, self).clean_fields(exclude)
+        super().clean_fields(exclude)
         errors = {}
         if self.seconds < 60:
             errors.setdefault('seconds', []).append(_('Duration must be greater than 1 minute.'))

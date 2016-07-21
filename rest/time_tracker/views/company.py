@@ -10,4 +10,6 @@ class CompanyViewSet(viewsets.ModelViewSet):
     
     def get_queryset(self):
         user = self.request.user
-        return Company.objects.filter(profile__user=user, is_active=True).all()
+        if user.is_superuser:
+            return Company.objects.filter(is_active=True)
+        return Company.objects.filter(profile__user=user, is_active=True)
