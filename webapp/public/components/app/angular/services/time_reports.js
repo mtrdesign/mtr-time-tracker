@@ -6,8 +6,13 @@
     TimeReportsService.$inject = ['$http', 'config', 'envService'];
     function TimeReportsService($http, config, envService) {
         var service = {};
+        service.GetReportsByConditions = GetReportsByConditions;
         service.GetReports = GetReports;
         service.Create = Create;
+        function GetReportsByConditions() {
+            return $http.get(envService.read('apiUrl') + '/time-reports/')
+                        .then(handleSuccess, handleError('Error getting time reports.'));
+        }
         function GetReports(project_id) {
             return $http.get(envService.read('apiUrl') + '/time-reports/?project__id=' + project_id)
                         .then(handleSuccess, handleError('Error getting time reports.'));

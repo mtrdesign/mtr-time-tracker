@@ -7,7 +7,7 @@ def before_all(context):
         'selenium.webdriver.remote.remote_connection')
     selenium_logger.setLevel(logging.WARN)
 
-    context.browser  = webdriver.Firefox()
+    context.browser= webdriver.Firefox()
     context.browser.implicitly_wait(3)
 
 def after_all(context):
