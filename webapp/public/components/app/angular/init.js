@@ -50,6 +50,11 @@
                 templateUrl: 'components/app/angular/views/time-report-list.html',
                 controllerAs: 'c'
             })
+            .when('/time-reports/:id', {
+                controller: 'TimeReportEditController',
+                templateUrl: 'components/app/angular/views/time-report-form.html',
+                controllerAs: 'c'
+            })
             .when('/404', {
                 controller: 'NotFoundController',
                 templateUrl: 'components/app/angular/views/404.html',

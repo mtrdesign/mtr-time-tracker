@@ -9,6 +9,12 @@
         service.GetReportsByConditions = GetReportsByConditions;
         service.GetReports = GetReports;
         service.Create = Create;
+        service.Update = Update;
+        service.GetByID = GetByID;
+        function GetByID(id) {
+            return $http.get(envService.read('apiUrl') + '/time-reports/' + id + '/')
+                        .then(handleSuccess, handleError('Error getting time reports.'));
+        }
         function GetReportsByConditions() {
             return $http.get(envService.read('apiUrl') + '/time-reports/')
                         .then(handleSuccess, handleError('Error getting time reports.'));
@@ -19,6 +25,15 @@
         }
         function Create(timeReportData, callback) {
             $http.post(envService.read('apiUrl') + '/time-reports/', timeReportData)
+                .error(function (response) {
+                    callback(response);
+                })
+                .success(function (response) {
+                    callback(response);
+                });
+        }
+        function Update(id, timeReportData, callback) {
+            $http.patch(envService.read('apiUrl') + '/time-reports/'+ id+ '/', timeReportData)
                 .error(function (response) {
                     callback(response);
                 })
