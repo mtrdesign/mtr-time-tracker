@@ -13,7 +13,7 @@
         c.timeReportData.name = '';
         c.timeReportData.seconds = '';
         c.timeReportData.description = '';
-        c.timeReportData.date = '';
+        c.timeReportData.date = new Date();
         c.timeReportData.profile = $rootScope.globals.currentUser.profile.id;
         c.timeReportData.project = $routeParams.id;
         c.readableKeys = {};
