@@ -2,14 +2,17 @@ from rest_framework import viewsets
 
 from time_tracker.models import Company
 from time_tracker.serializers import CompanySerializer
+from time_tracker.permissions import CompanyPermission
 
 
 class CompanyViewSet(viewsets.ModelViewSet):
     queryset = Company.objects.all()
     serializer_class = CompanySerializer
+    permission_classes = (CompanyPermission,)
     
     def get_queryset(self):
         user = self.request.user
+        company = Company.objects.filter(is_active=True)
         if user.is_superuser:
-            return Company.objects.filter(is_active=True)
-        return Company.objects.filter(profile__user=user, is_active=True)
+            return company
+        return company.filter(profile__user=user)
