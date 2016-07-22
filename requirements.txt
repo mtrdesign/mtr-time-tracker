@@ -5,3 +5,5 @@ markdown==2.6.6
 django-filter==0.13.0
 djangorestframework-jwt==1.8.0
 django-cors-headers==1.1.0
+behave-django==0.3.0
+selenium==2.53.6

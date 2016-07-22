@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'corsheaders',
     
     'time_tracker',
+
+    'behave_django'
 ]
 
 MIDDLEWARE_CLASSES = [
