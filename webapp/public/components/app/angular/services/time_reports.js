@@ -13,8 +13,20 @@
                         .then(handleSuccess, handleError('Error getting time reports.'));
         }
         function Create(timeReportData, callback) {
-            timeReportData.date = moment(timeReportData.date).format('YYYY-MM-DD');
-            $http.post(envService.read('apiUrl') + '/time-reports/', timeReportData)
+            var seconds = 0;
+            if(moment.duration(timeReportData.seconds, "HH:mm").asSeconds()) {
+                seconds = moment.duration(timeReportData.seconds, "HH:mm");
+            } else {
+                seconds = moment.duration({'hours' : timeReportData.seconds});
+            }
+            $http.post(envService.read('apiUrl') + '/time-reports/', {
+                    'name': timeReportData.name,
+                    'seconds': seconds.asSeconds(),
+                    'description': timeReportData.description,
+                    'date': moment(timeReportData.date).format('YYYY-MM-DD'),
+                    'profile': timeReportData.profile,
+                    'project': timeReportData.project
+                })
                 .error(function (response) {
                     callback(response);
                 })

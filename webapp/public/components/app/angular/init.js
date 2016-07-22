@@ -59,6 +59,10 @@
         $mdDateLocaleProvider.formatDate = function(date) {
             return moment(date).format('YYYY-MM-DD');
         };
+        $mdDateLocaleProvider.parseDate = function(dateString) {
+          var m = moment(dateString, 'YYYY-MM-DD', true);
+          return m.isValid() ? m.toDate() : new Date(NaN);
+        };
     }
     run.$inject = ['$rootScope', '$location', '$cookieStore', '$http', 'config', 'envService', 'AuthenticationService', 'PageService'];
     function run($rootScope, $location, $cookieStore, $http, config, envService, AuthenticationService, PageService) {
