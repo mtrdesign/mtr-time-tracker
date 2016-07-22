@@ -3,7 +3,7 @@ $(function () {
 });
 
 function initUI() {
-    $('.inlinedatepicker').datetimepicker({
+    $('.datepicker').datetimepicker({
         format: 'Y-m-d',
         maxDate: new Date(),
         defaultDate: new Date(),

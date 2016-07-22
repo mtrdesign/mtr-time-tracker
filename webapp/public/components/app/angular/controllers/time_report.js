@@ -25,7 +25,7 @@
             PageService.resetData();
             PageService.setHtmlTitle('Projects');
             PageService.setSlug('projects');
-            loadProject($routeParams.id);
+            loadProject($routeParams.id); 
             initUI();
         })();
         function loadProject(id) {

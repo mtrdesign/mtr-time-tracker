@@ -28,6 +28,7 @@
             PageService.setSlug('time-reports');
             loadReportData($routeParams.id);
             loadProject($routeParams.project_id);
+            initUI();
         })();
         function loadProject(id) {
             ProjectsService.GetProject(id)
