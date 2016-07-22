@@ -1,4 +1,4 @@
-{
+
   "name": "Time Tracking Application",
   "version": "0.0.1",
   "dependencies": {
@@ -10,5 +10,8 @@
     "angular-jwt": "0.0.9",
     "bootstrap": "3.3.6",
     "angular-moment": "^0.10.3"
+  },
+  "resolutions": {
+    "angular": "1.5.7"
   }
 }
