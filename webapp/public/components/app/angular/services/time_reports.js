@@ -13,6 +13,7 @@
                         .then(handleSuccess, handleError('Error getting time reports.'));
         }
         function Create(timeReportData, callback) {
+            timeReportData.date = moment(timeReportData.date).format('YYYY-MM-DD');
             $http.post(envService.read('apiUrl') + '/time-reports/', timeReportData)
                 .error(function (response) {
                     callback(response);

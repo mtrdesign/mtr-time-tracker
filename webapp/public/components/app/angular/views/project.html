@@ -27,10 +27,10 @@
                         </thead>
                         <tbody>
                             <tr ng-repeat="report in c.getProjectTimeReports">
-                                <td>{{ report.date }}</td>
+                                <td>{{ report.date | amDateFormat:'dddd, DD MMMM YYYY' }}</td>
                                 <td>{{ report.profile_entry.full_name }}</td>
                                 <td>{{ report.name }}</td>
-                                <td>{{ report.get_hours }}</td>
+                                <td>{{ report.hours }}</td>
                             </tr>
                         </tbody>
                     </table>

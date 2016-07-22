@@ -1,14 +1,14 @@
 ﻿(function () {
     'use strict';
     angular
-        .module('app', ['ngRoute', 'ngCookies', 'angular-jwt', 'environment'])
+        .module('app', ['ngRoute', 'ngCookies', 'angular-jwt', 'environment', 'ngMaterial', 'angularMoment'])
         .config(config)
         .constant('config', {  
             appTitle: 'MTR Design Projects'
         })
         .run(run);
-    config.$inject = ['$routeProvider', '$locationProvider', 'envServiceProvider'];
-    function config($routeProvider, $locationProvider, envServiceProvider) {
+    config.$inject = ['$routeProvider', '$locationProvider', '$mdDateLocaleProvider', 'envServiceProvider'];
+    function config($routeProvider, $locationProvider, $mdDateLocaleProvider, envServiceProvider) {
         envServiceProvider.config({
             domains: {
                 development: ['mtr-time-tracker.dev'],
@@ -56,6 +56,9 @@
                 controllerAs: 'c'
             })
             .otherwise({ redirectTo: '/404' });
+        $mdDateLocaleProvider.formatDate = function(date) {
+            return moment(date).format('YYYY-MM-DD');
+        };
     }
     run.$inject = ['$rootScope', '$location', '$cookieStore', '$http', 'config', 'envService', 'AuthenticationService', 'PageService'];
     function run($rootScope, $location, $cookieStore, $http, config, envService, AuthenticationService, PageService) {
