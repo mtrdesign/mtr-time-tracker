@@ -6,14 +6,6 @@
         <div class="panel-body">
             <div class="row">
                 <div class="col-md-12">
-                    <a class="btn btn-default btn-sm" href="#" ng-href="#/projects/{{ c.getProject.id }}/time-reports">
-                        Back
-                    </a>
-                </div>
-            </div>
-            <hr>
-            <div class="row">
-                <div class="col-md-12">
                     <form name="form" ng-submit="c.create()" role="form" novalidate>
                         <div class="form-group">
                             <label for="isSHxCc90F">Name <span class="required">*</span></label>
@@ -31,6 +23,7 @@
                             <md-datepicker ng-model="c.timeReportData.date" md-placeholder="Date"></md-datepicker>
                         </div>
                         <button type="submit" class="btn btn-default">Submit</button>
+                        <a href="#/projects/{{ c.getProject.id }}/time-reports" class="btn btn-link">Back</a>
                     </form> 
                 </div>
             </div>

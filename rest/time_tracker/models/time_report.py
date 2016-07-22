@@ -38,6 +38,8 @@ class TimeReport(models.Model):
         super().clean_fields(exclude)
         errors = {}
         if self.seconds < 60:
-            errors.setdefault('seconds', []).append(_('Duration must be greater than 1 minute.'))
+            errors.setdefault('seconds', []).append(_("Duration must be greater than 1 minute."))
+        if self.seconds > 86400:
+            errors.setdefault('seconds', []).append(_("Duration must be lower than 24 hours."))
         if errors:
             raise exceptions.ValidationError(errors)

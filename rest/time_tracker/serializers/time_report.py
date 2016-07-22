@@ -1,3 +1,5 @@
+from django.utils.translation import ugettext as _
+
 from rest_framework import serializers
 
 from time_tracker.models import Profile
@@ -12,8 +14,23 @@ class TimeReportSerializer(serializers.HyperlinkedModelSerializer):
     project_entry = ProjectSerializer(source="project", many=False, read_only=True)
     profile = serializers.PrimaryKeyRelatedField(queryset=Profile.objects.all(), many=False, read_only=False)
     project = serializers.PrimaryKeyRelatedField(queryset=Project.objects.all(), many=False, read_only=False)
-    
+
+    name = serializers.CharField()
+    seconds = serializers.IntegerField()
+
     class Meta:
         model = TimeReport
         fields = ("id", "name", "date", "description", "hours", "seconds", "profile_entry", "project_entry",
                   "profile", "project",)
+
+    def validate_name(self, value):
+        if len(value) < 5:
+            raise serializers.ValidationError(_("Name must be greater than 5 characters."))
+        return value
+
+    def validate_seconds(self, value):
+        if value < 60:
+            raise serializers.ValidationError(_("Duration must be greater than 1 minute."))
+        if value > 86400:
+            raise serializers.ValidationError(_("Duration must be lower than 24 hours."))
+        return value
