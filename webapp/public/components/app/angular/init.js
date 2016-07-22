@@ -47,17 +47,12 @@
             })
             .when('/projects/:project_id/time-reports/:id', {
                 controller: 'TimeReportEditController',
-                templateUrl: 'components/app/angular/views/time-reports/new.html',
+                templateUrl: 'components/app/angular/views/time-reports/edit.html',
                 controllerAs: 'c'
             })
             .when('/time-reports', {
                 controller: 'TimeReportListController',
                 templateUrl: 'components/app/angular/views/time-reports/list.html',
-                controllerAs: 'c'
-            })
-            .when('/time-reports/:id', {
-                controller: 'TimeReportEditController',
-                templateUrl: 'components/app/angular/views/time-reports/edit.html',
                 controllerAs: 'c'
             })
             .when('/404', {
