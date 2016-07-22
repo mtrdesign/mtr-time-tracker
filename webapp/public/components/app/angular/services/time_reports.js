@@ -13,11 +13,7 @@
         service.GetByID = GetByID;
         function GetByID(id) {
             return $http.get(envService.read('apiUrl') + '/time-reports/' + id + '/')
-                        .then(function(response) {
-                            response.data.date = moment(response.data.date).toDate();
-                            console.log(response.data.date);
-                            return response.data;
-                        }, handleError('Error getting time reports.'));
+                        .then(handleSuccess, handleError('Error getting time reports.'));
         }
         function GetReportsByConditions() {
             return $http.get(envService.read('apiUrl') + '/time-reports/')
@@ -38,7 +34,7 @@
                     'name': timeReportData.name,
                     'seconds': seconds.asSeconds(),
                     'description': timeReportData.description,
-                    'date': moment(timeReportData.date).format('YYYY-MM-DD'),
+                    'date': timeReportData.date,
                     'profile': timeReportData.profile,
                     'project': timeReportData.project
                 })
@@ -51,18 +47,16 @@
         }
         function Update(id, timeReportData, callback) {
             var seconds = 0;
-            if(moment.duration(timeReportData.seconds, "HH:mm").asSeconds()) {
-                seconds = moment.duration(timeReportData.seconds, "HH:mm");
+            if(moment.duration(timeReportData.hours, "HH:mm").asSeconds()) {
+                seconds = moment.duration(timeReportData.hours, "HH:mm");
             } else {
-                seconds = moment.duration({'hours' : timeReportData.seconds});
+                seconds = moment.duration({'hours' : timeReportData.hours});
             }
             $http.patch(envService.read('apiUrl') + '/time-reports/'+ id+ '/', {
                     'name': timeReportData.name,
                     'seconds': seconds.asSeconds(),
                     'description': timeReportData.description,
-                    'date': moment(timeReportData.date).format('YYYY-MM-DD'),
-                    'profile': timeReportData.profile,
-                    'project': timeReportData.project
+                    'date': timeReportData.date
                 })
                 .error(function (response) {
                     callback(response);

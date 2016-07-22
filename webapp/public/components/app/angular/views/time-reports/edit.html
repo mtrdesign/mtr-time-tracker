@@ -1,0 +1,32 @@
+﻿<md-content>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            {{ c.getProject.name }}'s time reports
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <form name="form" ng-submit="c.edit()" role="form" novalidate>
+                        <div class="form-group">
+                            <label for="field-name">Name <span class="required">*</span></label>
+                            <input id="field-name" type="text" class="form-control" ng-model="c.timeReportData.name">
+                        </div>
+                        <div class="form-group">
+                            <label for="field-seconds">Hours <span class="required">*</span></label>
+                            <input id="field-seconds" type="text" class="form-control" ng-model="c.timeReportData.hours" placeholder="00:00">
+                        </div>
+                        <div class="form-group">
+                            <label for="field-description">Description</label>
+                            <textarea id="field-description" class="form-control" ng-model="c.timeReportData.description"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <input id="field-date" type="text" class="form-control inlinedatepicker" ng-model="c.timeReportData.date">
+                        </div>
+                        <button type="submit" class="btn btn-default">Submit</button>
+                        <a href="#/time-reports" class="btn btn-link">Back</a>
+                    </form> 
+                </div>
+            </div>
+        </div>
+    </div>
+</md-content>

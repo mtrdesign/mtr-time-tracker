@@ -6,7 +6,7 @@
     TimeReportEditController.$inject = ['$rootScope', '$location', 'PageService', 'FlashService', 'ProjectsService', 'TimeReportsService', '$routeParams'];
     function TimeReportEditController($rootScope, $location, PageService, FlashService, ProjectsService, TimeReportsService, $routeParams) {
         var c = this;
-        c.create = edit;
+        c.edit = edit;
         c.getProject = [];
         c.getProjectTimeReports = [];
         c.timeReportData = {};

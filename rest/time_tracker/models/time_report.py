@@ -32,6 +32,8 @@ class TimeReport(models.Model):
         """
         Convert time from seconds to hours
         """
+        if self.seconds is None or self.seconds < 1:
+            self.seconds = 0
         return time.strftime("%H:%M", time.gmtime(self.seconds))
 
     def clean_fields(self, exclude=None):

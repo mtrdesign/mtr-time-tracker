@@ -13,7 +13,7 @@
         c.timeReportData.name = '';
         c.timeReportData.seconds = '';
         c.timeReportData.description = '';
-        c.timeReportData.date = new Date();
+        c.timeReportData.date = '';
         c.timeReportData.profile = $rootScope.globals.currentUser.profile.id;
         c.timeReportData.project = $routeParams.id;
         c.readableKeys = {};
@@ -26,6 +26,7 @@
             PageService.setHtmlTitle('Projects');
             PageService.setSlug('projects');
             loadProject($routeParams.id);
+            initUI();
         })();
         function loadProject(id) {
             ProjectsService.GetProject(id)

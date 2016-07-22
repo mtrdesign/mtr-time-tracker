@@ -1,14 +1,14 @@
 ﻿(function () {
     'use strict';
     angular
-        .module('app', ['ngRoute', 'ngCookies', 'angular-jwt', 'environment', 'ngMaterial', 'angularMoment'])
+        .module('app', ['ngRoute', 'ngCookies', 'angular-jwt', 'environment', 'angularMoment'])
         .config(config)
         .constant('config', {  
             appTitle: 'MTR Design Projects'
         })
         .run(run);
-    config.$inject = ['$routeProvider', '$locationProvider', '$mdDateLocaleProvider', 'envServiceProvider'];
-    function config($routeProvider, $locationProvider, $mdDateLocaleProvider, envServiceProvider) {
+    config.$inject = ['$routeProvider', '$locationProvider', 'envServiceProvider'];
+    function config($routeProvider, $locationProvider, envServiceProvider) {
         envServiceProvider.config({
             domains: {
                 development: ['mtr-time-tracker.dev'],
@@ -42,17 +42,17 @@
             })
             .when('/projects/:id/time-reports/new', {
                 controller: 'TimeReportNewController',
-                templateUrl: 'components/app/angular/views/time-report-form.html',
+                templateUrl: 'components/app/angular/views/time-reports/new.html',
                 controllerAs: 'c'
             })
             .when('/time-reports', {
                 controller: 'TimeReportListController',
-                templateUrl: 'components/app/angular/views/time-report-list.html',
+                templateUrl: 'components/app/angular/views/time-reports/list.html',
                 controllerAs: 'c'
             })
             .when('/time-reports/:id', {
                 controller: 'TimeReportEditController',
-                templateUrl: 'components/app/angular/views/time-report-form.html',
+                templateUrl: 'components/app/angular/views/time-reports/edit.html',
                 controllerAs: 'c'
             })
             .when('/404', {
@@ -66,13 +66,6 @@
                 controllerAs: 'c'
             })
             .otherwise({ redirectTo: '/404' });
-        $mdDateLocaleProvider.formatDate = function(date) {
-            return moment(date).format('YYYY-MM-DD');
-        };
-        $mdDateLocaleProvider.parseDate = function(dateString) {
-          var m = moment(dateString, 'YYYY-MM-DD', true);
-          return m.isValid() ? m.toDate() : new Date(NaN);
-        };
     }
     run.$inject = ['$rootScope', '$location', '$cookieStore', '$http', 'config', 'envService', 'AuthenticationService', 'PageService'];
     function run($rootScope, $location, $cookieStore, $http, config, envService, AuthenticationService, PageService) {
