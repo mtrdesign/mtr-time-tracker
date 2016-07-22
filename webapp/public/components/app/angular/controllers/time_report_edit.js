@@ -27,7 +27,7 @@
             PageService.setHtmlTitle('Time Reports');
             PageService.setSlug('time-reports');
             loadReportData($routeParams.id);
-            loadProject($routeParams.id);
+            loadProject($routeParams.project_id);
         })();
         function loadProject(id) {
             ProjectsService.GetProject(id)
@@ -56,7 +56,7 @@
             TimeReportsService.Update($routeParams.id, c.timeReportData, function (response) {
                 if (typeof response.id == 'number' && response.id > 0) {
                     FlashService.Success(['Time report has been successfully updated.']);
-                    $location.path('/time-reports/' + $routeParams.id );
+                    $location.path('/projects/' + $routeParams.project_id + '/time-reports/' + $routeParams.id );
                 } else {
                     angular.forEach(response, function(value, key) {
                         messages.push(c.readableKeys[key] + ': ' + value);
