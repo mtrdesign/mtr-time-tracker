@@ -1,3 +1,5 @@
+from django.db.models import Q
+
 from rest_framework import filters
 from rest_framework import viewsets
 
@@ -21,4 +23,4 @@ class TimeReportViewSet(viewsets.ModelViewSet):
                        .order_by('-date', '-id'))
         if user.is_superuser:
             return time_report
-        return time_report.filter(profile__user=user)
+        return time_report.filter(Q(profile__user=user) | Q(project__in=user.profile.project_set.all()))
