@@ -5,9 +5,9 @@ class CompanyPermission(permissions.BasePermission):
 
     def has_permission(self, request, view):
         if view.action == 'list':
-            return True
+            return False
         elif view.action == 'create':
-            return True
+            return False
         elif view.action in ['retrieve', 'update', 'partial_update', 'destroy']:
             return True
         else:
@@ -15,11 +15,9 @@ class CompanyPermission(permissions.BasePermission):
 
     def has_object_permission(self, request, view, obj):
         user = request.user
-        if user.is_superuser:
-            return True
-        elif view.action == 'retrieve':
+        if view.action == 'retrieve':
             return True
         elif view.action in ['update', 'partial_update', 'destroy']:
-            return True
+            return False
         else:
             return False

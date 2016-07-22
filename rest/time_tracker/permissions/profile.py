@@ -18,8 +18,8 @@ class ProfilePermission(permissions.BasePermission):
         if user.is_superuser:
             return True
         elif view.action == 'retrieve':
-            return True
+            return obj == user.profile
         elif view.action in ['update', 'partial_update', 'destroy']:
-            return True
+            return obj == user.profile
         else:
             return False
