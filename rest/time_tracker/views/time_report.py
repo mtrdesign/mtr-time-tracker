@@ -13,9 +13,9 @@ class TimeReportViewSet(viewsets.ModelViewSet):
     
     def get_queryset(self):
         user = self.request.user
-        objects = TimeReport.objects
-        objects = objects.filter(is_active=True, profile__isnull=False, project__isnull=False, seconds__gt=0)
-        objects = objects.order_by('-date')
+        time_report = (TimeReport.objects
+                       .filter(is_active=True, profile__isnull=False, project__isnull=False, seconds__gt=0)
+                       .order_by('-date'))
         if user.is_superuser:
-            return objects
-        return objects.filter(profile__user=user)
+            return time_report
+        return time_report.filter(profile__user=user)

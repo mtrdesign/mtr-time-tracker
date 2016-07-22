@@ -1,12 +1,12 @@
 from django.db import models
 from django.core import exceptions
 from django.utils.translation import ugettext as _
+from django.utils import timezone
 
 from time_tracker.models import Profile
 from time_tracker.models import Project
 
 import time
-import datetime
 
 
 class TimeReport(models.Model):
@@ -14,7 +14,7 @@ class TimeReport(models.Model):
     profile = models.ForeignKey(Profile, verbose_name=_("Profile"), null=True, blank=False, on_delete=models.PROTECT)
     project = models.ForeignKey(Project, verbose_name=_("Project"), null=True, blank=False, on_delete=models.PROTECT)
     seconds = models.IntegerField(verbose_name=_("Seconds"), null=True, blank=False)
-    date = models.DateField(verbose_name=_("Date"), default=datetime.date.today, null=True, blank=False)
+    date = models.DateField(verbose_name=_("Date"), default=timezone.now, null=True, blank=False)
     description = models.CharField(verbose_name=_("Description"), max_length=1024, unique=False, null=True, blank=True)
     is_active = models.BooleanField(verbose_name=_("Is active"), default=True)
 
