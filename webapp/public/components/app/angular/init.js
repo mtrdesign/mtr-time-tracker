@@ -55,6 +55,11 @@
                 templateUrl: 'components/app/angular/views/time-reports/list.html',
                 controllerAs: 'c'
             })
+            .when('/time-reports?from&to', {
+                controller: 'TimeReportListController',
+                templateUrl: 'components/app/angular/views/time-reports/list.html',
+                controllerAs: 'c'
+            })
             .when('/404', {
                 controller: 'NotFoundController',
                 templateUrl: 'components/app/angular/views/404.html',
