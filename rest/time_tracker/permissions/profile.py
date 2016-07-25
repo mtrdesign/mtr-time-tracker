@@ -4,11 +4,7 @@ from rest_framework import permissions
 class ProfilePermission(permissions.BasePermission):
 
     def has_permission(self, request, view):
-        if view.action == 'list':
-            return True
-        elif view.action == 'create':
-            return True
-        elif view.action in ['retrieve', 'update', 'partial_update', 'destroy']:
+        if view.action in ['list', 'retrieve', 'update', 'partial_update']:
             return True
         else:
             return False
@@ -17,9 +13,9 @@ class ProfilePermission(permissions.BasePermission):
         user = request.user
         if user.is_superuser:
             return True
-        elif view.action == 'retrieve':
-            return obj == user.profile
-        elif view.action in ['update', 'partial_update', 'destroy']:
+        elif view.action in ['retrieve']:
+            return True
+        elif view.action in ['update', 'partial_update']:
             return obj == user.profile
         else:
             return False

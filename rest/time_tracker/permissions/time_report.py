@@ -4,11 +4,7 @@ from rest_framework import permissions
 class TimeReportPermission(permissions.BasePermission):
 
     def has_permission(self, request, view):
-        if view.action == 'list':
-            return True
-        elif view.action == 'create':
-            return True
-        elif view.action in ['retrieve', 'update', 'partial_update', 'destroy']:
+        if view.action in ['list', 'create', 'retrieve', 'update', 'partial_update', 'destroy']:
             return True
         else:
             return False

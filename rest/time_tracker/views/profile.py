@@ -15,5 +15,5 @@ class ProfileViewSet(viewsets.ModelViewSet):
     
     def get_queryset(self):
         user = self.request.user
-        profile = Profile.objects.filter(user=user, is_active=True)
+        profile = Profile.objects.filter(is_active=True)
         return profile
