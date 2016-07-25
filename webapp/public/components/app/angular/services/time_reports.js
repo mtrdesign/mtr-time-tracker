@@ -15,8 +15,8 @@
             return $http.get(envService.read('apiUrl') + '/time-reports/' + id + '/')
                         .then(handleSuccess, handleError('Error getting time reports.'));
         }
-        function GetReportsByConditions() {
-            return $http.get(envService.read('apiUrl') + '/time-reports/')
+        function GetReportsByConditions(conditions) {
+            return $http.get(envService.read('apiUrl') + '/time-reports/?'+$.param(conditions))
                         .then(handleSuccess, handleError('Error getting time reports.'));
         }
         function GetReports(project_id) {
