@@ -10,7 +10,8 @@
     "angular-jwt": "0.0.9",
     "bootstrap": "3.3.6",
     "datetimepicker": "2.5.4",
-    "moment": "^2.14.1"
+    "moment": "^2.14.1",
+    "jquery-mask-plugin": "^1.14.0"
   },
   "resolutions": {
     "angular": ">=1.2.0 <1.5.0",
