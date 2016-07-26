@@ -9,6 +9,7 @@
         service.GetReportsByConditions = GetReportsByConditions;
         service.GetReportsProfilesByConditions = GetReportsProfilesByConditions;
         service.GetReportsProjectsByConditions = GetReportsProjectsByConditions;
+        service.GetReportsTotalHoursByConditions = GetReportsTotalHoursByConditions;
         service.GetReports = GetReports;
         service.Create = Create;
         service.Update = Update;
@@ -27,6 +28,10 @@
         }
         function GetReportsProjectsByConditions(conditions) {
             return $http.get(envService.read('apiUrl') + '/time-reports/projects/?'+$.param(conditions))
+                        .then(handleSuccess, handleError('Error getting time reports.'));
+        }
+        function GetReportsTotalHoursByConditions(conditions) {
+            return $http.get(envService.read('apiUrl') + '/time-reports/total-hours/?'+$.param(conditions))
                         .then(handleSuccess, handleError('Error getting time reports.'));
         }
         function GetReports(project_id) {
