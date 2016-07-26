@@ -10,6 +10,18 @@ from time_tracker.models import Project
 import time
 
 
+class TimeReportManager(models.Manager):
+    use_for_related_fields = True
+
+    def active_projects(self, **kwargs):
+        return self.filter(is_active=True,
+                           profile__isnull=False,
+                           project__isnull=False,
+                           profile__is_active=True,
+                           project__is_active=True,
+                           **kwargs)
+
+
 class TimeReport(models.Model):
     name = models.CharField(verbose_name=_("Name"), max_length=254, unique=False, null=False, blank=False)
     profile = models.ForeignKey(Profile, verbose_name=_("Profile"), null=True, blank=False, on_delete=models.PROTECT)
@@ -21,6 +33,8 @@ class TimeReport(models.Model):
 
     created_at = models.DateTimeField(verbose_name=_("Created at"), auto_now_add=True)
     updated_at = models.DateTimeField(verbose_name=_("Updated at"), auto_now=True)
+
+    objects = TimeReportManager()
 
     class Meta(object):
         verbose_name = _("time report")

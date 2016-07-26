@@ -17,7 +17,7 @@ Vagrant.configure("2") do |config|
   # config.vm.network(:private_network, ip: "10.254.254.254") if ENV.fetch('MTR_VAGRANT_USE_NFS', false)
   config.vm.network :forwarded_port, guest: 8000, host: 8000       # used by Django dev server
   config.vm.network :forwarded_port, guest: 80, host: 8080       # used by Django dev server
-
+  config.vm.network :forwarded_port, guest: 3306, host: 3308       # used by Django dev server
 
   config.vm.provider :virtualbox do | vb |
     vb.name = "mtr-time-tracker"
