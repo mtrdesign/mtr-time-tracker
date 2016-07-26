@@ -34,3 +34,19 @@ class TimeReportSerializer(serializers.HyperlinkedModelSerializer):
         if value > 86400:
             raise serializers.ValidationError(_("Duration must be lower than 24 hours."))
         return value
+
+
+class TimeReportProfileSerializer(serializers.Serializer):
+    profile = serializers.SerializerMethodField(source='get_profile')
+    total_seconds = serializers.ReadOnlyField()
+
+    def get_profile(self, obj):
+        return ProfileSerializer(Profile.objects.get(id=obj['profile'])).data
+
+
+class TimeReportProjectSerializer(serializers.Serializer):
+    project = serializers.SerializerMethodField(source='get_project')
+    total_seconds = serializers.ReadOnlyField()
+
+    def get_project(self, obj):
+        return ProjectSerializer(Project.objects.get(id=obj['project'])).data

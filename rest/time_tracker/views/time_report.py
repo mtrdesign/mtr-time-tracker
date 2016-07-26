@@ -7,7 +7,9 @@ from rest_framework.response import Response
 from time_tracker.models import TimeReport
 from time_tracker.serializers import TimeReportSerializer
 from time_tracker.permissions import TimeReportPermission
-from time_tracker.filters import time_report_filter
+from time_tracker.filters.time_report_filter import TimeReportFilter
+from time_tracker.serializers import TimeReportProfileSerializer
+from time_tracker.serializers import TimeReportProjectSerializer
 
 
 class TimeReportViewSet(viewsets.ModelViewSet):
@@ -15,13 +17,11 @@ class TimeReportViewSet(viewsets.ModelViewSet):
     serializer_class = TimeReportSerializer
     permission_classes = (TimeReportPermission,)
     filter_backends = (filters.DjangoFilterBackend,)
-    filter_class = time_report_filter.TimeReportFilter
+    filter_class = TimeReportFilter
 
     def get_queryset(self):
         user = self.request.user
         time_report = TimeReport.objects.active_projects(seconds__gt=0).order_by('-date', '-id')
-
-        time_report = self.filter_params(time_report)
 
         if user.is_superuser:
             return time_report
@@ -31,57 +31,25 @@ class TimeReportViewSet(viewsets.ModelViewSet):
         """
         Get total profiles hours for given filter
         """
-        # Need to group by 'profile_id'
-        time_report = (TimeReport.objects
-                       .active_projects(seconds__gt=0)
-                       .annotate(Sum('seconds'))
-                       .order_by('-date', '-id'))
+        time_report = TimeReportFilter(request.GET, queryset=TimeReport.objects.total_time_by('profile'))
 
-        time_report = self.filter_params(time_report)
-
-        serializer = TimeReportSerializer(time_report, many=True)
+        serializer = TimeReportProfileSerializer(time_report, many=True)
         return Response(serializer.data)
 
     def get_projects_reports(self, request):
         """
         Get total projects hours for given filter
         """
-        # Need to group by 'project_id'
-        time_report = (TimeReport.objects
-                       .active_projects(seconds__gt=0)
-                       .annotate(Sum('seconds'))
-                       .order_by('-date', '-id'))
+        time_report = TimeReportFilter(request.GET, queryset=TimeReport.objects.total_time_by('project'))
 
-        time_report = self.filter_params(time_report)
-
-        serializer = TimeReportSerializer(time_report, many=True)
+        serializer = TimeReportProjectSerializer(time_report, many=True)
         return Response(serializer.data)
 
     def get_total_hours(self, request):
         """
         Get total hours for given filter
         """
-        time_report = (TimeReport.objects
-                       .active_projects(seconds__gt=0)
-                       .annotate(Sum('seconds'))
-                       .order_by('-date', '-id'))
+        time_report = TimeReportFilter(request.GET, queryset=TimeReport.objects.active_projects(seconds__gt=0))
+        time_report = time_report.qs.aggregate(total_seconds=Sum('seconds'))
 
-        time_report = self.filter_params(time_report)
-
-        serializer = TimeReportSerializer(time_report)
-        return Response(serializer.data)
-
-    def filter_params(self, time_report):
-        """
-        Create filers
-        """
-        filter_from = self.request.query_params.get('from', None)
-        filter_to = self.request.query_params.get('to', None)
-
-        if filter_from is not None:
-            time_report = time_report.filter(date__gte=filter_from)
-
-        if filter_to is not None:
-            time_report = time_report.filter(date__lte=filter_to)
-
-        return time_report
+        return Response(time_report)

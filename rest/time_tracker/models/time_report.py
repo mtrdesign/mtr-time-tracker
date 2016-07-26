@@ -1,5 +1,6 @@
 
 from django.db import models
+from django.db.models import Sum
 from django.core import exceptions
 from django.utils.translation import ugettext as _
 from django.utils import timezone
@@ -20,6 +21,12 @@ class TimeReportManager(models.Manager):
                            profile__is_active=True,
                            project__is_active=True,
                            **kwargs)
+
+    def total_time_by(self, group_by, **kwargs):
+        return (self.active_projects(**kwargs)
+                .values(group_by)
+                .annotate(total_seconds=Sum('seconds'))
+                .order_by(group_by))
 
 
 class TimeReport(models.Model):
