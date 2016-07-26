@@ -3,11 +3,12 @@
     angular
         .module('app')
         .controller('TimeReportListController', TimeReportListController);
-    TimeReportListController.$inject = ['$location', 'PageService', 'TimeReportsService'];
-    function TimeReportListController($location, PageService, TimeReportsService) {
+    TimeReportListController.$inject = ['$location', 'FlashService', 'PageService', 'TimeReportsService'];
+    function TimeReportListController($location, FlashService, PageService, TimeReportsService) {
         var search = $location.search();
         var c = this;
         c.filter = filter;
+        c.removeItem = removeItem;
         c.filterData = {};
         c.filterData.from = (search.from) ? search.from : moment().startOf("month").format("YYYY-MM-DD");
         c.filterData.to = (search.to) ? search.to : moment().format("YYYY-MM-DD");
@@ -22,7 +23,7 @@
             listTimeReports();
             listTimeReportsProfiles();
             listTimeReportsProjects();
-            listTimeReportsTotalHours();
+            // listTimeReportsTotalHours();
             initUI();
         })();
 
@@ -56,6 +57,22 @@
 
         function filter() {
             $location.url('/time-reports?'+$.param(c.filterData));
+        }
+
+        function removeItem(id) {
+            var r = confirm("Are you sure?")
+            if(r){
+                TimeReportsService.Delete(id, function (response) {
+                    if(response.length  == 0){
+                        FlashService.Success(['Time report has been successfully deleted.']);
+                        $location.path('/time-reports' );
+                    }else{
+                        FlashService.Error(["Unexpected error"]);
+                        $location.path('/time-reports' );
+                    }
+
+                });
+            }
         }
     }
 })();

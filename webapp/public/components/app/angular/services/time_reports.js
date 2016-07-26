@@ -13,6 +13,7 @@
         service.GetReports = GetReports;
         service.Create = Create;
         service.Update = Update;
+        service.Delete = Delete;
         service.GetByID = GetByID;
         function GetByID(id) {
             return $http.get(envService.read('apiUrl') + '/time-reports/' + id + '/')
@@ -73,6 +74,16 @@
                     'description': timeReportData.description,
                     'date': timeReportData.date
                 })
+                .error(function (response) {
+                    callback(response);
+                })
+                .success(function (response) {
+                    callback(response);
+                });
+        }
+
+        function Delete(id, callback) {
+            $http.delete(envService.read('apiUrl') + '/time-reports/'+ id+ '/')
                 .error(function (response) {
                     callback(response);
                 })
