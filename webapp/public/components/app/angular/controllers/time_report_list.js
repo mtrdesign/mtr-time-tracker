@@ -14,6 +14,7 @@
         c.getTimeReports = [];
         c.getTimeReportsProfiles = [];
         c.getTimeReportsProjects = [];
+        c.getTimeReportsTotalHours = [];
         (function initController() {
             PageService.resetData();
             PageService.setHtmlTitle('Time Reports');
@@ -21,6 +22,7 @@
             listTimeReports();
             listTimeReportsProfiles();
             listTimeReportsProjects();
+            listTimeReportsTotalHours();
             initUI();
         })();
 
@@ -42,6 +44,13 @@
             TimeReportsService.GetReportsProjectsByConditions(c.filterData)
                 .then(function (response) {
                     c.getTimeReportsProjects = response;
+                });
+        }
+
+        function listTimeReportsTotalHours() {
+            TimeReportsService.GetReportsTotalHoursByConditions(c.filterData)
+                .then(function (response) {
+                    c.getTimeReportsTotalHours = response;
                 });
         }
 
