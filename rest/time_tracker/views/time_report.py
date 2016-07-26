@@ -1,7 +1,8 @@
-from django.db.models import Q
+from django.db.models import Q, Count, Sum
 
 from rest_framework import filters
 from rest_framework import viewsets
+from rest_framework.response import Response
 
 from time_tracker.models import TimeReport
 from time_tracker.serializers import TimeReportSerializer
@@ -34,3 +35,62 @@ class TimeReportViewSet(viewsets.ModelViewSet):
         if user.is_superuser:
             return time_report
         return time_report.filter(Q(profile__user=user) | Q(project__in=user.profile.project_set.all()))
+
+    def get_profiles_reports(self, request):
+        filter_sql = ""
+        filter_from = self.request.query_params.get('from', None)
+        filter_to = self.request.query_params.get('to', None)
+
+        if filter_from is not None:
+            filter_sql += " AND `time_tracker_timereport`.`date` >= '" + filter_from + "' "
+
+        if filter_to is not None:
+            filter_sql += " AND `time_tracker_timereport`.`date` <= '" + filter_to + "' "
+
+        sql = ("SELECT `time_tracker_timereport`.`id`, `time_tracker_timereport`.`name`, SUM(`time_tracker_timereport`.`seconds`) as `seconds` "
+               "FROM `time_tracker_timereport` "
+               "INNER JOIN `time_tracker_profile` ON (`time_tracker_timereport`.`profile_id` = `time_tracker_profile`.`id`) "
+               "INNER JOIN `time_tracker_project` ON (`time_tracker_timereport`.`project_id` = `time_tracker_project`.`id`) "
+               "WHERE (`time_tracker_timereport`.`seconds` > 0 "
+               + filter_sql +
+               "AND `time_tracker_timereport`.`is_active` = True "
+               "AND `time_tracker_timereport`.`profile_id` IS NOT NULL "
+               "AND `time_tracker_project`.`is_active` = True "
+               "AND `time_tracker_timereport`.`project_id` IS NOT NULL "
+               "AND `time_tracker_profile`.`is_active` = True) "
+               "GROUP BY `time_tracker_timereport`.`profile_id` "
+               "ORDER BY `time_tracker_timereport`.`date` DESC, `time_tracker_timereport`.`id` DESC ")
+
+        time_report = (TimeReport.objects.raw(sql))
+        serializer = TimeReportSerializer(time_report, many=True)
+        return Response(serializer.data)
+
+    def get_projects_reports(self, request):
+        filter_sql = ""
+        filter_from = self.request.query_params.get('from', None)
+        filter_to = self.request.query_params.get('to', None)
+
+        if filter_from is not None:
+            filter_sql += " AND `time_tracker_timereport`.`date` >= '" + filter_from + "' "
+
+        if filter_to is not None:
+            filter_sql += " AND `time_tracker_timereport`.`date` <= '" + filter_to + "' "
+
+        sql = (
+            "SELECT `time_tracker_timereport`.`id`, `time_tracker_timereport`.`name`, SUM(`time_tracker_timereport`.`seconds`) as `seconds` "
+            "FROM `time_tracker_timereport` "
+            "INNER JOIN `time_tracker_profile` ON (`time_tracker_timereport`.`profile_id` = `time_tracker_profile`.`id`) "
+            "INNER JOIN `time_tracker_project` ON (`time_tracker_timereport`.`project_id` = `time_tracker_project`.`id`) "
+            "WHERE (`time_tracker_timereport`.`seconds` > 0 "
+            + filter_sql +
+            "AND `time_tracker_timereport`.`is_active` = True "
+            "AND `time_tracker_timereport`.`profile_id` IS NOT NULL "
+            "AND `time_tracker_project`.`is_active` = True "
+            "AND `time_tracker_timereport`.`project_id` IS NOT NULL "
+            "AND `time_tracker_profile`.`is_active` = True) "
+            "GROUP BY `time_tracker_timereport`.`project_id` "
+            "ORDER BY `time_tracker_timereport`.`date` DESC, `time_tracker_timereport`.`id` DESC ")
+
+        time_report = (TimeReport.objects.raw(sql))
+        serializer = TimeReportSerializer(time_report, many=True)
+        return Response(serializer.data)

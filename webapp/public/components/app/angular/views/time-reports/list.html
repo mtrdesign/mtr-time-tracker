@@ -49,12 +49,32 @@
                                 </a>
                             </td>
                         </tr>
+                        <tr><td colspan="6"></td>
+                        <tr ng-if="c.getTimeReportsProfiles.length" ng-repeat="reportProfile in c.getTimeReportsProfiles">
+                            <td colspan="2"></td>
+                            <td>{{ reportProfile.profile_entry.full_name }}</td>
+                            <td>Total time: </td>
+                            <td colspan="2">{{ reportProfile.hours }}</td>
+                        </tr>
+                        <tr><td colspan="6"></td></tr>
+                         <tr ng-if="c.getTimeReportsProjects.length" ng-repeat="reportProject in c.getTimeReportsProjects">
+                            <td></td>
+                            <td colspan="2">
+                                <a href="#" ng-href="#/projects/{{ reportProject.project_entry.id }}/time-reports">
+                                    {{reportProject.project_entry.name }}
+                                </a>
+                            </td>
+                            <td>Total time: </td>
+                            <td colspan="2">{{ reportProject.hours }}</td>
+                        </tr>
                         <tr ng-if="c.getTimeReports.length == 0">
                             <td colspan="6">No time reports</td>
                         </tr>
                         </tbody>
                     </table>
                 </div>
+
+
             </div>
         </div>
     </div>

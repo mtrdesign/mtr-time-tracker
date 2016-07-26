@@ -19,4 +19,6 @@ urlpatterns = [
     url(r"^auth/jwt/new/", obtain_jwt_token),
     url(r"^auth/jwt/refresh/", refresh_jwt_token),
     url(r"^auth/jwt/verify/", verify_jwt_token),
+    url(r"time-reports/profiles/", TimeReportViewSet.as_view({'get': 'get_profiles_reports'})),
+    url(r"time-reports/projects/", TimeReportViewSet.as_view({'get': 'get_projects_reports'})),
 ]
