@@ -7,6 +7,7 @@ from rest_framework.response import Response
 from time_tracker.models import TimeReport
 from time_tracker.serializers import TimeReportSerializer
 from time_tracker.permissions import TimeReportPermission
+from time_tracker.filters import time_report_filter
 
 
 class TimeReportViewSet(viewsets.ModelViewSet):
@@ -14,7 +15,7 @@ class TimeReportViewSet(viewsets.ModelViewSet):
     serializer_class = TimeReportSerializer
     permission_classes = (TimeReportPermission,)
     filter_backends = (filters.DjangoFilterBackend,)
-    filter_fields = ('project__id',)
+    filter_class = time_report_filter.TimeReportFilter
 
     def get_queryset(self):
         user = self.request.user
@@ -22,15 +23,6 @@ class TimeReportViewSet(viewsets.ModelViewSet):
                        .filter(is_active=True, profile__isnull=False, project__isnull=False, seconds__gt=0,
                                profile__is_active=True, project__is_active=True)
                        .order_by('-date', '-id'))
-
-        filter_from = self.request.query_params.get('from', None)
-        filter_to = self.request.query_params.get('to', None)
-
-        if filter_from is not None:
-            time_report = time_report.filter(date__gte=filter_from)
-
-        if filter_to is not None:
-            time_report = time_report.filter(date__lte=filter_to)
 
         if user.is_superuser:
             return time_report
