@@ -38,14 +38,17 @@ class TimeReportViewSet(viewsets.ModelViewSet):
 
     def get_profiles_reports(self, request):
         filter_sql = ""
+        params = []
         filter_from = self.request.query_params.get('from', None)
         filter_to = self.request.query_params.get('to', None)
 
         if filter_from is not None:
-            filter_sql += " AND `time_tracker_timereport`.`date` >= '" + filter_from + "' "
+            params.append(filter_from)
+            filter_sql += " AND `time_tracker_timereport`.`date` >= %s"
 
         if filter_to is not None:
-            filter_sql += " AND `time_tracker_timereport`.`date` <= '" + filter_to + "' "
+            params.append(filter_to)
+            filter_sql += " AND `time_tracker_timereport`.`date` <= %s"
 
         sql = ("SELECT `time_tracker_timereport`.`id`, `time_tracker_timereport`.`name`, SUM(`time_tracker_timereport`.`seconds`) as `seconds` "
                "FROM `time_tracker_timereport` "
@@ -61,20 +64,23 @@ class TimeReportViewSet(viewsets.ModelViewSet):
                "GROUP BY `time_tracker_timereport`.`profile_id` "
                "ORDER BY `time_tracker_timereport`.`date` DESC, `time_tracker_timereport`.`id` DESC ")
 
-        time_report = (TimeReport.objects.raw(sql))
+        time_report = (TimeReport.objects.raw(sql, params))
         serializer = TimeReportSerializer(time_report, many=True)
         return Response(serializer.data)
 
     def get_projects_reports(self, request):
         filter_sql = ""
+        params = []
         filter_from = self.request.query_params.get('from', None)
         filter_to = self.request.query_params.get('to', None)
 
         if filter_from is not None:
-            filter_sql += " AND `time_tracker_timereport`.`date` >= '" + filter_from + "' "
+            params.append(filter_from)
+            filter_sql += " AND `time_tracker_timereport`.`date` >= %s"
 
         if filter_to is not None:
-            filter_sql += " AND `time_tracker_timereport`.`date` <= '" + filter_to + "' "
+            params.append(filter_to)
+            filter_sql += " AND `time_tracker_timereport`.`date` <= %s"
 
         sql = (
             "SELECT `time_tracker_timereport`.`id`, `time_tracker_timereport`.`name`, SUM(`time_tracker_timereport`.`seconds`) as `seconds` "
@@ -91,6 +97,6 @@ class TimeReportViewSet(viewsets.ModelViewSet):
             "GROUP BY `time_tracker_timereport`.`project_id` "
             "ORDER BY `time_tracker_timereport`.`date` DESC, `time_tracker_timereport`.`id` DESC ")
 
-        time_report = (TimeReport.objects.raw(sql))
+        time_report = (TimeReport.objects.raw(sql, params))
         serializer = TimeReportSerializer(time_report, many=True)
         return Response(serializer.data)
