@@ -71,12 +71,13 @@
                 TimeReportsService.Delete(id, function (response) {
                     if(response.length  == 0){
                         FlashService.Success(['Time report has been successfully deleted.']);
-                        $location.url('/time-reports/' );
                     }else{
                         FlashService.Error(["Unexpected error"]);
-                        $location.url('/time-reports/' );
                     }
-
+                    listTimeReports();
+                    listTimeReportsProfiles();
+                    listTimeReportsProjects();
+                    listTimeReportsTotalHours();
                 });
             }
         }
