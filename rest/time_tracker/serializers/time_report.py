@@ -39,14 +39,21 @@ class TimeReportSerializer(serializers.HyperlinkedModelSerializer):
 class TimeReportProfileSerializer(serializers.Serializer):
     profile = serializers.SerializerMethodField(source='get_profile')
     total_seconds = serializers.ReadOnlyField()
+    total_hours = serializers.SerializerMethodField(source='get_total_hours')
 
     def get_profile(self, obj):
         return ProfileSerializer(Profile.objects.get(id=obj['profile'])).data
 
+    def get_total_hours(self, obj):
+        return TimeReport.sec_to_hours(obj['total_seconds'])
 
 class TimeReportProjectSerializer(serializers.Serializer):
     project = serializers.SerializerMethodField(source='get_project')
     total_seconds = serializers.ReadOnlyField()
+    total_hours = serializers.SerializerMethodField(source='get_total_hours')
 
     def get_project(self, obj):
         return ProjectSerializer(Project.objects.get(id=obj['project'])).data
+
+    def get_total_hours(self, obj):
+        return TimeReport.sec_to_hours(obj['total_seconds'])

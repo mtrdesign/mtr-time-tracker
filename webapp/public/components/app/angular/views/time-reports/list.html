@@ -6,19 +6,38 @@
         <div class="row">
             <div class="col-md-12">
                 <form name="form" class="form-inline search-form" ng-submit="c.filter()" role="form" novalidate>
-                    <div class="col-md-4 col-xs-12">
+                    <div class="col-md-3 col-xs-12">
                         <div class="form-group">
-                            <label for="from">From date</label>
-                            <input id="from" type="text" class="form-control datepicker" ng-model="c.filterData.from" >
+                            <label for="date_0">From date</label>
+                            <input id="date_0" type="text" class="form-control datepicker" ng-model="c.filterData.date_0" >
                         </div>
                     </div>
-                    <div class="col-md-4 col-xs-12">
+                    <div class="col-md-3 col-xs-12">
                         <div class="form-group">
-                            <label for="to">End date</label>
-                            <input id="to" type="text" class="form-control datepicker" ng-model="c.filterData.to" >
+                            <label for="date_1">End date</label>
+                            <input id="date_1" type="text" class="form-control datepicker" ng-model="c.filterData.date_1" >
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-default">Search</button>
+                    <div class="col-md-3 col-xs-12">
+                        <div class="form-group">
+                            <label for="profile">By profile</label>
+                            <select class="form-control full-width" name="profile" id="profile" ng-model="c.filterData.profile__id">
+                                <option ng-repeat="profile in c.profiles" value="{{profile.id}}">{{profile.full_name}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-xs-12">
+                        <div class="form-group">
+                            <label for="project">By project</label>
+                            <select class="full-width form-control " name="project" id="project" ng-model="c.filterData.project__id">
+                                <option ng-repeat="project in c.projects" value="{{project.id}}">{{project.name}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="formButton">
+                        <button type="submit" class="btn btn-primary">Search</button>
+                        <a ng-href="#/time-reports"  class="btn btn-default">Clear</a>
+                    </div>
                 </form>
                 <div class="table-responsive">
                     <table class="table table-bordered table-hover">
@@ -55,25 +74,25 @@
                         <tr><td colspan="6"></td>
                         <tr ng-if="c.getTimeReportsProfiles.length" ng-repeat="reportProfile in c.getTimeReportsProfiles">
                             <td colspan="2"></td>
-                            <td>{{ reportProfile.profile_entry.full_name }}</td>
+                            <td>{{ reportProfile.profile.full_name }}</td>
                             <td>Total time: </td>
-                            <td colspan="2">{{ reportProfile.hours }}</td>
+                            <td colspan="2">{{ reportProfile.total_hours }}</td>
                         </tr>
                         <tr><td colspan="6"></td></tr>
                         <tr ng-if="c.getTimeReportsProjects.length" ng-repeat="reportProject in c.getTimeReportsProjects">
                             <td></td>
                             <td colspan="2">
-                                <a href="#" ng-href="#/projects/{{ reportProject.project_entry.id }}/time-reports">
-                                    {{reportProject.project_entry.name }}
+                                <a href="#" ng-href="#/projects/{{ reportProject.project.id }}/time-reports">
+                                    {{reportProject.project.name }}
                                 </a>
                             </td>
                             <td>Total time: </td>
-                            <td colspan="2">{{ reportProject.hours }}</td>
+                            <td colspan="2">{{ reportProject.total_hours }}</td>
                         </tr>
-                        <tr ng-if="c.getTimeReportsTotalHours.length" ng-repeat="reportHours in c.getTimeReportsTotalHours">
-                            <td colspan="4"></td>
-                            <td>Total time: </td>
-                            <td colspan="2">{{ reportHours.hours }}</td>
+                        <tr ng-if="c.getTimeReportsTotalHours">
+                            <td colspan="3"></td>
+                            <td><b>Total time: </b></td>
+                            <td colspan="2"><b>{{ c.getTimeReportsTotalHours.total_hours }}</b></td>
                         </tr>
                         <tr ng-if="c.getTimeReports.length == 0">
                             <td colspan="6">No time reports</td>

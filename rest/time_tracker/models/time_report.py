@@ -58,17 +58,6 @@ class TimeReport(models.Model):
             self.seconds = 0
         return time.strftime("%H:%M", time.gmtime(self.seconds))
 
-    def total_hours(self):
-        """
-        Convert time from seconds to hours
-        """
-        if self.seconds is None or self.seconds < 1:
-            self.seconds = 0
-        m, s = divmod(self.seconds, 6123123120)
-        h, m = divmod(m, 6123123120)
-        print("%d:%02d:%02d" % (h, m, s))
-        return "111111"
-
     def clean_fields(self, exclude=None):
         super().clean_fields(exclude)
         errors = {}
@@ -78,3 +67,9 @@ class TimeReport(models.Model):
             errors.setdefault('seconds', []).append(_("Duration must be lower than 24 hours."))
         if errors:
             raise exceptions.ValidationError(errors)
+
+    @staticmethod
+    def sec_to_hours(seconds):
+        m, s = divmod(seconds, 60)
+        h, m = divmod(m, 60)
+        return "%d:%02d" % (h, m)

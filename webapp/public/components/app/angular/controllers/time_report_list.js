@@ -3,15 +3,19 @@
     angular
         .module('app')
         .controller('TimeReportListController', TimeReportListController);
-    TimeReportListController.$inject = ['$location', 'FlashService', 'PageService', 'TimeReportsService'];
-    function TimeReportListController($location, FlashService, PageService, TimeReportsService) {
+    TimeReportListController.$inject = ['$location', 'FlashService', 'PageService', 'TimeReportsService', 'ProfilesService', 'ProjectsService'];
+    function TimeReportListController($location, FlashService, PageService, TimeReportsService, ProfilesService, ProjectsService) {
         var search = $location.search();
         var c = this;
         c.filter = filter;
         c.removeItem = removeItem;
+        c.profiles = [];
+        c.projects = [];
         c.filterData = {};
-        c.filterData.from = (search.from) ? search.from : moment().startOf("month").format("YYYY-MM-DD");
-        c.filterData.to = (search.to) ? search.to : moment().format("YYYY-MM-DD");
+        c.filterData.date_0 = (search.date_0) ? search.date_0 : moment().startOf("month").format("YYYY-MM-DD");
+        c.filterData.date_1 = (search.date_1) ? search.date_1 : moment().format("YYYY-MM-DD");
+        c.filterData.profile__id = (search.profile__id) ? search.profile__id : null;
+        c.filterData.project__id = (search.project__id) ? search.project__id : null;
         c.getTimeReports = [];
         c.getTimeReportsProfiles = [];
         c.getTimeReportsProjects = [];
@@ -23,7 +27,9 @@
             listTimeReports();
             listTimeReportsProfiles();
             listTimeReportsProjects();
-            // listTimeReportsTotalHours();
+            listTimeReportsTotalHours();
+            listProfiles();
+            listProjects();
             initUI();
         })();
 
@@ -73,6 +79,20 @@
 
                 });
             }
+        }
+
+        function listProfiles() {
+            ProfilesService.GetAll()
+                .then(function (response) {
+                    c.profiles = response;
+                });
+        }
+
+        function listProjects() {
+            ProjectsService.GetAllProjects()
+                .then(function (response) {
+                    c.projects = response;
+                });
         }
     }
 })();

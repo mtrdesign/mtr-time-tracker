@@ -10,6 +10,15 @@ body {
     display: none !important;
 }
 
-.search-form{
+.search-form {
     padding-bottom: 20px;
+}
+
+.full-width {
+    width: 100% !important;
+}
+
+.formButton {
+    padding: 10px 15px;
+    overflow: hidden;
 }

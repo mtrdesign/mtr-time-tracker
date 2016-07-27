@@ -51,5 +51,5 @@ class TimeReportViewSet(viewsets.ModelViewSet):
         """
         time_report = TimeReportFilter(request.GET, queryset=TimeReport.objects.active_projects(seconds__gt=0))
         time_report = time_report.qs.aggregate(total_seconds=Sum('seconds'))
-
+        time_report['total_hours'] = TimeReport.sec_to_hours(time_report['total_seconds'])
         return Response(time_report)
