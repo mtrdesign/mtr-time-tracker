@@ -3,106 +3,112 @@
         Time reports
     </div>
     <div class="panel-body">
-        <div class="row">
-            <div class="col-md-12">
-                <form name="form" class="form-inline search-form" ng-submit="c.filter()" role="form" novalidate>
-                    <div class="col-md-3 col-xs-12">
-                        <div class="form-group">
-                            <label for="date_0">From date</label>
+        <form name="form" class="search-form" ng-submit="c.filter()" role="form" novalidate>
+            <div class="row">
+                <div class="col-md-3 col-xs-12">
+                    <div class="form-group">
+                        <label for="date_1">From</label>
+                        <div class="input-group date">
                             <input id="date_0" type="text" class="form-control datepicker" ng-model="c.filterData.date_0" >
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
                         </div>
                     </div>
-                    <div class="col-md-3 col-xs-12">
-                        <div class="form-group">
-                            <label for="date_1">End date</label>
-                            <input id="date_1" type="text" class="form-control datepicker" ng-model="c.filterData.date_1" >
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-xs-12">
-                        <div class="form-group">
-                            <label for="profile">By profile</label>
-                            <select class="form-control full-width" name="profile" id="profile" ng-model="c.filterData.profile__id">
-                                <option ng-repeat="profile in c.profiles" value="{{profile.id}}">{{profile.full_name}}</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-xs-12">
-                        <div class="form-group">
-                            <label for="project">By project</label>
-                            <select class="full-width form-control " name="project" id="project" ng-model="c.filterData.project__id">
-                                <option ng-repeat="project in c.projects" value="{{project.id}}">{{project.name}}</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="formButton">
-                        <button type="submit" class="btn btn-primary">Search</button>
-                        <a ng-href="#/time-reports"  class="btn btn-default">Clear</a>
-                    </div>
-                </form>
-                <div class="table-responsive">
-                    <table class="table table-bordered table-hover">
-                        <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Project</th>
-                            <th>Profile</th>
-                            <th>Details</th>
-                            <th>Hours</th>
-                            <th>Edit</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr ng-if="c.getTimeReports.length" ng-repeat="report in c.getTimeReports">
-                            <td>{{ report.date }}</td>
-                            <td>
-                                <a href="#" ng-href="#/projects/{{ report.project_entry.id }}/time-reports">
-                                    {{report.project_entry.name }}
-                                </a>
-                            </td>
-                            <td>{{ report.profile_entry.full_name }}</td>
-                            <td>{{ report.name }}</td>
-                            <td>{{ report.hours }}</td>
-                            <td>
-                                <a href="#" ng-href="#/projects/{{ report.project_entry.id }}/time-reports/{{ report.id }}">
-                                    <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-                                </a>
-                                <a ng-click="c.removeItem(report.id)">
-                                    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                                </a>
-                            </td>
-                        </tr>
-                        <tr><td colspan="6"></td>
-                        <tr ng-if="c.getTimeReportsProfiles.length" ng-repeat="reportProfile in c.getTimeReportsProfiles">
-                            <td colspan="2"></td>
-                            <td>{{ reportProfile.profile.full_name }}</td>
-                            <td>Total time: </td>
-                            <td colspan="2">{{ reportProfile.total_hours }}</td>
-                        </tr>
-                        <tr><td colspan="6"></td></tr>
-                        <tr ng-if="c.getTimeReportsProjects.length" ng-repeat="reportProject in c.getTimeReportsProjects">
-                            <td></td>
-                            <td colspan="2">
-                                <a href="#" ng-href="#/projects/{{ reportProject.project.id }}/time-reports">
-                                    {{reportProject.project.name }}
-                                </a>
-                            </td>
-                            <td>Total time: </td>
-                            <td colspan="2">{{ reportProject.total_hours }}</td>
-                        </tr>
-                        <tr ng-if="c.getTimeReportsTotalHours">
-                            <td colspan="3"></td>
-                            <td><b>Total time: </b></td>
-                            <td colspan="2"><b>{{ c.getTimeReportsTotalHours.total_hours }}</b></td>
-                        </tr>
-                        <tr ng-if="c.getTimeReports.length == 0">
-                            <td colspan="6">No time reports</td>
-                        </tr>
-                        </tbody>
-                    </table>
                 </div>
-
-
+                <div class="col-md-3 col-xs-12">
+                    <div class="form-group">
+                        <label for="date_1">To</label>
+                        <div class="input-group date">
+                            <input id="date_1" type="text" class="form-control datepicker" ng-model="c.filterData.date_1" >
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-xs-12">
+                    <div class="form-group">
+                        <label for="profile">By profile</label>
+                        <select class="form-control full-width" name="profile" id="profile" ng-model="c.filterData.profile__id">
+                            <option ng-repeat="profile in c.profiles" value="{{ profile.id }}">{{ profile.full_name }}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3 col-xs-12">
+                    <div class="form-group">
+                        <label for="project">By project</label>
+                        <select class="full-width form-control" name="project" id="project" ng-model="c.filterData.project__id">
+                            <option ng-repeat="project in c.projects" value="{{ project.id }}">{{ project.name }}</option>
+                        </select>
+                    </div>
+                </div>
             </div>
+            <button type="submit" class="btn btn-primary">Search</button>
+            <a ng-href="#/time-reports" class="btn btn-default">Clear</a>
+        </form>
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Project</th>
+                        <th>Profile</th>
+                        <th>Details</th>
+                        <th>Hours</th>
+                        <th>Edit</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-if="c.getTimeReports.length" ng-repeat="report in c.getTimeReports">
+                        <td>{{ report.date }}</td>
+                        <td>
+                            <a href="#" ng-href="#/projects/{{ report.project_entry.id }}/time-reports">
+                                {{ report.project_entry.name }}
+                            </a>
+                        </td>
+                        <td>{{ report.profile_entry.full_name }}</td>
+                        <td>{{ report.name }}</td>
+                        <td>{{ report.hours }}</td>
+                        <td>
+                            <a href="#" ng-href="#/projects/{{ report.project_entry.id }}/time-reports/{{ report.id }}">
+                                <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                            </a>
+                            <a ng-click="c.removeItem(report.id)">
+                                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="6"></td>
+                    </tr>
+                    <tr ng-if="c.getTimeReportsProfiles.length" ng-repeat="reportProfile in c.getTimeReportsProfiles">
+                        <td colspan="2"></td>
+                        <td>{{ reportProfile.profile.full_name }}</td>
+                        <td>Total time: </td>
+                        <td colspan="2">{{ reportProfile.total_hours }}</td>
+                    </tr>
+                    <tr><td colspan="6"></td></tr>
+                    <tr ng-if="c.getTimeReportsProjects.length" ng-repeat="reportProject in c.getTimeReportsProjects">
+                        <td></td>
+                        <td colspan="2">
+                            <a href="#" ng-href="#/projects/{{ reportProject.project.id }}/time-reports">
+                                {{ reportProject.project.name }}
+                            </a>
+                        </td>
+                        <td>Total time: </td>
+                        <td colspan="2">{{ reportProject.total_hours }}</td>
+                    </tr>
+                    <tr ng-if="c.getTimeReportsTotalHours">
+                        <td colspan="3"></td>
+                        <td><b>Total time:</b></td>
+                        <td colspan="2"><b>{{ c.getTimeReportsTotalHours.total_hours }}</b></td>
+                    </tr>
+                    <tr ng-if="c.getTimeReports.length == 0">
+                        <td colspan="6">No time reports</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
