@@ -3,9 +3,10 @@
     angular
         .module('app')
         .controller('ProjectController', ProjectController);
-    ProjectController.$inject = ['$rootScope', '$location', 'PageService', 'ProjectsService', 'TimeReportsService', '$routeParams'];
-    function ProjectController($rootScope, $location, PageService, ProjectsService, TimeReportsService, $routeParams) {
+    ProjectController.$inject = ['$rootScope', '$location', 'FlashService', 'PageService', 'ProjectsService', 'TimeReportsService', '$routeParams'];
+    function ProjectController($rootScope, $location, FlashService, PageService, ProjectsService, TimeReportsService, $routeParams) {
         var c = this;
+        c.removeItem = removeItem;
         c.getProject = [];
         c.getProjectTimeReports = [];
         (function initController() {
@@ -28,6 +29,20 @@
                         $location.path('/404');
                     }
                 });
+        }
+
+         function removeItem(id) {
+            var r = confirm("Are you sure that you want to delete this item?");
+            if(r){
+                TimeReportsService.Delete(id, function (response) {
+                    if(response.length  == 0){
+                        FlashService.Success(['Time report has been successfully deleted.']);
+                    }else{
+                        FlashService.Error(["Unexpected error"]);
+                    }
+                   loadProject($routeParams.id);
+                });
+            }
         }
     }
 })();
