@@ -11,8 +11,4 @@ function initUI() {
         inline: false
     });
     $('.timemask').mask('00:00', {placeholder: '00:00'});
-    $('.select2').select2({
-        allowClear: true,
-        width: 150
-    });
 }
