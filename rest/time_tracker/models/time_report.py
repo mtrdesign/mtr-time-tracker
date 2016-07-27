@@ -70,6 +70,8 @@ class TimeReport(models.Model):
 
     @staticmethod
     def sec_to_hours(seconds):
+        if seconds is None or seconds <= 0:
+            return "%d:%02d" % (0, 0)
         m, s = divmod(seconds, 60)
         h, m = divmod(m, 60)
         return "%d:%02d" % (h, m)

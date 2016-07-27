@@ -66,15 +66,15 @@
         }
 
         function removeItem(id) {
-            var r = confirm("Are you sure?")
+            var r = confirm("Are you sure that you want to delete this item?");
             if(r){
                 TimeReportsService.Delete(id, function (response) {
                     if(response.length  == 0){
                         FlashService.Success(['Time report has been successfully deleted.']);
-                        $location.path('/time-reports' );
+                        $location.url('/time-reports/' );
                     }else{
                         FlashService.Error(["Unexpected error"]);
-                        $location.path('/time-reports' );
+                        $location.url('/time-reports/' );
                     }
 
                 });
