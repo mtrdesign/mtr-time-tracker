@@ -23,4 +23,6 @@ urlpatterns = [
     url(r"time-reports/profiles/", TimeReportViewSet.as_view({'get': 'get_profiles_reports'})),
     url(r"time-reports/projects/", TimeReportViewSet.as_view({'get': 'get_projects_reports'})),
     url(r"time-reports/total-hours/", TimeReportViewSet.as_view({'get': 'get_total_hours'})),
+    url(r"time-reports/get-hours-by-month/", TimeReportViewSet.as_view({'get': 'get_hours_by_month'})),
+    url(r"time-reports/get-date-range/", TimeReportViewSet.as_view({'get': 'get_date_range'})),
 ]

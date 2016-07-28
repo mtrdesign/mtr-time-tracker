@@ -39,6 +39,7 @@ class TimeReportSerializer(serializers.HyperlinkedModelSerializer):
 class TimeReportProfileSerializer(serializers.Serializer):
     profile = serializers.SerializerMethodField(source='get_profile')
     total_seconds = serializers.ReadOnlyField()
+    max_date = serializers.ReadOnlyField()
     total_hours = serializers.SerializerMethodField(source='get_total_hours')
 
     def get_profile(self, obj):
