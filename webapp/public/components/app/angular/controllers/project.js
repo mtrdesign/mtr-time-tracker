@@ -9,6 +9,7 @@
         c.filter = filter;
         var search = $location.search();
         c.removeItem = removeItem;
+        c.listDateRange = [];
         c.getProject = [];
         c.profiles = [];
         c.filterData = {};
@@ -17,6 +18,7 @@
         c.getProjectTimeReports = [];
         c.getTimeReportsTotalHours = [];
         c.getTimeReportsProfiles = [];
+        c.totalMonthHours = [];
         (function initController() {
             PageService.resetData();
             PageService.setHtmlTitle('Projects');
@@ -25,11 +27,13 @@
             listTimeReportsProfiles();
             listTimeReportsTotalHours();
             listProfiles();
+            getTotalHoursByRange();
+            listDataRange();
         })();
         function loadProject(id) {
             ProjectsService.GetProject(id)
                 .then(function (project) {
-                    if(typeof project.id == 'number' && project.id > 0) {
+                    if (typeof project.id == 'number' && project.id > 0) {
                         c.getProject = project;
                         TimeReportsService.GetReports(id)
                             .then(function (response) {
@@ -39,6 +43,13 @@
                     } else {
                         $location.path('/404');
                     }
+                });
+        }
+
+        function getTotalHoursByRange() {
+             TimeReportsService.GetReportsTotalHoursGroupByMonth(c.filterData)
+                .then(function (response) {
+                    c.totalMonthHours = response;
                 });
         }
 
@@ -58,14 +69,14 @@
 
         function removeItem(id) {
             var r = confirm("Are you sure that you want to delete this item?");
-            if(r){
+            if (r) {
                 TimeReportsService.Delete(id, function (response) {
-                    if(response.length  == 0){
+                    if (response.length == 0) {
                         FlashService.Success(['Time report has been successfully deleted.']);
-                    }else{
+                    } else {
                         FlashService.Error(["Unexpected error"]);
                     }
-                   loadProject($routeParams.id);
+                    loadProject($routeParams.id);
                 });
             }
         }
@@ -78,7 +89,14 @@
         }
 
         function filter() {
-            $location.url('/projects/'+$routeParams.id+'/time-reports?'+$.param(c.filterData));
+            $location.url('/projects/' + $routeParams.id + '/time-reports?' + $.param(c.filterData));
+        }
+
+        function listDataRange() {
+            TimeReportsService.GetReportsDateRangesByConditions(c.filterData)
+                .then(function (response) {
+                    c.listDateRange = response;
+                });
         }
     }
 })();

@@ -4,7 +4,7 @@ from rest_framework import permissions
 class TimeReportPermission(permissions.BasePermission):
     def has_permission(self, request, view):
         if view.action in ['list', 'create', 'retrieve', 'update', 'partial_update', 'destroy', 'get_profiles_reports',
-                           'get_projects_reports', 'get_total_hours' ]:
+                           'get_projects_reports', 'get_total_hours', 'get_hours_by_month', 'get_date_range']:
             return True
         else:
             return False

@@ -22,3 +22,17 @@ body {
     padding: 10px 15px;
     overflow: hidden;
 }
+
+.overall-hours{
+    background-color:#e7e7e7;
+    font-weight: 600;
+}
+
+.overall-hours > td{
+    border-left:none !important;
+    border-right:none !important;
+}
+
+.overall-title{
+    font-size:18px;
+}
