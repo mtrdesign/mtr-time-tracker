@@ -47,7 +47,7 @@
         }
 
         function getTotalHoursByRange() {
-             TimeReportsService.GetReportsTotalHoursGroupByMonth(c.filterData)
+            TimeReportsService.GetReportsTotalHoursGroupByMonth(c.filterData)
                 .then(function (response) {
                     c.totalMonthHours = response;
                 });
@@ -77,6 +77,11 @@
                         FlashService.Error(["Unexpected error"]);
                     }
                     loadProject($routeParams.id);
+                    listTimeReportsProfiles();
+                    listTimeReportsTotalHours();
+                    listProfiles();
+                    getTotalHoursByRange();
+                    listDataRange();
                 });
             }
         }

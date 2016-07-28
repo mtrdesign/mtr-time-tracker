@@ -74,6 +74,6 @@ class TimeReportViewSet(viewsets.ModelViewSet):
         time_report = time_report.qs.\
                         values('project'). \
                         annotate(period=Func(F('date'), function='MONTH'), min_date=Min('date'), max_date=Max('date'), ).\
-                        order_by('-period', '-max_date')
+                        order_by( '-max_date', '-period')
 
         return Response(time_report)
