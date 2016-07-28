@@ -1,4 +1,3 @@
-
 from django.db import models
 from django.db.models import Sum
 from django.core import exceptions
@@ -50,14 +49,6 @@ class TimeReport(models.Model):
     def __str__(self):
         return self.name
 
-    def hours(self):
-        """
-        Convert time from seconds to hours
-        """
-        if self.seconds is None or self.seconds < 1:
-            self.seconds = 0
-        return time.strftime("%H:%M", time.gmtime(self.seconds))
-
     def clean_fields(self, exclude=None):
         super().clean_fields(exclude)
         errors = {}
@@ -67,6 +58,15 @@ class TimeReport(models.Model):
             errors.setdefault('seconds', []).append(_("Duration must be lower than 24 hours."))
         if errors:
             raise exceptions.ValidationError(errors)
+        
+    @property
+    def hours(self):
+        """
+        Convert time from seconds to hours
+        """
+        if self.seconds is None or self.seconds < 1:
+            self.seconds = 0
+        return time.strftime("%H:%M", time.gmtime(self.seconds))
 
     @staticmethod
     def sec_to_hours(seconds):

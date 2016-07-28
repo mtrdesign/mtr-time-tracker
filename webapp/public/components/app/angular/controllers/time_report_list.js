@@ -78,7 +78,7 @@
                 TimeReportsService.Delete(id, function (response) {
                     if(response.length  == 0){
                         FlashService.Success(['Time report has been successfully deleted.']);
-                    }else{
+                    } else {
                         FlashService.Error(['Unexpected error']);
                     }
                     listTimeReports();

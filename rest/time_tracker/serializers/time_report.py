@@ -20,8 +20,8 @@ class TimeReportSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = TimeReport
-        fields = ("id", "name", "date", "description", "hours", "seconds", "profile_entry", "project_entry",
-                  "profile", "project",)
+        fields = ("id", "name", "date", "description", "hours", "seconds",
+                  "profile_entry", "project_entry", "profile", "project",)
 
     def validate_name(self, value):
         if len(value) < 5:
