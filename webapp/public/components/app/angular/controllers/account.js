@@ -10,7 +10,7 @@
         c.changePassword = changePassword;
         c.accountData = {};
         c.accountData.user = {};
-        c.accountData.user.old_password = '';
+        c.accountData.user.current_password = '';
         c.accountData.user.new_password = '';
         c.accountData.user.confirm_new_password = '';
         c.accountData.profile = {};
@@ -25,6 +25,9 @@
         c.readableKeys.last_name = 'Last name';
         c.readableKeys.job_title = 'Job title';
         c.readableKeys.phone_number = 'Phone number';
+        c.readableKeys.current_password = 'Current password';
+        c.readableKeys.new_password = 'New password';
+        c.readableKeys.confirm_new_password = 'Confirm new password';
         (function initController() {
             PageService.resetData();
             PageService.setHtmlTitle('Account');
