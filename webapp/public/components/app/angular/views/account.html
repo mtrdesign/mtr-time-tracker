@@ -1,36 +1,51 @@
 ﻿<div class="panel panel-default">
     <div class="panel-heading">
-        Welcome back {{ globals.currentUser.profile.full_name }}
+        Edit your personal info
     </div>
     <div class="panel-body">
-        <form name="form" ng-submit="c.change()" role="form" novalidate>
-            <!--
-                <div class="form-group">
-                    <label for="abGnJQFTJB">Username <span class="required">*</span></label>
-                    <input id="abGnJQFTJB" type="text" class="form-control" ng-model="c.accountData.user.username">
-                </div>
-            -->
-            <div class="form-group">
-                <label for="isSHxCc90F">Email address <span class="required">*</span></label>
-                <input id="isSHxCc90F" type="email" class="form-control" ng-model="c.accountData.profile.email_address">
+        <div class="row">
+            <div class="col-md-9">
+                <form name="form" ng-submit="c.changeProfile()" role="form" novalidate>
+                    <div class="form-group">
+                        <label for="isSHxCc90F">Email address <span class="required">*</span></label>
+                        <input id="isSHxCc90F" type="email" class="form-control" ng-model="c.accountData.profile.email_address">
+                    </div>
+                    <div class="form-group">
+                        <label for="wbwejcgsX3">First name <span class="required">*</span></label>
+                        <input id="wbwejcgsX3" type="text" class="form-control" ng-model="c.accountData.profile.first_name">
+                    </div>
+                    <div class="form-group">
+                        <label for="nv21ZO6wqC">Last name <span class="required">*</span></label>
+                        <input id="nv21ZO6wqC" type="text" class="form-control" ng-model="c.accountData.profile.last_name">
+                    </div>
+                    <div class="form-group">
+                        <label for="u4oXvFIvHI">Job title</label>
+                        <input id="u4oXvFIvHI" type="text" class="form-control" ng-model="c.accountData.profile.job_title">
+                    </div>
+                    <div class="form-group">
+                        <label for="ff6ossD0jg">Phone number</label>
+                        <input id="ff6ossD0jg" type="text" class="form-control" ng-model="c.accountData.profile.phone_number">
+                    </div>
+                    <button type="submit" class="btn btn-default">Submit</button>
+                </form> 
             </div>
-            <div class="form-group">
-                <label for="wbwejcgsX3">First name <span class="required">*</span></label>
-                <input id="wbwejcgsX3" type="text" class="form-control" ng-model="c.accountData.profile.first_name">
+            <div class="col-md-3">
+                <form name="form" ng-submit="c.changePassword()" role="form" novalidate>
+                    <div class="form-group">
+                        <label for="account-current-password">Current password <span class="required">*</span></label>
+                        <input id="account-current-password" type="password" class="form-control" ng-model="c.accountData.user.old_password">
+                    </div>
+                    <div class="form-group">
+                        <label for="account-new-password">New password <span class="required">*</span></label>
+                        <input id="account-new-password" type="password" class="form-control" ng-model="c.accountData.user.new_password">
+                    </div>
+                    <div class="form-group">
+                        <label for="account-confirm-new-password">Confirm new password <span class="required">*</span></label>
+                        <input id="account-confirm-new-password" type="password" class="form-control" ng-model="c.accountData.user.confirm_new_password">
+                    </div>
+                    <button type="submit" class="btn btn-default">Submit</button>
+                </form> 
             </div>
-            <div class="form-group">
-                <label for="nv21ZO6wqC">Last name <span class="required">*</span></label>
-                <input id="nv21ZO6wqC" type="text" class="form-control" ng-model="c.accountData.profile.last_name">
-            </div>
-            <div class="form-group">
-                <label for="u4oXvFIvHI">Job title</label>
-                <input id="u4oXvFIvHI" type="text" class="form-control" ng-model="c.accountData.profile.job_title">
-            </div>
-            <div class="form-group">
-                <label for="ff6ossD0jg">Phone number</label>
-                <input id="ff6ossD0jg" type="text" class="form-control" ng-model="c.accountData.profile.phone_number">
-            </div>
-            <button type="submit" class="btn btn-default">Submit</button>
-        </form> 
+        </div>
     </div>
 </div>

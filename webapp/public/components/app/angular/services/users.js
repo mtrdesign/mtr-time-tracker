@@ -8,7 +8,7 @@
         var service = {};
         service.Edit = Edit;
         function Edit(userData, callback) {
-            $http.patch(envService.read('apiUrl') + '/users/' + $rootScope.globals.currentUser.profile.user.id + '/', userData)
+            $http.patch(envService.read('apiUrl') + '/users/' + $rootScope.globals.currentUser.profile.user_entry.id + '/', userData)
                 .error(function (response) {
                     callback(response);
                 })
