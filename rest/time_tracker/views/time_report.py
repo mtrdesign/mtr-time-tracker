@@ -53,27 +53,3 @@ class TimeReportViewSet(viewsets.ModelViewSet):
         time_report = time_report.qs.aggregate(total_seconds=Sum('seconds'))
         time_report['total_hours'] = TimeReport.sec_to_hours(time_report['total_seconds'])
         return Response(time_report)
-
-    def get_hours_by_month(self, request):
-        """
-        Get total hours for given filter
-        """
-        time_report = TimeReportFilter(request.GET, queryset=TimeReport.objects.active_projects(seconds__gt=0))
-        time_report = time_report.qs.\
-                        values('profile').\
-                        annotate(period=Func(F('date'), function='MONTH'), max_date=Max('date'), total_seconds=Sum('seconds')).\
-                        order_by('-max_date', '-period')
-        serializer = TimeReportProfileSerializer(time_report, many=True)
-        return Response(serializer.data)
-
-    def get_date_range(self, request):
-        """
-        Get total hours for given filter
-        """
-        time_report = TimeReportFilter(request.GET, queryset=TimeReport.objects.active_projects(seconds__gt=0))
-        time_report = time_report.qs.\
-                        values('project'). \
-                        annotate(period=Func(F('date'), function='MONTH'), min_date=Min('date'), max_date=Max('date'), ).\
-                        order_by('-max_date', '-period')
-
-        return Response(time_report)

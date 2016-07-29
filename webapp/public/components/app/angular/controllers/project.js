@@ -25,6 +25,7 @@
         c.filterData = {};
         c.filterData.profile__id = (search.profile__id) ? search.profile__id : null;
         c.filterData.project__id = $routeParams.id;
+        c.filterData.group_by = '';
         c.getProjectTimeReports = [];
         c.getTimeReportsTotalHours = [];
         c.getTimeReportsProfiles = [];
@@ -45,7 +46,7 @@
                 .then(function (project) {
                     if (typeof project.id == 'number' && project.id > 0) {
                         c.getProject = project;
-                        TimeReportsService.GetReports(id)
+                        TimeReportsService.GetReportsByConditions(c.filterData)
                             .then(function (response) {
                                 c.getProjectTimeReports = response;
                             });
@@ -56,7 +57,8 @@
                 });
         }
         function getTotalHoursByRange() {
-            TimeReportsService.GetReportsTotalHoursGroupByMonth(c.filterData)
+            c.filterData.group_by = "MONTH";
+            TimeReportsService.GetReportsProfilesByConditions(c.filterData)
                 .then(function (response) {
                     c.totalMonthHours = response;
                 });
@@ -96,7 +98,8 @@
             $location.url('/projects/' + $routeParams.id + '/time-reports?' + $.param(c.filterData));
         }
         function listDataRange() {
-            TimeReportsService.GetReportsDateRangesByConditions(c.filterData)
+            c.filterData.group_by = "MONTH";
+            TimeReportsService.GetReportsProjectsByConditions(c.filterData)
                 .then(function (response) {
                     c.listDateRange = response;
                 });

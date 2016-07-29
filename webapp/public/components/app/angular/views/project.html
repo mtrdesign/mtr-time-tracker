@@ -47,8 +47,8 @@
                             </tr>
                         </thead>
                         <tbody ng-repeat="dr in c.listDateRange">
-                            <tr ng-repeat="report in c.getProjectTimeReports | dateRange:dr.min_date:dr.max_date ">
-                                <td style="vertical-align: middle;" data-month="{{ report.date | amDateFormat:'M' }}">
+                            <tr ng-repeat="report in c.getProjectTimeReports | dateRange:dr.month:dr.year ">
+                                <td style="vertical-align: middle;">
                                     {{ report.date | amDateFormat:'dddd, DD MMMM YYYY' }}
                                 </td>
                                 <td style="vertical-align: middle;">{{ report.profile_entry.full_name }}</td>
@@ -64,7 +64,7 @@
                                 </td>
                             </tr>
                             <ngif ng-if="$last">
-                                <tr class="overall-hours" ng-repeat="totalMonthHours in c.totalMonthHours | dateRange:dr.min_date:dr.max_date">
+                                <tr class="overall-hours" ng-repeat="totalMonthHours in c.totalMonthHours | matchMonthAndYear:dr.month:dr.year">
                                     <td></td>
                                     <td>{{ totalMonthHours.profile.full_name }}</td>
                                     <td>Total time:</td>
