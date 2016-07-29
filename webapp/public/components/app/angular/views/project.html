@@ -14,21 +14,20 @@
             </div>
             <hr>
         </span>
-        <form name="form" class="form-inline search-form" ng-submit="c.filter()" role="form" novalidate>
-            <div class="col-md-3 col-xs-12">
-                <div class="form-group">
-                    <label for="profile">By profile</label>
-                    <select class="form-control full-width" name="profile" id="profile"
-                            ng-model="c.filterData.profile__id">
-                        <option value="" selected="selected">All</option>
-                        <option ng-repeat="profile in c.profiles" value="{{profile.id}}">{{profile.full_name}}</option>
-                    </select>
+        <form name="form" class="search-form" ng-submit="c.filter()" role="form" novalidate>
+            <div class="row">
+                <div class="col-md-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="profile">By profile</label>
+                        <select class="form-control full-width" name="profile" id="profile" ng-model="c.filterData.profile__id">
+                            <option value="" selected="selected">All</option>
+                            <option ng-repeat="profile in c.profiles" value="{{profile.id}}">{{profile.full_name}}</option>
+                        </select>
+                    </div>
                 </div>
             </div>
-            <div class="col-xs-12 formButton">
-                <button type="submit" class="btn btn-primary">Search</button>
-                <a ng-href="#/projects/{{ c.getProject.id }}/time-reports" class="btn btn-default">Clear</a>
-            </div>
+            <button type="submit" class="btn btn-sm btn-primary">Search</button>
+            <a ng-href="#/projects/{{ c.getProject.id }}/time-reports" class="btn btn-sm btn-default">Clear</a>
         </form>
         <div class="row">
             <div class="col-md-12">
