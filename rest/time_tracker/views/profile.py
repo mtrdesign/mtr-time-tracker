@@ -13,6 +13,7 @@ class ProfileViewSet(viewsets.ModelViewSet):
     filter_backends = (filters.DjangoFilterBackend, filters.OrderingFilter)
     filter_fields = ('user__id',)
     ordering_fields = ('first_name', 'last_name')
+    ordering = ('-first_name', '-last_name')
     
     def get_queryset(self):
         user = self.request.user

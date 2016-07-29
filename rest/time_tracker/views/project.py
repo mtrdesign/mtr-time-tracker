@@ -13,6 +13,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
     filter_backends = (filters.DjangoFilterBackend, filters.OrderingFilter)
     filter_fields = ('is_finished',)
     ordering_fields = ('name',)
+    ordering = ('name',)
 
     def get_queryset(self):
         user = self.request.user

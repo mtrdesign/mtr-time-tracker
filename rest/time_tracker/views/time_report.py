@@ -19,6 +19,7 @@ class TimeReportViewSet(viewsets.ModelViewSet):
     filter_backends = (filters.DjangoFilterBackend, filters.OrderingFilter)
     filter_class = TimeReportFilter
     ordering_fields = ('date', 'id')
+    ordering = ('-date', '-id')
 
     def get_queryset(self):
         user = self.request.user
