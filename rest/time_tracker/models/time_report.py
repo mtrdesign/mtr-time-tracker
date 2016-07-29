@@ -13,22 +13,23 @@ import time
 class TimeReportManager(models.Manager):
     use_for_related_fields = True
 
-    def active_projects(self, user,**kwargs):
-        filter = self.filter(is_active=True,
-                               profile__isnull=False,
-                               project__isnull=False,
-                               profile__is_active=True,
-                               project__is_active=True,
-                               **kwargs)
+    def active_projects(self, user, **kwargs):
+        active_filter = self.filter(is_active=True,
+                                    profile__isnull=False,
+                                    project__isnull=False,
+                                    profile__is_active=True,
+                                    project__is_active=True,
+                                    **kwargs)
         if user.is_superuser is False:
-            filter = self.filter(Q(profile__user=user) | Q(project__in=user.profile.project_set.all()))
-        return filter
+            active_filter = self.filter(Q(profile__user=user) | Q(project__in=user.profile.project_set.all()))
+        return active_filter
 
     def total_time_by(self, user, group_by, **kwargs):
         return (self.active_projects(user, **kwargs)
                 .values(group_by)
                 .annotate(total_seconds=Sum('seconds'))
                 .order_by(group_by))
+
 
 class TimeReport(models.Model):
     name = models.CharField(verbose_name=_("Name"), max_length=254, unique=False, null=False, blank=False)
