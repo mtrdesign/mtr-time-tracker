@@ -1,6 +1,5 @@
 from django.contrib.auth.models import User
 
-from rest_framework import status
 from rest_framework import viewsets
 from rest_framework.decorators import detail_route
 from rest_framework.response import Response
@@ -27,7 +26,7 @@ class UserViewSet(viewsets.ModelViewSet):
         if user.check_password(current_password) is False:
             return Response({"current_password": "doesn't match with the existing profile password."})
         if len(new_password) > 6 and new_password == confirm_new_password:
-            user.set_password(new_password);
+            user.set_password(new_password)
             user.save()
             return Response({"id": user.id})
         else:

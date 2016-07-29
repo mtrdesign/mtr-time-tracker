@@ -1,18 +1,26 @@
 (function () {
     'use strict';
-    var app = angular.module('app')
-    app.filter('dateRange', function () {
-        return function (items, from, to) {
-            var df = new Date(from);
-            var dt = new Date(to);
+    var app = angular.module('app');
+    app.filter('matchMonthAndYear', function () {
+        return function (items, month, year) {
             var result = [];
             for (var i = 0; i < items.length; i++) {
-                if(typeof(items[i].date) !== 'undefined') {
-                    var tf = new Date(items[i].date)
+                if (items[i].month == month && items[i].year == year) {
+                    result.push(items[i]);
                 }
-                if(typeof(items[i].max_date) !== 'undefined') {
-                    var tf = new Date(items[i].max_date);
-                }
+            }
+            return result;
+        };
+    });
+
+    app.filter("dateRange", function () {
+        return function (items, month, year) {
+            var d = new Date();
+            var df = d.setFullYear(year, month-1, 1);
+            var dt = d.setFullYear(year, month, 0);
+            var result = [];
+            for (var i = 0; i < items.length; i++) {
+                var tf = new Date(items[i].date)
                 if (tf >= df && tf <= dt) {
                     result.push(items[i]);
                 }
