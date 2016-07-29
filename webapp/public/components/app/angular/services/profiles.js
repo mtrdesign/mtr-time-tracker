@@ -23,7 +23,8 @@
                         .then(handleSuccess, handleError('Error getting this profile.'));
         }
         function Edit(profileData, callback) {
-            $http.patch(envService.read('apiUrl') + '/profiles/' + $rootScope.globals.currentUser.profile.id + '/', profileData)
+            var profile_id = $rootScope.globals.currentUser.profile.id
+            $http.patch(envService.read('apiUrl') + '/profiles/' + profile_id + '/', profileData)
                 .error(function (response) {
                     callback(response);
                 })

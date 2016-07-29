@@ -14,7 +14,8 @@
         '$routeParams',
         '$route'
     ];
-    function ProjectController($rootScope, $location, FlashService, PageService, ProjectsService, ProfilesService, TimeReportsService, $routeParams, $route) {
+    function ProjectController($rootScope, $location, FlashService, PageService, ProjectsService, 
+                               ProfilesService, TimeReportsService, $routeParams, $route) {
         var search = $location.search();
         var c = this;
         c.filter = filter;

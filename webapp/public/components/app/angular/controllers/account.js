@@ -12,7 +12,8 @@
         'AuthenticationService',
         'UsersService'
     ];
-    function AccountController($rootScope, $location, PageService, ProfilesService, FlashService, AuthenticationService, UsersService) {
+    function AccountController($rootScope, $location, PageService, ProfilesService, 
+                               FlashService, AuthenticationService, UsersService) {
         var c = this;
         c.changeProfile = changeProfile;
         c.changePassword = changePassword;

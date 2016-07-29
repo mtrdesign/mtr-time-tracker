@@ -4,8 +4,16 @@
         .module('app')
         .controller('TimeReportEditController', TimeReportEditController);
     TimeReportEditController.$inject = [
-        '$rootScope', '$location', 'PageService', 'FlashService', 'ProjectsService', 'TimeReportsService', '$routeParams'];
-    function TimeReportEditController($rootScope, $location, PageService, FlashService, ProjectsService, TimeReportsService, $routeParams) {
+        '$rootScope', 
+        '$location', 
+        'PageService', 
+        'FlashService', 
+        'ProjectsService', 
+        'TimeReportsService', 
+        '$routeParams'
+    ];
+    function TimeReportEditController($rootScope, $location, PageService, FlashService, 
+                                      ProjectsService, TimeReportsService, $routeParams) {
         var c = this;
         c.edit = edit;
         c.getProject = [];
