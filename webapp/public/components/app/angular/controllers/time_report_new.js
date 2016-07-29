@@ -21,7 +21,7 @@
         c.timeReportData.name = '';
         c.timeReportData.seconds = '';
         c.timeReportData.description = '';
-        c.timeReportData.date = '';
+        c.timeReportData.date = moment().format('YYYY-MM-DD');
         c.timeReportData.profile = $rootScope.globals.currentUser.profile.id;
         c.timeReportData.project = $routeParams.id;
         c.readableKeys = {};
