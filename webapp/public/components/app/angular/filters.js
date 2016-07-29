@@ -16,15 +16,19 @@
     app.filter("dateRange", function () {
         return function (items, month, year) {
             var d = new Date();
-            var df = d.setFullYear(year, month-1, 1);
-            var dt = d.setFullYear(year, month, 0);
+            d.setFullYear(year, month-1, 1);
+            var df = d.setHours(0,0);
+            d.setFullYear(year, month, 0);
+            var dt = d.setHours(23,59);
+
             var result = [];
             for (var i = 0; i < items.length; i++) {
-                var tf = new Date(items[i].date)
+                var tf = new Date(items[i].date);
                 if (tf >= df && tf <= dt) {
                     result.push(items[i]);
                 }
             }
+
             return result;
         };
     });
