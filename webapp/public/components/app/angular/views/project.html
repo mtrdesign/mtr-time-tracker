@@ -35,13 +35,13 @@
                 <div ng-if="c.getProjectTimeReports.length" class="table-responsive">
                     <table class="table table-bordered table-hover table-striped table-condensed">
                         <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Profile</th>
-                            <th>Details</th>
-                            <th>Hours</th>
-                            <th style="width: 70px;">Actions</th>
-                        </tr>
+                            <tr>
+                                <th>Date</th>
+                                <th>Profile</th>
+                                <th>Details</th>
+                                <th>Hours</th>
+                                <th style="width: 70px;">Actions</th>
+                            </tr>
                         </thead>
                         <tbody ng-repeat="dr in c.listDateRange">
                             <tr ng-repeat="report in c.getProjectTimeReports | dateRange:dr.min_date:dr.max_date ">

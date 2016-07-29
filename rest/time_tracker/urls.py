@@ -5,10 +5,11 @@ from rest_framework_jwt.views import obtain_jwt_token
 from rest_framework_jwt.views import refresh_jwt_token
 from rest_framework_jwt.views import verify_jwt_token
 
-from time_tracker.views import CompanyViewSet, ProjectViewSet, ProfileViewSet, TimeReportViewSet
+from time_tracker.views import UserViewSet, CompanyViewSet, ProjectViewSet, ProfileViewSet, TimeReportViewSet
 
 
 router = routers.DefaultRouter()
+router.register(r"users", UserViewSet)
 router.register(r"companies", CompanyViewSet)
 router.register(r"projects", ProjectViewSet)
 router.register(r"profiles", ProfileViewSet)

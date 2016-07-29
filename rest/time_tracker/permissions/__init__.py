@@ -1,3 +1,4 @@
+from time_tracker.permissions.user import UserPermission
 from time_tracker.permissions.company import CompanyPermission
 from time_tracker.permissions.profile import ProfilePermission
 from time_tracker.permissions.project import ProjectPermission

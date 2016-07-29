@@ -6,10 +6,13 @@
     AccountController.$inject = ['$rootScope', '$location', 'PageService', 'ProfilesService', 'FlashService', 'AuthenticationService', 'UsersService'];
     function AccountController($rootScope, $location, PageService, ProfilesService, FlashService, AuthenticationService, UsersService) {
         var c = this;
-        c.change = change;
+        c.changeProfile = changeProfile;
+        c.changePassword = changePassword;
         c.accountData = {};
         c.accountData.user = {};
-        c.accountData.user.username = $rootScope.globals.currentUser.profile.user.username;
+        c.accountData.user.current_password = '';
+        c.accountData.user.new_password = '';
+        c.accountData.user.confirm_new_password = '';
         c.accountData.profile = {};
         c.accountData.profile.email_address = $rootScope.globals.currentUser.profile.email_address;
         c.accountData.profile.first_name = $rootScope.globals.currentUser.profile.first_name;
@@ -22,28 +25,32 @@
         c.readableKeys.last_name = 'Last name';
         c.readableKeys.job_title = 'Job title';
         c.readableKeys.phone_number = 'Phone number';
+        c.readableKeys.current_password = 'Current password';
+        c.readableKeys.new_password = 'New password';
+        c.readableKeys.confirm_new_password = 'Confirm new password';
         (function initController() {
             PageService.resetData();
             PageService.setHtmlTitle('Account');
             PageService.setSlug('account');
         })();
-        function change() {
+        function changeProfile() {
             var messages = [];
             ProfilesService.Edit(c.accountData.profile, function (response) {
                 if (typeof response.id == 'number' && response.id > 0) {
                     FlashService.Success(['Your account has been successfully updated.']);
-                    /*UsersService.Edit(c.accountData.user, function (response) {
-                        if (typeof response.id == 'number' && response.id > 0) {
-                            AuthenticationService.SetCredentials($rootScope.globals.currentUser.token, function(response) {});
-                            FlashService.Success('Your account has been successfully updated.');
-                        } else {
-                            var error = [];
-                            angular.forEach(response, function(value, key) {
-                                error.push(key + ': ' + value);
-                            });
-                            FlashService.Error(error.join('<br>'));
-                        }
-                    });*/
+                } else {
+                    angular.forEach(response, function(value, key) {
+                        messages.push(c.readableKeys[key] + ': ' + value);
+                    });
+                    FlashService.Error(messages);
+                }
+            });
+        };
+        function changePassword() {
+            var messages = [];
+            UsersService.Edit(c.accountData.user, function (response) {
+                if (typeof response.id == 'number' && response.id > 0) {
+                    FlashService.Success(['Your account has been successfully updated.']);
                 } else {
                     angular.forEach(response, function(value, key) {
                         messages.push(c.readableKeys[key] + ': ' + value);
