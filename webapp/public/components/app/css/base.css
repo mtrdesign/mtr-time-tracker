@@ -27,16 +27,6 @@ textarea {
     overflow: hidden;
 }
 
-.overall-hours{
-    /*background-color:#e7e7e7 !important;*/
-    font-weight: 600 !important;
-}
-
-.overall-hours > td{
-    border-left:none !important;
-    border-right:none !important;
-}
-
 .overall-title{
-    font-size:18px;
+    font-size: 18px;
 }

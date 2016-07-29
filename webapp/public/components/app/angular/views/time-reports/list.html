@@ -87,7 +87,7 @@
                     <tr ng-if="c.getTimeReportsProfiles.length">
                         <td colspan="6"></td>
                     </tr>
-                    <tr ng-if="c.getTimeReportsProfiles.length" ng-repeat="reportProfile in c.getTimeReportsProfiles">
+                    <tr class="info" ng-if="c.getTimeReportsProfiles.length" ng-repeat="reportProfile in c.getTimeReportsProfiles">
                         <td colspan="2"></td>
                         <td>{{ reportProfile.profile.full_name }}</td>
                         <td>Total time: </td>
@@ -106,7 +106,7 @@
                         <td>Total time: </td>
                         <td colspan="2">{{ reportProject.total_hours }}</td>
                     </tr>
-                    <tr ng-if="c.getTimeReportsTotalHours">
+                    <tr class="info" ng-if="c.getTimeReportsTotalHours">
                         <td colspan="3"></td>
                         <td><b>Total time:</b></td>
                         <td colspan="2"><b>{{ c.getTimeReportsTotalHours.total_hours }}</b></td>

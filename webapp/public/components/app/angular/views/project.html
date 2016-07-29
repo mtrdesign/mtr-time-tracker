@@ -64,7 +64,7 @@
                                 </td>
                             </tr>
                             <ngif ng-if="$last">
-                                <tr class="overall-hours" ng-repeat="totalMonthHours in c.totalMonthHours | matchMonthAndYear:dr.month:dr.year">
+                                <tr class="info" ng-repeat="totalMonthHours in c.totalMonthHours | matchMonthAndYear:dr.month:dr.year">
                                     <td></td>
                                     <td>{{ totalMonthHours.profile.full_name }}</td>
                                     <td>Total time:</td>
@@ -74,7 +74,7 @@
                             <td colspan="5"></td>
                         </tbody>
                         <tfoot>
-                            <tr class="overall-hours">
+                            <tr class="info">
                                 <td colspan="5" class="text-center overall-title">Project Totals</td>
                             </tr>
                             <tr ng-if="c.getTimeReportsProfiles.length"
@@ -84,7 +84,7 @@
                                 <td>Total time:</td>
                                 <td colspan="2">{{ reportProfile.total_hours }}</td>
                             </tr>
-                            <tr class="overall-hours" ng-if="c.getTimeReportsTotalHours">
+                            <tr class="info" ng-if="c.getTimeReportsTotalHours">
                                 <td colspan="2"></td>
                                 <td><b>Total time:</b></td>
                                 <td colspan="2"><b>{{ c.getTimeReportsTotalHours.total_hours }}</b></td>
