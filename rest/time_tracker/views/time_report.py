@@ -21,17 +21,15 @@ class TimeReportViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         user = self.request.user
-        time_report = TimeReport.objects.active_projects(seconds__gt=0).order_by('-date', '-id')
-
-        if user.is_superuser:
-            return time_report
-        return time_report.filter(Q(profile__user=user) | Q(project__in=user.profile.project_set.all()))
+        time_report = TimeReport.objects.active_projects(user, seconds__gt=0).order_by('-date', '-id')
+        return time_report
 
     def get_profiles_reports(self, request):
         """
         Get total profiles hours for given filter
         """
-        time_report = TimeReportFilter(request.GET, queryset=TimeReport.objects.total_time_by('profile'))
+        user = self.request.user
+        time_report = TimeReportFilter(request.GET, queryset=TimeReport.objects.total_time_by(user, 'profile'))
 
         serializer = TimeReportProfileSerializer(time_report, many=True)
         return Response(serializer.data)
@@ -40,7 +38,8 @@ class TimeReportViewSet(viewsets.ModelViewSet):
         """
         Get total projects hours for given filter
         """
-        time_report = TimeReportFilter(request.GET, queryset=TimeReport.objects.total_time_by('project'))
+        user = self.request.user
+        time_report = TimeReportFilter(request.GET, queryset=TimeReport.objects.total_time_by(user, 'project'))
 
         serializer = TimeReportProjectSerializer(time_report, many=True)
         return Response(serializer.data)
@@ -49,7 +48,8 @@ class TimeReportViewSet(viewsets.ModelViewSet):
         """
         Get total hours for given filter
         """
-        time_report = TimeReportFilter(request.GET, queryset=TimeReport.objects.active_projects(seconds__gt=0))
+        user = self.request.user
+        time_report = TimeReportFilter(request.GET, queryset=TimeReport.objects.active_projects(user, seconds__gt=0))
         time_report = time_report.qs.aggregate(total_seconds=Sum('seconds'))
         time_report['total_hours'] = TimeReport.sec_to_hours(time_report['total_seconds'])
         return Response(time_report)
