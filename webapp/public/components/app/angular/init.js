@@ -1,13 +1,23 @@
 ﻿(function () {
     'use strict';
     angular
-        .module('app', ['ngRoute', 'ngCookies', 'angular-jwt', 'environment', 'angularMoment'])
+        .module('app', [
+            'ngRoute',
+            'ngCookies',
+            'angular-jwt',
+            'environment',
+            'angularMoment'
+        ])
         .config(config)
-        .constant('config', {  
+        .constant('config', {
             appTitle: 'MTR Design Projects'
         })
         .run(run);
-    config.$inject = ['$routeProvider', '$locationProvider', 'envServiceProvider'];
+    config.$inject = [
+        '$routeProvider',
+        '$locationProvider',
+        'envServiceProvider'
+    ];
     function config($routeProvider, $locationProvider, envServiceProvider) {
         envServiceProvider.config({
             domains: {
@@ -72,15 +82,24 @@
             })
             .otherwise({ redirectTo: '/404' });
     }
-    run.$inject = ['$rootScope', '$location', '$cookieStore', '$http', 'config', 'envService', 'AuthenticationService', 'PageService'];
+    run.$inject = [
+        '$rootScope',
+        '$location',
+        '$cookieStore',
+        '$http',
+        'config',
+        'envService',
+        'AuthenticationService',
+        'PageService'
+    ];
     function run($rootScope, $location, $cookieStore, $http, config, envService, AuthenticationService, PageService) {
         $rootScope.globals = $cookieStore.get('globals') || {};
         if ($rootScope.globals.currentUser) {
             AuthenticationService.SetCredentials($rootScope.globals.currentUser.token, function(response) {
-                if (typeof response.success != 'boolean' || 
-                    typeof response.success == 'boolean' && response.success == false) { 
+                if (typeof response.success != 'boolean' ||
+                    typeof response.success == 'boolean' && response.success == false) {
                     $location.path('/login');
-                } 
+                }
             });
             $http.defaults.headers.common.Authorization = 'JWT ' + $rootScope.globals.currentUser.token;
         }

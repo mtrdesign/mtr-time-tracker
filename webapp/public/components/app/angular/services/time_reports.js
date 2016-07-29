@@ -3,7 +3,11 @@
     angular
         .module('app')
         .factory('TimeReportsService', TimeReportsService);
-    TimeReportsService.$inject = ['$http', 'config', 'envService'];
+    TimeReportsService.$inject = [
+        '$http',
+        'config',
+        'envService'
+    ];
     function TimeReportsService($http, config, envService) {
         var service = {};
         service.GetReportsByConditions = GetReportsByConditions;

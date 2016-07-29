@@ -3,7 +3,10 @@
     angular
         .module('app')
         .factory('PageService', PageService);
-    PageService.$inject = ['$http', 'config'];
+    PageService.$inject = [
+        '$http',
+        'config'
+    ];
     function PageService($http, config) {
         var service = {};
         service.setHtmlTitle = setHtmlTitle;

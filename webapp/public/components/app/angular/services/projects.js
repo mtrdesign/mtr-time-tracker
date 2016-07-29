@@ -3,7 +3,11 @@
     angular
         .module('app')
         .factory('ProjectsService', ProjectsService);
-    ProjectsService.$inject = ['$http', 'config', 'envService'];
+    ProjectsService.$inject = [
+        '$http',
+        'config',
+        'envService'
+    ];
     function ProjectsService($http, config, envService) {
         var service = {};
         service.GetAllProjects = GetAllProjects;

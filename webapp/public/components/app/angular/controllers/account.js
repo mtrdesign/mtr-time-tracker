@@ -3,7 +3,15 @@
     angular
         .module('app')
         .controller('AccountController', AccountController);
-    AccountController.$inject = ['$rootScope', '$location', 'PageService', 'ProfilesService', 'FlashService', 'AuthenticationService', 'UsersService'];
+    AccountController.$inject = [
+        '$rootScope',
+        '$location',
+        'PageService',
+        'ProfilesService',
+        'FlashService',
+        'AuthenticationService',
+        'UsersService'
+    ];
     function AccountController($rootScope, $location, PageService, ProfilesService, FlashService, AuthenticationService, UsersService) {
         var c = this;
         c.changeProfile = changeProfile;

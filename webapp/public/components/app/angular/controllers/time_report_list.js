@@ -4,14 +4,15 @@
         .module('app')
         .controller('TimeReportListController', TimeReportListController);
     TimeReportListController.$inject = [
-        '$location', 
-        'FlashService', 
+        '$location',
+        'FlashService',
         'PageService',
-        'TimeReportsService', 
-        'ProfilesService', 
-        'ProjectsService'
+        'TimeReportsService',
+        'ProfilesService',
+        'ProjectsService',
+        '$route'
     ];
-    function TimeReportListController($location, FlashService, PageService, TimeReportsService, ProfilesService, ProjectsService) {
+    function TimeReportListController($location, FlashService, PageService, TimeReportsService, ProfilesService, ProjectsService, $route) {
         var search = $location.search();
         var c = this;
         c.filter = filter;
@@ -39,39 +40,33 @@
             listProjects();
             initUI();
         })();
-
         function listTimeReports() {
             TimeReportsService.GetReportsByConditions(c.filterData)
                 .then(function (response) {
                     c.getTimeReports = response;
                 });
         }
-
         function listTimeReportsProfiles() {
             TimeReportsService.GetReportsProfilesByConditions(c.filterData)
                 .then(function (response) {
                     c.getTimeReportsProfiles = response;
                 });
         }
-
         function listTimeReportsProjects() {
             TimeReportsService.GetReportsProjectsByConditions(c.filterData)
                 .then(function (response) {
                     c.getTimeReportsProjects = response;
                 });
         }
-
         function listTimeReportsTotalHours() {
             TimeReportsService.GetReportsTotalHoursByConditions(c.filterData)
                 .then(function (response) {
                     c.getTimeReportsTotalHours = response;
                 });
         }
-
         function filter() {
             $location.url('/time-reports?' + $.param(c.filterData));
         }
-
         function removeItem(id) {
             var r = confirm('Are you sure that you want to delete this item?');
             if(r){
@@ -81,21 +76,16 @@
                     } else {
                         FlashService.Error(['Unexpected error']);
                     }
-                    listTimeReports();
-                    listTimeReportsProfiles();
-                    listTimeReportsProjects();
-                    listTimeReportsTotalHours();
+                    $route.reload();
                 });
             }
         }
-
         function listProfiles() {
             ProfilesService.GetAll()
                 .then(function (response) {
                     c.profiles = response;
                 });
         }
-
         function listProjects() {
             ProjectsService.GetAllProjects()
                 .then(function (response) {

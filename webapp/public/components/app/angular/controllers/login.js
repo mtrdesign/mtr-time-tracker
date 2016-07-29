@@ -3,7 +3,12 @@
     angular
         .module('app')
         .controller('LoginController', LoginController);
-    LoginController.$inject = ['$location', 'AuthenticationService', 'FlashService', 'PageService'];
+    LoginController.$inject = [
+        '$location',
+        'AuthenticationService',
+        'FlashService',
+        'PageService'
+    ];
     function LoginController($location, AuthenticationService, FlashService, PageService) {
         var c = this;
         c.login = login;
@@ -20,7 +25,7 @@
                         if (typeof response.success == 'boolean' && response.success == true) {
                             $location.path('/');
                         } else {
-                            FlashService.Error(['The username and password you entered don\'t match.']);  
+                            FlashService.Error(['The username and password you entered don\'t match.']);
                         }
                     });
                 } else {

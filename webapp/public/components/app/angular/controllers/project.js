@@ -3,11 +3,21 @@
     angular
         .module('app')
         .controller('ProjectController', ProjectController);
-    ProjectController.$inject = ['$rootScope', '$location', 'FlashService', 'PageService', 'ProjectsService', 'ProfilesService', 'TimeReportsService', '$routeParams'];
-    function ProjectController($rootScope, $location, FlashService, PageService, ProjectsService, ProfilesService, TimeReportsService, $routeParams) {
+    ProjectController.$inject = [
+        '$rootScope',
+        '$location',
+        'FlashService',
+        'PageService',
+        'ProjectsService',
+        'ProfilesService',
+        'TimeReportsService',
+        '$routeParams',
+        '$route'
+    ];
+    function ProjectController($rootScope, $location, FlashService, PageService, ProjectsService, ProfilesService, TimeReportsService, $routeParams, $route) {
+        var search = $location.search();
         var c = this;
         c.filter = filter;
-        var search = $location.search();
         c.removeItem = removeItem;
         c.listDateRange = [];
         c.getProject = [];
@@ -45,58 +55,46 @@
                     }
                 });
         }
-
         function getTotalHoursByRange() {
             TimeReportsService.GetReportsTotalHoursGroupByMonth(c.filterData)
                 .then(function (response) {
                     c.totalMonthHours = response;
                 });
         }
-
         function listTimeReportsTotalHours() {
             TimeReportsService.GetReportsTotalHoursByConditions(c.filterData)
                 .then(function (response) {
                     c.getTimeReportsTotalHours = response;
                 });
         }
-
         function listTimeReportsProfiles() {
             TimeReportsService.GetReportsProfilesByConditions(c.filterData)
                 .then(function (response) {
                     c.getTimeReportsProfiles = response;
                 });
         }
-
         function removeItem(id) {
-            var r = confirm("Are you sure that you want to delete this item?");
+            var r = confirm('Are you sure that you want to delete this item?');
             if (r) {
                 TimeReportsService.Delete(id, function (response) {
                     if (response.length == 0) {
                         FlashService.Success(['Time report has been successfully deleted.']);
                     } else {
-                        FlashService.Error(["Unexpected error"]);
+                        FlashService.Error(['Unexpected error']);
                     }
-                    loadProject($routeParams.id);
-                    listTimeReportsProfiles();
-                    listTimeReportsTotalHours();
-                    listProfiles();
-                    getTotalHoursByRange();
-                    listDataRange();
+                    $route.reload();
                 });
             }
         }
-
         function listProfiles() {
             ProfilesService.GetAll()
                 .then(function (response) {
                     c.profiles = response;
                 });
         }
-
         function filter() {
             $location.url('/projects/' + $routeParams.id + '/time-reports?' + $.param(c.filterData));
         }
-
         function listDataRange() {
             TimeReportsService.GetReportsDateRangesByConditions(c.filterData)
                 .then(function (response) {
