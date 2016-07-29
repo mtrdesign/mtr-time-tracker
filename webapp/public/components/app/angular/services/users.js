@@ -13,7 +13,8 @@
         var service = {};
         service.Edit = Edit;
         function Edit(userData, callback) {
-            $http.post(envService.read('apiUrl') + '/users/' + $rootScope.globals.currentUser.profile.user_entry.id + '/set_password/', userData)
+            var user_id = $rootScope.globals.currentUser.profile.user_entry.id;
+            $http.post(envService.read('apiUrl') + '/users/' + user_id  + '/set_password/', userData)
                 .error(function (response) {
                     callback(response);
                 })

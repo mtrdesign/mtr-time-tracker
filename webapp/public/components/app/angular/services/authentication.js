@@ -12,7 +12,8 @@
         'jwtHelper',
         'ProfilesService'
     ];
-    function AuthenticationService($http, $cookieStore, $rootScope, config, envService, jwtHelper, ProfilesService) {
+    function AuthenticationService($http, $cookieStore, $rootScope, config,
+                                   envService, jwtHelper, ProfilesService) {
         var service = {};
         service.Login = Login;
         service.SetCredentials = SetCredentials;
@@ -20,7 +21,10 @@
         service.VerifyUser = VerifyUser;
         service.VerifyToken = VerifyToken;
         function Login(username, password, callback) {
-            $http.post(envService.read('apiUrl') + '/auth/jwt/new/', { username: username, password: password })
+            $http.post(envService.read('apiUrl') + '/auth/jwt/new/', {
+                    username: username,
+                    password: password
+                })
                 .error(function (response) {
                     callback(response);
                 })
@@ -30,12 +34,14 @@
         }
         function SetCredentials(token, callback) {
             VerifyToken(token, function(tokenResponse) {
-                if (typeof tokenResponse == 'object' && typeof tokenResponse.token == 'string' && tokenResponse.token.length > 0) {
+                if (typeof tokenResponse == 'object'
+                    && typeof tokenResponse.token == 'string'
+                    && tokenResponse.token.length > 0) {
                     $http.defaults.headers.common.Authorization = 'JWT ' + token;
                     VerifyUser(token, function(userResponse) {
-                        if (typeof userResponse[0] == 'object' &&
-                            typeof userResponse[0].id == 'number' &&
-                            userResponse[0].id > 0) {
+                        if (typeof userResponse[0] == 'object'
+                            && typeof userResponse[0].id == 'number'
+                            && userResponse[0].id > 0) {
                             $rootScope.globals = {
                                 currentUser: {
                                     token: token,
@@ -67,7 +73,9 @@
                 });
         }
         function VerifyToken(token, callback) {
-            $http.post(envService.read('apiUrl') + '/auth/jwt/verify/', { token: token })
+            $http.post(envService.read('apiUrl') + '/auth/jwt/verify/', {
+                    token: token
+                })
                 .error(function (response) {
                     callback(response);
                 })

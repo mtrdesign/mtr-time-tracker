@@ -12,7 +12,8 @@
         'TimeReportsService',
         '$routeParams'
     ];
-    function TimeReportNewController($rootScope, $location, PageService, FlashService, ProjectsService, TimeReportsService, $routeParams) {
+    function TimeReportNewController($rootScope, $location, PageService, FlashService, 
+                                     ProjectsService, TimeReportsService, $routeParams) {
         var c = this;
         c.create = create;
         c.getProject = [];

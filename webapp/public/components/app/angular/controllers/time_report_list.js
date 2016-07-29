@@ -12,7 +12,8 @@
         'ProjectsService',
         '$route'
     ];
-    function TimeReportListController($location, FlashService, PageService, TimeReportsService, ProfilesService, ProjectsService, $route) {
+    function TimeReportListController($location, FlashService, PageService, TimeReportsService,
+                                      ProfilesService, ProjectsService, $route) {
         var search = $location.search();
         var c = this;
         c.filter = filter;

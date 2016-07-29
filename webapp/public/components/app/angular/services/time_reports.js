@@ -26,27 +26,27 @@
                         .then(handleSuccess, handleError('Error getting time reports.'));
         }
         function GetReportsByConditions(conditions) {
-            return $http.get(envService.read('apiUrl') + '/time-reports/?'+$.param(conditions))
+            return $http.get(envService.read('apiUrl') + '/time-reports/?' + $.param(conditions))
                         .then(handleSuccess, handleError('Error getting time reports.'));
         }
         function GetReportsProfilesByConditions(conditions) {
-            return $http.get(envService.read('apiUrl') + '/time-reports/profiles/?'+$.param(conditions))
+            return $http.get(envService.read('apiUrl') + '/time-reports/profiles/?' + $.param(conditions))
                         .then(handleSuccess, handleError('Error getting time reports.'));
         }
         function GetReportsProjectsByConditions(conditions) {
-            return $http.get(envService.read('apiUrl') + '/time-reports/projects/?'+$.param(conditions))
+            return $http.get(envService.read('apiUrl') + '/time-reports/projects/?' + $.param(conditions))
                         .then(handleSuccess, handleError('Error getting time reports.'));
         }
         function GetReportsTotalHoursByConditions(conditions) {
-            return $http.get(envService.read('apiUrl') + '/time-reports/total-hours/?'+$.param(conditions))
+            return $http.get(envService.read('apiUrl') + '/time-reports/total-hours/?' + $.param(conditions))
                         .then(handleSuccess, handleError('Error getting time reports.'));
         }
         function GetReportsTotalHoursGroupByMonth(conditions) {
-            return $http.get(envService.read('apiUrl') + '/time-reports/get-hours-by-month/?'+$.param(conditions))
+            return $http.get(envService.read('apiUrl') + '/time-reports/get-hours-by-month/?' + $.param(conditions))
                         .then(handleSuccess, handleError('Error getting time reports.'));
         }
         function GetReportsDateRangesByConditions(conditions) {
-            return $http.get(envService.read('apiUrl') + '/time-reports/get-date-range/?'+$.param(conditions))
+            return $http.get(envService.read('apiUrl') + '/time-reports/get-date-range/?' + $.param(conditions))
                         .then(handleSuccess, handleError('Error getting time reports.'));
         }
         function GetReports(project_id) {
