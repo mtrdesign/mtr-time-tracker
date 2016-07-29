@@ -60,7 +60,7 @@ class TimeReport(models.Model):
             errors.setdefault('seconds', []).append(_("Duration must be lower than 24 hours."))
         if errors:
             raise exceptions.ValidationError(errors)
-        
+
     @property
     def hours(self):
         """
