@@ -33,10 +33,12 @@
             PageService.setHtmlTitle('Account');
             PageService.setSlug('account');
         })();
+
         function changeProfile() {
             var messages = [];
             ProfilesService.Edit(c.accountData.profile, function (response) {
                 if (typeof response.id == 'number' && response.id > 0) {
+                    $rootScope.globals.currentUser.profile = response;
                     FlashService.Success(['Your account has been successfully updated.']);
                 } else {
                     angular.forEach(response, function(value, key) {
