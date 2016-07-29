@@ -13,12 +13,7 @@
             </div>
             <hr>
         </span>
-        <div ng-if="!c.getProjectTimeReports.length" class="panel panel-default">
-            <div class="panel-body">
-                Unfortunately there are no results matching your query.
-            </div>
-        </div> 
-        <form ng-if="c.getProjectTimeReports.length" name="form" class="search-form" ng-submit="c.filter()" role="form" novalidate>
+        <form name="form" class="search-form" ng-submit="c.filter()" role="form" novalidate>
             <div class="row">
                 <div class="col-md-12 col-xs-12">
                     <div class="form-group">
@@ -33,6 +28,11 @@
             <button type="submit" class="btn btn-sm btn-primary">Search</button>
             <a ng-href="#/projects/{{ c.getProject.id }}/time-reports" class="btn btn-sm btn-default">Clear</a>
         </form>
+        <div ng-if="!c.getProjectTimeReports.length" class="panel panel-default">
+            <div class="panel-body">
+                Unfortunately there are no results matching your query.
+            </div>
+        </div> 
         <div ng-if="c.getProjectTimeReports.length" class="row">
             <div class="col-md-12">
                 <div class="table-responsive">
