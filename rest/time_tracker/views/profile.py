@@ -10,10 +10,11 @@ class ProfileViewSet(viewsets.ModelViewSet):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
     permission_classes = (ProfilePermission,)
-    filter_backends = (filters.DjangoFilterBackend,)
+    filter_backends = (filters.DjangoFilterBackend, filters.OrderingFilter)
     filter_fields = ('user__id',)
+    ordering_fields = ('first_name', 'last_name')
     
     def get_queryset(self):
         user = self.request.user
-        profile = Profile.objects.filter(is_active=True).order_by('-first_name', '-last_name')
+        profile = Profile.objects.filter(is_active=True)
         return profile

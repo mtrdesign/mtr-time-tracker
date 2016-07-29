@@ -16,12 +16,13 @@ class TimeReportViewSet(viewsets.ModelViewSet):
     queryset = TimeReport.objects.all()
     serializer_class = TimeReportSerializer
     permission_classes = (TimeReportPermission,)
-    filter_backends = (filters.DjangoFilterBackend,)
+    filter_backends = (filters.DjangoFilterBackend, filters.OrderingFilter)
     filter_class = TimeReportFilter
+    ordering_fields = ('date', 'id')
 
     def get_queryset(self):
         user = self.request.user
-        time_report = TimeReport.objects.active_projects(seconds__gt=0).order_by('-date', '-id')
+        time_report = TimeReport.objects.active_projects(seconds__gt=0)
 
         if user.is_superuser:
             return time_report
