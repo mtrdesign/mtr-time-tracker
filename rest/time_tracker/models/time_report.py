@@ -21,7 +21,7 @@ class TimeReportManager(models.Manager):
                                project__is_active=True,
                                **kwargs)
         if user.is_superuser is False:
-          filter = self.filter(Q(profile__user=user) | Q(project__in=user.profile.project_set.all()))
+            filter = self.filter(Q(profile__user=user) | Q(project__in=user.profile.project_set.all()))
         return filter
 
     def total_time_by(self, user, group_by, **kwargs):
@@ -60,7 +60,7 @@ class TimeReport(models.Model):
             errors.setdefault('seconds', []).append(_("Duration must be lower than 24 hours."))
         if errors:
             raise exceptions.ValidationError(errors)
-        
+
     @property
     def hours(self):
         """
