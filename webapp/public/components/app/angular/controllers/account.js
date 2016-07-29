@@ -3,7 +3,15 @@
     angular
         .module('app')
         .controller('AccountController', AccountController);
-    AccountController.$inject = ['$rootScope', '$location', 'PageService', 'ProfilesService', 'FlashService', 'AuthenticationService', 'UsersService'];
+    AccountController.$inject = [
+        '$rootScope',
+        '$location',
+        'PageService',
+        'ProfilesService',
+        'FlashService',
+        'AuthenticationService',
+        'UsersService'
+    ];
     function AccountController($rootScope, $location, PageService, ProfilesService, FlashService, AuthenticationService, UsersService) {
         var c = this;
         c.changeProfile = changeProfile;
@@ -33,10 +41,12 @@
             PageService.setHtmlTitle('Account');
             PageService.setSlug('account');
         })();
+
         function changeProfile() {
             var messages = [];
             ProfilesService.Edit(c.accountData.profile, function (response) {
                 if (typeof response.id == 'number' && response.id > 0) {
+                    $rootScope.globals.currentUser.profile = response;
                     FlashService.Success(['Your account has been successfully updated.']);
                 } else {
                     angular.forEach(response, function(value, key) {

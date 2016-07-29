@@ -15,7 +15,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         user = self.request.user
-        project = Project.objects.filter(is_active=True)
+        project = Project.objects.filter(is_active=True).order_by('name')
         if user.is_superuser:
             return project
         return project.filter(profiles__user=user)

@@ -3,7 +3,11 @@
     angular
         .module('app')
         .controller('HomeController', HomeController);
-    HomeController.$inject = ['ProjectsService', '$rootScope', 'PageService'];
+    HomeController.$inject = [
+        'ProjectsService',
+        '$rootScope',
+        'PageService'
+    ];
     function HomeController(ProjectsService, $rootScope, PageService) {
         var c = this;
         c.getActiveProjects = [];

@@ -3,7 +3,15 @@
     angular
         .module('app')
         .factory('AuthenticationService', AuthenticationService);
-    AuthenticationService.$inject = ['$http', '$cookieStore', '$rootScope', 'config', 'envService', 'jwtHelper', 'ProfilesService'];
+    AuthenticationService.$inject = [
+        '$http',
+        '$cookieStore',
+        '$rootScope',
+        'config',
+        'envService',
+        'jwtHelper',
+        'ProfilesService'
+    ];
     function AuthenticationService($http, $cookieStore, $rootScope, config, envService, jwtHelper, ProfilesService) {
         var service = {};
         service.Login = Login;
@@ -25,8 +33,8 @@
                 if (typeof tokenResponse == 'object' && typeof tokenResponse.token == 'string' && tokenResponse.token.length > 0) {
                     $http.defaults.headers.common.Authorization = 'JWT ' + token;
                     VerifyUser(token, function(userResponse) {
-                        if (typeof userResponse[0] == 'object' && 
-                            typeof userResponse[0].id == 'number' && 
+                        if (typeof userResponse[0] == 'object' &&
+                            typeof userResponse[0].id == 'number' &&
                             userResponse[0].id > 0) {
                             $rootScope.globals = {
                                 currentUser: {
@@ -38,12 +46,12 @@
                             callback({'success': true});
                         } else {
                             ClearCredentials();
-                            callback({'success': false}); 
+                            callback({'success': false});
                         }
-                    }); 
+                    });
                 } else {
                     ClearCredentials();
-                    callback({'success': false}); 
+                    callback({'success': false});
                 }
             });
         }
@@ -56,7 +64,7 @@
             ProfilesService.GetOneByUserID(jwtHelper.decodeToken(token).user_id)
                 .then(function (profile) {
                     callback(profile);
-                });  
+                });
         }
         function VerifyToken(token, callback) {
             $http.post(envService.read('apiUrl') + '/auth/jwt/verify/', { token: token })
@@ -65,7 +73,7 @@
                 })
                 .success(function (response) {
                    callback(response);
-                }); 
+                });
         }
         return service;
     }

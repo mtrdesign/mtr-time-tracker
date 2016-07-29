@@ -3,7 +3,12 @@
     angular
         .module('app')
         .factory('UsersService', UsersService);
-    UsersService.$inject = ['$http', 'config', 'envService', '$rootScope'];
+    UsersService.$inject = [
+        '$http',
+        'config',
+        'envService',
+        '$rootScope'
+    ];
     function UsersService($http, config, envService, $rootScope) {
         var service = {};
         service.Edit = Edit;

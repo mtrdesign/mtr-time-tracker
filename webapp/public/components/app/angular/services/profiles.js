@@ -3,7 +3,12 @@
     angular
         .module('app')
         .factory('ProfilesService', ProfilesService);
-    ProfilesService.$inject = ['$http', 'config', 'envService', '$rootScope'];
+    ProfilesService.$inject = [
+        '$http',
+        'config',
+        'envService',
+        '$rootScope'
+    ];
     function ProfilesService($http, config, envService, $rootScope) {
         var service = {};
         service.GetAll = GetAll;

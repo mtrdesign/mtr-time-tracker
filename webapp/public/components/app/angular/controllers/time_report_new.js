@@ -3,7 +3,15 @@
     angular
         .module('app')
         .controller('TimeReportNewController', TimeReportNewController);
-    TimeReportNewController.$inject = ['$rootScope', '$location', 'PageService', 'FlashService', 'ProjectsService', 'TimeReportsService', '$routeParams'];
+    TimeReportNewController.$inject = [
+        '$rootScope',
+        '$location',
+        'PageService',
+        'FlashService',
+        'ProjectsService',
+        'TimeReportsService',
+        '$routeParams'
+    ];
     function TimeReportNewController($rootScope, $location, PageService, FlashService, ProjectsService, TimeReportsService, $routeParams) {
         var c = this;
         c.create = create;
@@ -13,7 +21,7 @@
         c.timeReportData.name = '';
         c.timeReportData.seconds = '';
         c.timeReportData.description = '';
-        c.timeReportData.date = '';
+        c.timeReportData.date = moment().format('YYYY-MM-DD');
         c.timeReportData.profile = $rootScope.globals.currentUser.profile.id;
         c.timeReportData.project = $routeParams.id;
         c.readableKeys = {};
@@ -25,7 +33,7 @@
             PageService.resetData();
             PageService.setHtmlTitle('Projects');
             PageService.setSlug('projects');
-            loadProject($routeParams.id); 
+            loadProject($routeParams.id);
             initUI();
         })();
         function loadProject(id) {
@@ -38,7 +46,7 @@
                         $location.path('/404');
                     }
                 });
-        }       
+        }
         function create() {
             var messages = [];
             TimeReportsService.Create(c.timeReportData, function (response) {

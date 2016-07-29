@@ -2,6 +2,10 @@ body {
     padding-top: 70px;
 }
 
+textarea {
+    resize: vertical;
+}
+
 .alert span {
     display: block;
 }
