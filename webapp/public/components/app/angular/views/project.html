@@ -6,15 +6,19 @@
         <span ng-if="!c.getProject.is_finished">
             <div class="row">
                 <div class="col-md-12">
-                    <a class="btn btn-default btn-sm" href="#"
-                       ng-href="#/projects/{{ c.getProject.id }}/time-reports/new">
+                    <a class="btn btn-default btn-sm" href="#" ng-href="#/projects/{{ c.getProject.id }}/time-reports/new">
                         Add time
                     </a>
                 </div>
             </div>
             <hr>
         </span>
-        <form name="form" class="search-form" ng-submit="c.filter()" role="form" novalidate>
+        <div ng-if="!c.getProjectTimeReports.length" class="panel panel-default">
+            <div class="panel-body">
+                Unfortunately there are no results matching your query.
+            </div>
+        </div> 
+        <form ng-if="c.getProjectTimeReports.length" name="form" class="search-form" ng-submit="c.filter()" role="form" novalidate>
             <div class="row">
                 <div class="col-md-12 col-xs-12">
                     <div class="form-group">
@@ -29,9 +33,9 @@
             <button type="submit" class="btn btn-sm btn-primary">Search</button>
             <a ng-href="#/projects/{{ c.getProject.id }}/time-reports" class="btn btn-sm btn-default">Clear</a>
         </form>
-        <div class="row">
+        <div ng-if="c.getProjectTimeReports.length" class="row">
             <div class="col-md-12">
-                <div ng-if="c.getProjectTimeReports.length" class="table-responsive">
+                <div class="table-responsive">
                     <table class="table table-bordered table-hover table-striped table-condensed">
                         <thead>
                             <tr>
@@ -44,8 +48,8 @@
                         </thead>
                         <tbody ng-repeat="dr in c.listDateRange">
                             <tr ng-repeat="report in c.getProjectTimeReports | dateRange:dr.min_date:dr.max_date ">
-                                <td style="vertical-align: middle;" data-month="{{ report.date | amDateFormat:'M' }}">{{ report.date |
-                                    amDateFormat:'dddd, DD MMMM YYYY' }}
+                                <td style="vertical-align: middle;" data-month="{{ report.date | amDateFormat:'M' }}">
+                                    {{ report.date | amDateFormat:'dddd, DD MMMM YYYY' }}
                                 </td>
                                 <td style="vertical-align: middle;">{{ report.profile_entry.full_name }}</td>
                                 <td style="vertical-align: middle;">{{ report.name }}</td>
@@ -67,24 +71,24 @@
                                     <td colspan="2">{{ totalMonthHours.total_hours }}</td>
                                 </tr>
                             </ngif>
-                             <td colspan="5"></td>
+                            <td colspan="5"></td>
                         </tbody>
                         <tfoot>
-                        <tr class="overall-hours">
-                            <td colspan="5" class="text-center overall-title">Project Totals</td>
-                        </tr>
-                        <tr ng-if="c.getTimeReportsProfiles.length"
-                            ng-repeat="reportProfile in c.getTimeReportsProfiles">
-                            <td></td>
-                            <td>{{ reportProfile.profile.full_name }}</td>
-                            <td>Total time:</td>
-                            <td colspan="2">{{ reportProfile.total_hours }}</td>
-                        </tr>
-                        <tr class="overall-hours" ng-if="c.getTimeReportsTotalHours">
-                            <td colspan="2"></td>
-                            <td ><b>Total time: </b></td>
-                            <td colspan="2"><b>{{ c.getTimeReportsTotalHours.total_hours }}</b></td>
-                        </tr>
+                            <tr class="overall-hours">
+                                <td colspan="5" class="text-center overall-title">Project Totals</td>
+                            </tr>
+                            <tr ng-if="c.getTimeReportsProfiles.length"
+                                ng-repeat="reportProfile in c.getTimeReportsProfiles">
+                                <td></td>
+                                <td>{{ reportProfile.profile.full_name }}</td>
+                                <td>Total time:</td>
+                                <td colspan="2">{{ reportProfile.total_hours }}</td>
+                            </tr>
+                            <tr class="overall-hours" ng-if="c.getTimeReportsTotalHours">
+                                <td colspan="2"></td>
+                                <td><b>Total time:</b></td>
+                                <td colspan="2"><b>{{ c.getTimeReportsTotalHours.total_hours }}</b></td>
+                            </tr>
                         </tfoot>
                     </table>
                 </div>

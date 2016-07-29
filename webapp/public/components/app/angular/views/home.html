@@ -1,6 +1,11 @@
-﻿<div ng-if="c.getActiveProjects.length" class="panel panel-default">
+﻿<div ng-if="!c.getActiveProjects.length && !c.getFinishedProjects.length" class="panel panel-default">
+    <div class="panel-body">
+        Unfortunately there are no results matching your query.
+    </div>
+</div>
+<div ng-if="c.getActiveProjects.length" class="panel panel-default">
     <div class="panel-heading">
-        My projects
+        My active projects
     </div>
     <div class="panel-body">
         <div class="list-group" ng-repeat="project in c.getActiveProjects">
@@ -10,7 +15,7 @@
 </div>
 <div ng-if="c.getFinishedProjects.length" class="panel panel-default">
     <div class="panel-heading">
-        Finished projects
+        My finished projects
     </div>
     <div class="panel-body">
         <div class="list-group" ng-repeat="project in c.getFinishedProjects">
