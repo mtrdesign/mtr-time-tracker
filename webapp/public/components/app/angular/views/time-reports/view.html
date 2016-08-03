@@ -8,23 +8,23 @@
                 <div class="col-md-12">
                         <div class="form-group">
                             <label>Person </label>
-                            <div>{{ c.timeReportData.profile_entry.full_name }}</div>
+                            <div ng-bind="c.timeReportData.profile_entry.full_name"></div>
                         </div>
                         <div class="form-group">
                             <label>Name </label>
-                            <div>{{ c.timeReportData.name }}</div>
+                            <div ng-bind="c.timeReportData.name "></div>
                         </div>
                         <div class="form-group">
                             <label>Hours </label>
-                            <div>{{ c.timeReportData.hours }}</div>
+                            <div ng-bind="c.timeReportData.hours"></div>
                         </div>
                         <div class="form-group">
                             <label>Description </label>
-                            <div>{{ c.timeReportData.description }}</div>
+                            <textarea rows="8" class="form-control" ng-bind="c.timeReportData.description" disabled></textarea>
                         </div>
                         <div class="form-group">
                             <label>Date </label>
-                            <div>{{ c.timeReportData.date }}</div>
+                            <div ng-bind="c.timeReportData.date"></div>
                         </div>
 
                         <a ng-if="globals.currentUser.profile.user_entry.is_superuser || globals.currentUser.profile.id == c.timeReportData.profile_entry.id"  href="#" ng-href="#/projects/{{ c.getProject.id }}/time-reports/{{ c.timeReportData.id }}" class="btn btn-default">Edit</a>
