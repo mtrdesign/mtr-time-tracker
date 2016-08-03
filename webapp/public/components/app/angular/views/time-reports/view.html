@@ -1,0 +1,38 @@
+﻿<md-content>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            {{ c.getProject.name }}'s time reports
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Person </label>
+                            <div>{{ c.timeReportData.profile_entry.full_name }}</div>
+                        </div>
+                        <div class="form-group">
+                            <label>Name </label>
+                            <div>{{ c.timeReportData.name }}</div>
+                        </div>
+                        <div class="form-group">
+                            <label>Hours </label>
+                            <div>{{ c.timeReportData.hours }}</div>
+                        </div>
+                        <div class="form-group">
+                            <label>Description </label>
+                            <div>{{ c.timeReportData.description }}</div>
+                        </div>
+                        <div class="form-group">
+                            <label>Date </label>
+                            <div>{{ c.timeReportData.date }}</div>
+                        </div>
+
+                        <a ng-if="globals.currentUser.profile.user_entry.is_superuser || globals.currentUser.profile.id == c.timeReportData.profile_entry.id"  href="#" ng-href="#/projects/{{ c.getProject.id }}/time-reports/{{ c.timeReportData.id }}" class="btn btn-default">Edit</a>
+                        <a ng-if="globals.currentUser.profile.user_entry.is_superuser || globals.currentUser.profile.id == c.timeReportData.profile_entry.id"  ng-click="c.removeItem(c.timeReportData.id)" class="btn btn-danger">Delete</a>
+
+                        <a href="#" onclick="history.go(-1); return false;" class="btn btn-link">Back</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</md-content>

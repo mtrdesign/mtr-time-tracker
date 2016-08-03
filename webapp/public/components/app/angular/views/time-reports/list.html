@@ -73,7 +73,7 @@
                             </a>
                         </td>
                         <td style="vertical-align: middle;">{{ report.profile_entry.full_name }}</td>
-                        <td style="vertical-align: middle;">{{ report.name }}</td>
+                        <td style="vertical-align: middle;"><a href="#" ng-href="#/projects/{{ report.project_entry.id }}/time-reports/{{ report.id }}/view">{{ report.name }}</a></td>
                         <td style="vertical-align: middle;">{{ report.hours }}</td>
                         <td>
                             <a ng-if="globals.currentUser.profile.user_entry.is_superuser || globals.currentUser.profile.id == report.profile_entry.id" class="btn btn-primary btn-xs" href="#" ng-href="#/projects/{{ report.project_entry.id }}/time-reports/{{ report.id }}">

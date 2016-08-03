@@ -60,6 +60,11 @@
                 templateUrl: 'components/app/angular/views/time-reports/edit.html',
                 controllerAs: 'c'
             })
+            .when('/projects/:project_id/time-reports/:id/view', {
+                controller: 'TimeReportViewController',
+                templateUrl: 'components/app/angular/views/time-reports/view.html',
+                controllerAs: 'c'
+            })
             .when('/time-reports', {
                 controller: 'TimeReportListController',
                 templateUrl: 'components/app/angular/views/time-reports/list.html',
