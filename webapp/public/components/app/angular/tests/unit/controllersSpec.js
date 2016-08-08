@@ -1,25 +1,35 @@
-describe("Unit: Testing Controllers", function () {
-    var $controller, $rootScope;
-
-    beforeEach(angular.mock.module('app'));
-    beforeEach(angular.mock.inject(function (_$controller_,  _$rootScope_) {
-        $controller = _$controller_;
-        /* Set profile */
-        $rootScope = _$rootScope_.$new();
-        $rootScope.globals.currentUser = {};
-        $rootScope.globals.currentUser.profile = {};
-    }));
-
-    /* Check controllers */
-    it('should have a HomeController controller', function () {
-        var controller = $controller('HomeController', {$scope: $rootScope});
-        expect(controller).toBeDefined();
-    });
-
-    it('should have a AccountController controller', function () {
-        var controller = $controller('AccountController', {$scope: $rootScope});
-        expect(controller).toBeDefined();
-    });
-
-});
-
+// describe("Unit: Testing Controllers", function () {
+//     var $controller, $location, scope;
+//
+//     beforeEach(angular.mock.module('app'));
+//
+//     beforeEach(inject(function ($injector) {
+//         scope = $injector.get('$rootScope');
+//         $location = $injector.get('$location');
+//         $controller = $injector.get('$controller');
+//         scope.globals.currentUser = {};
+//         scope.globals.currentUser.profile = {};
+//     }));
+//
+//     /* Check controllers */
+//     it('should have a HomeController controller', function () {
+//         var controller = $controller('HomeController', {$scope: scope});
+//         expect(controller).toBeDefined();
+//     });
+//
+//     it('should have a AccountController controller', function () {
+//         var controller = $controller('AccountController', {scope: scope});
+//         expect(controller).toBeDefined();
+//     });
+//
+//     it('should have a LoginController controller', function () {
+//         var controller = $controller('LoginController', {scope: scope});
+//         expect(controller).toBeDefined();
+//     });
+//
+//     it('Login url', function () {
+//         $location.path("/login");
+//         expect($location.path()).toBe('/login');
+//     });
+// });
+//

@@ -11,6 +11,7 @@ module.exports = function(config) {
       'bower/angular-jwt/dist/angular-jwt.min.js',
       'bower/angular-moment/angular-moment.min.js',
       'bower/angular-mocks/angular-mocks.js',
+      'bower/jquery/dist/jquery.min.js',
       'app/angular/init.js',
       'app/angular/filters.js',
       'app/angular/services/*.js',
