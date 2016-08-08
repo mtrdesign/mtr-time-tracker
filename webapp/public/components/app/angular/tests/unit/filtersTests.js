@@ -1,4 +1,4 @@
-describe("Filter Test", function () {
+describe("Unit: Testing Filters", function () {
     var $filter;
 
     beforeEach(angular.mock.module('app'));
