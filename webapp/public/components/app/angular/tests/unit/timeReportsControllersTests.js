@@ -252,6 +252,31 @@ describe("Unit: Testing Controllers", function () {
         });
     });
 
+    it('create time report', function () {
+        var timeReportData = {"name":"Test test","seconds":7200,"description":"sad asdas as dsa as asd","date":"2016-08-09","profile":1,"project":"1"}
+        $httpBackend.expectPOST(baseUrl + '/time-reports/').respond(200, timeReportData);
 
+        TimeReportsService.Create(timeReportData, callback);
+
+        $httpBackend.flush();
+
+        function callback(result) {
+            expect(timeReportData).toEqual(result);
+        }
+    });
+
+    it('edit time report', function () {
+        var id = 1;
+        var timeReportData = {"id":id,"name":"Test test","date":"2016-08-09","description":"sad asdas as dsa as asd","hours":"02:00","seconds":7200,"profile_entry":{"id":1,"first_name":"Svetlozat","last_name":"Penev","full_name":"Svetlozat Penev","email_address":null,"job_title":"Developer","phone_number":"3","user_entry":{"id":1,"username":"sve","email":"admin@admin.com","is_superuser":true},"company_entry":{"id":1,"name":"Svet","email_address":"ad@ad.com","phone_number":"","fax_number":"","website_url":"","address":""}},"project_entry":{"id":1,"name":"Time tracker","description":"bla bla bla bla","is_finished":false},"profile":1,"project":1};
+        $httpBackend.expectPATCH(baseUrl + '/time-reports/' + id + '/').respond(200, timeReportData);
+
+        TimeReportsService.Update(id, timeReportData, callback);
+
+        $httpBackend.flush();
+
+        function callback(result) {
+            expect(timeReportData).toEqual(result);
+        }
+    });
 });
 
