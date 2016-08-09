@@ -29,9 +29,9 @@ describe("Unit: Testing Controllers", function () {
             "is_finished": false
         }];
         $httpBackend.expectGET(baseUrl + "/projects/").respond(200, projectData);
-        var promice = ProjectsService.GetAllProjects();
+        var promices = ProjectsService.GetAllProjects();
         $httpBackend.flush();
-        promice.then(function (result) {
+        promices.then(function (result) {
             expect(projectData).toEqual(result);
         }, function (err) {
             expect(projectData).notEqual(err);
