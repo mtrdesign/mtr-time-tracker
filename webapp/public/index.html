@@ -5,6 +5,7 @@
         <title>{{ page.html_title }}</title>
         <link type="text/css" rel="stylesheet" href="components/bower/bootstrap/dist/css/bootstrap.min.css">
         <link type="text/css" rel="stylesheet" href="components/bower/datetimepicker/jquery.datetimepicker.css">
+        <link type="text/css" rel="stylesheet" href="components/app/css/loading.css">
         <link type="text/css" rel="stylesheet" href="components/app/css/base.css">
     </head>
     <body>
@@ -37,6 +38,7 @@
             </div>
             <div ng-view></div>
         </div>
+        <div class="loading" http-loader>Loading</div>
         <script src="components/bower/jquery/dist/jquery.min.js"></script>
         <script src="components/bower/bootstrap/dist/js/bootstrap.min.js"></script>
         <script src="components/bower/moment/min/moment.min.js"></script>
