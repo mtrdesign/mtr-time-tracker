@@ -1,10 +1,12 @@
 var webpack = require('webpack');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
+// var BowerWebpackPlugin = require("bower-webpack-plugin");
 
 module.exports = {
     entry: [
         './public/components/app/css/loading.css',
         './public/components/app/css/base.css',
+
 
         // './public/components/bower/jquery/dist/jquery.min.js',
         // './public/components/bower/bootstrap/dist/js/bootstrap.min.js',
@@ -38,28 +40,46 @@ module.exports = {
         './public/components/app/angular/controllers/time_report_list.js',
         './public/components/app/angular/controllers/time_report_edit.js',
         './public/components/app/angular/controllers/time_report_view.js',
-        './public/components/app/angular/controllers/login.js'
+        './public/components/app/angular/controllers/login.js',
     ],
     output: {
         path: './public/components/app/js',
         filename: 'app.min.js'
     },
+    resolve: {
+        modulesDirectories: ["./public/components/bower/"],
+    },
     plugins: [
         new webpack.optimize.UglifyJsPlugin({
             compress: {
-                warnings: false,
+                warnings: false
             },
             output: {
-                comments: false,
-            },
+                comments: false
+            }
         }),
-        new ExtractTextPlugin("../css/app.min.css")
+        new ExtractTextPlugin("../css/app.min.css"),
+        new webpack.ProvidePlugin({
+            $: "jquery",
+            jQuery: "jquery"
+        }),
+        new webpack.ResolverPlugin(
+            new webpack.ResolverPlugin.DirectoryDescriptionFilePlugin("bower.json", ["main"])
+        )
     ],
     module: {
         loaders: [
             {
                 test: /\.css$/,
                 loader: ExtractTextPlugin.extract("style-loader", "css-loader")
+            },
+            {
+                test: /\.(woff|svg|ttf|eot)([\?]?.*)$/,
+                loader: "file-loader?name=[name].[ext]"
+            },
+            {
+                test: /[\/]angular\.js$/,
+                loader: "exports?angular"
             }
         ]
     }
