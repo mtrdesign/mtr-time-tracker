@@ -1,8 +1,10 @@
 {
   "name": "mtr-time-tracker",
   "description": "",
+  "repository": "https://github.com/mtrdesign/mtr-time-tracker",
   "license": "MIT",
   "devDependencies": {
+    "css-loader": "^0.23.1",
     "http-server": "^0.9.0",
     "jasmine-core": "^2.4.1",
     "karma": "^0.13.22",
@@ -11,7 +13,11 @@
     "karma-jasmine": "^0.3.8",
     "karma-junit-reporter": "^0.4.2",
     "protractor": "^3.3.0",
+    "style-loader": "^0.13.1",
     "webpack": "^1.13.1"
   },
-  "scripts": {}
+  "scripts": {},
+  "dependencies": {
+    "extract-text-webpack-plugin": "^1.0.1"
+  }
 }

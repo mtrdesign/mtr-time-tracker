@@ -1,20 +1,23 @@
 var webpack = require('webpack');
-var path = require("path");
+var ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 module.exports = {
     entry: [
+        './public/components/app/css/loading.css',
+        './public/components/app/css/base.css',
+
         // './public/components/bower/jquery/dist/jquery.min.js',
         // './public/components/bower/bootstrap/dist/js/bootstrap.min.js',
-         // './public/components/bower/moment/min/moment.min.js',
-         // './public/components/bower/datetimepicker/build/jquery.datetimepicker.full.min.js',
-         // './public/components/bower/jquery-mask-plugin/dist/jquery.mask.min.js',
-        
-         // './public/components/bower/angular/angular.min.js',
-         // './public/components/bower/angular-environment/dist/angular-environment.min.js',
-         // './public/components/bower/angular-cookies/angular-cookies.js',
-         // './public/components/bower/angular-route/angular-route.js',
-         // './public/components/bower/angular-jwt/dist/angular-jwt.min.js',
-         // './public/components/bower/angular-moment/angular-moment.min.js',
+        // './public/components/bower/moment/min/moment.min.js',
+        // './public/components/bower/datetimepicker/build/jquery.datetimepicker.full.min.js',
+        // './public/components/bower/jquery-mask-plugin/dist/jquery.mask.min.js',
+
+        // './public/components/bower/angular/angular.min.js',
+        // './public/components/bower/angular-environment/dist/angular-environment.min.js',
+        // './public/components/bower/angular-cookies/angular-cookies.js',
+        // './public/components/bower/angular-route/angular-route.js',
+        // './public/components/bower/angular-jwt/dist/angular-jwt.min.js',
+        // './public/components/bower/angular-moment/angular-moment.min.js',
 
         './public/components/app/angular/init.js',
         './public/components/app/angular/filters.js',
@@ -39,7 +42,7 @@ module.exports = {
     ],
     output: {
         path: './public/components/app/js',
-        filename: 'app.bundle.js'
+        filename: 'app.min.js'
     },
     plugins: [
         new webpack.optimize.UglifyJsPlugin({
@@ -50,5 +53,14 @@ module.exports = {
                 comments: false,
             },
         }),
-    ]
+        new ExtractTextPlugin("../css/app.min.css")
+    ],
+    module: {
+        loaders: [
+            {
+                test: /\.css$/,
+                loader: ExtractTextPlugin.extract("style-loader", "css-loader")
+            }
+        ]
+    }
 };
