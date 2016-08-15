@@ -1,1 +1,4 @@
 public/components/bower
+
+#Test
+public/components/app/angular/tests/output
