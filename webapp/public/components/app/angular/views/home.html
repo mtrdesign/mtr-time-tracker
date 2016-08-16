@@ -8,8 +8,8 @@
         My active projects
     </div>
     <div class="panel-body">
-        <div class="list-group" ng-repeat="project in c.getActiveProjects">
-            <a class="list-group-item" href="#/projects/{{ project.id }}/time-reports">{{ project.name }}</a>
+        <div class="list-group">
+            <a ng-repeat="project in c.getActiveProjects" class="list-group-item" href="#/projects/{{ project.id }}/time-reports">{{ project.name }}</a>
         </div>
     </div>
 </div>
@@ -18,8 +18,8 @@
         My finished projects
     </div>
     <div class="panel-body">
-        <div class="list-group" ng-repeat="project in c.getFinishedProjects">
-            <a class="list-group-item" href="#/projects/{{ project.id }}/time-reports">{{ project.name }}</a>
+        <div class="list-group">
+            <a ng-repeat="project in c.getFinishedProjects" class="list-group-item" href="#/projects/{{ project.id }}/time-reports">{{ project.name }}</a>
         </div>
     </div>
 </div>
