@@ -17,7 +17,7 @@
             <div class="row">
                 <div class="col-md-12 col-xs-12">
                     <div class="form-group">
-                        <label for="profile">By profile</label>
+                        <label for="profile">By user</label>
                         <select class="form-control full-width" name="profile" id="profile" ng-model="c.filterData.profile__id">
                             <option value="" selected="selected">All</option>
                             <option ng-repeat="profile in c.profiles" value="{{profile.id}}">{{profile.full_name}}</option>
@@ -40,7 +40,7 @@
                         <thead>
                             <tr>
                                 <th>Date</th>
-                                <th>Profile</th>
+                                <th>User</th>
                                 <th>Details</th>
                                 <th>Hours</th>
                                 <th style="width: 70px;">Actions</th>

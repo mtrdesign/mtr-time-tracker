@@ -6,31 +6,16 @@
         <div class="panel-body">
             <div class="row">
                 <div class="col-md-12">
-                        <div class="form-group">
-                            <label>Person </label>
-                            <div ng-bind="c.timeReportData.profile_entry.full_name"></div>
-                        </div>
-                        <div class="form-group">
-                            <label>Name </label>
-                            <div ng-bind="c.timeReportData.name "></div>
-                        </div>
-                        <div class="form-group">
-                            <label>Hours </label>
-                            <div ng-bind="c.timeReportData.hours"></div>
-                        </div>
-                        <div class="form-group">
-                            <label>Description </label>
-                            <textarea rows="8" class="form-control" ng-bind="c.timeReportData.description" disabled></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label>Date </label>
-                            <div ng-bind="c.timeReportData.date"></div>
-                        </div>
-
-                        <a ng-if="globals.currentUser.profile.user_entry.is_superuser || globals.currentUser.profile.id == c.timeReportData.profile_entry.id"  href="#" ng-href="#/projects/{{ c.getProject.id }}/time-reports/{{ c.timeReportData.id }}" class="btn btn-default">Edit</a>
-                        <a ng-if="globals.currentUser.profile.user_entry.is_superuser || globals.currentUser.profile.id == c.timeReportData.profile_entry.id"  ng-click="c.removeItem(c.timeReportData.id)" class="btn btn-danger">Delete</a>
-
-                        <a href="#" onclick="history.go(-1); return false;" class="btn btn-link">Back</a>
+                    <p><strong>User:</strong> {{ c.timeReportData.profile_entry.full_name }}</p>
+                    <p><strong>Name:</strong> {{ c.timeReportData.name }}</p>
+                    <p><strong>Hours:</strong> {{ c.timeReportData.hours }}</p>
+                    <p><strong>Date:</strong> {{ c.timeReportData.date | amDateFormat:'dddd, DD MMMM YYYY' }}</p>
+                    <div ng-if="c.timeReportData.description" class="well" style="white-space: pre-line;" ng-bind="c.timeReportData.description"></div>
+                    <ngif ng-if="globals.currentUser.profile.user_entry.is_superuser || globals.currentUser.profile.id == c.timeReportData.profile_entry.id">
+                        <a href="#" ng-href="#/projects/{{ c.getProject.id }}/time-reports/{{ c.timeReportData.id }}" class="btn btn-default">Edit</a>
+                        <a ng-click="c.removeItem(c.timeReportData.id)" class="btn btn-danger">Delete</a>
+                    </ngif>
+                    <a href="#" onclick="history.go(-1); return false;" class="btn btn-link">Back</a>
                 </div>
             </div>
         </div>
