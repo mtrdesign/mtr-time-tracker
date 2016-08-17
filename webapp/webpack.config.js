@@ -1,10 +1,11 @@
 var webpack = require('webpack');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
-// var BowerWebpackPlugin = require("bower-webpack-plugin");
 
 module.exports = {
+    watch: true,
     entry: {
         vendor: [
+            // Add js vendor
             './public/components/bower/jquery/dist/jquery.min.js',
             './public/components/bower/bootstrap/dist/js/bootstrap.min.js',
             './public/components/bower/moment/moment.js',
@@ -18,9 +19,11 @@ module.exports = {
             './public/components/bower/angular-jwt/dist/angular-jwt.js',
         ],
         app: [
+            // Add css vendor
             './public/components/app/css/loading.css',
             './public/components/app/css/base.css',
 
+            // Add js vendor
             './public/components/app/angular/init.js',
             './public/components/app/angular/filters.js',
             './public/components/app/angular/http_loader.js',
@@ -51,14 +54,14 @@ module.exports = {
         modulesDirectories: ["./public/components/bower/"],
     },
     plugins: [
-        // new webpack.optimize.UglifyJsPlugin({
-        //     compress: {
-        //         warnings: false
-        //     },
-        //     output: {
-        //         comments: false
-        //     }
-        // }),
+        new webpack.optimize.UglifyJsPlugin({
+            compress: {
+                warnings: false
+            },
+            output: {
+                comments: false
+            }
+        }),
         new ExtractTextPlugin("../css/app.min.css"),
         new webpack.ResolverPlugin(
             new webpack.ResolverPlugin.DirectoryDescriptionFilePlugin("bower.json", ["main"])
@@ -72,7 +75,7 @@ module.exports = {
             },
             {
                 test: /\.(woff|svg|ttf|eot)([\?]?.*)$/,
-                loader: "file-loader?name=[name].[ext]"
+                loader: "file-loader?[name].[ext]"
             },
             {
                 test: /jquery.min.js$/,
