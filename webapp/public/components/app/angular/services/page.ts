@@ -1,20 +1,30 @@
-///<reference path="../../../../../typings/angularjs/angular.d.ts"/>
-var PageService;
-(function (PageService) {
-    var Page = (function () {
-        function Page(config) {
+﻿///<reference path="../../../../../typings/angularjs/angular.d.ts"/>
+
+module PageService {
+
+    interface IService {
+        website_title: string;
+        html_title: string;
+        slug: string;
+    }
+
+    export class Page {
+        public service :IService;
+        public config: any;
+        static $inject = ["config", "$http"];
+
+        constructor(config: ng.IAngularBootstrapConfig) {
             this.config = config;
         }
-        Page.prototype.resetData = function () {
+
+        resetData() {
             this.service.website_title = this.config.appTitle;
             this.service.html_title = this.config.appTitle;
             this.service.slug = '';
-        };
-        Page.$inject = ["config", "$http"];
-        return Page;
-    }());
-    PageService.Page = Page;
-})(PageService || (PageService = {}));
+        }
+    }
+}
+
 (function () {
     'use strict';
     angular
@@ -35,13 +45,15 @@ var PageService;
             service.html_title = config.appTitle;
             service.slug = '';
         }
+
         function setHtmlTitle(html_title) {
             service.html_title = html_title + ' | ' + service.html_title;
         }
+
         function setSlug(slug) {
             service.slug = slug;
         }
+
         return service;
     }
 })();
-//# sourceMappingURL=page.js.map
