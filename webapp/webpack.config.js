@@ -25,7 +25,7 @@ module.exports = {
 
             // Add js vendor
             './public/components/app/angular/init.js',
-            './public/components/app/angular/filters.js',
+            './public/components/app/angular/filters.ts',
             './public/components/app/angular/http_loader.js',
             './public/components/app/angular/services/authentication.js',
             './public/components/app/angular/services/flash.js',
@@ -54,14 +54,14 @@ module.exports = {
         modulesDirectories: ["./public/components/bower/"],
     },
     plugins: [
-        new webpack.optimize.UglifyJsPlugin({
-            compress: {
-                warnings: false
-            },
-            output: {
-                comments: false
-            }
-        }),
+        // new webpack.optimize.UglifyJsPlugin({
+        //     compress: {
+        //         warnings: false
+        //     },
+        //     output: {
+        //         comments: false
+        //     }
+        // }),
         new ExtractTextPlugin("../css/app.min.css"),
         new webpack.ResolverPlugin(
             new webpack.ResolverPlugin.DirectoryDescriptionFilePlugin("bower.json", ["main"])
@@ -72,6 +72,10 @@ module.exports = {
             {
                 test: /\.css$/,
                 loader: ExtractTextPlugin.extract("style-loader", "css-loader")
+            },
+            {
+                test: /\.ts/,
+                loader: 'ts-loader'
             },
             {
                 test: /\.(woff|svg|ttf|eot)([\?]?.*)$/,
@@ -86,6 +90,8 @@ module.exports = {
             {test: /moment.js$/, loader: "expose?moment"},
             {test: /jquery.datetimepicker.full.min.js$/, loader: "imports?define=>false,exports=>false,moment=moment"},
             {test: /jquery.mask.min.js$/, loader: "imports?define=>false,exports=>false"},
+
+
         ]
     },
 };
