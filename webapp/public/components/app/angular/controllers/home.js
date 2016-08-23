@@ -1,35 +1,35 @@
-﻿(function () {
+///<reference path="../_all.ts"/>
+var App;
+(function (App) {
     'use strict';
-    angular
-        .module('app')
-        .controller('HomeController', HomeController);
-    HomeController.$inject = [
-        'ProjectsService',
-        '$rootScope',
-        'PageService'
-    ];
-    function HomeController(ProjectsService, $rootScope, PageService) {
-        var c = this;
-        c.getActiveProjects = [];
-        c.getFinishedProjects = [];
-        (function initController() {
+    var HomeController = (function () {
+        function HomeController(PageService, _ProjectService) {
+            this.PageService = PageService;
+            this._ProjectService = _ProjectService;
+            this.title = "Home";
+            this.slug = "home";
             PageService.resetData();
-            PageService.setHtmlTitle('Home');
-            PageService.setSlug('home');
-            loadActiveProjects();
-            loadFinishedProjects();
-        })();
-        function loadActiveProjects() {
-            ProjectsService.GetActiveProjects()
-                .then(function (projects) {
-                    c.getActiveProjects = projects;
-                });
+            PageService.setHtmlTitle(this.title);
+            PageService.setSlug(this.slug);
+            this.projectService = _ProjectService;
         }
-        function loadFinishedProjects() {
-            ProjectsService.GetFinishedProjects()
+        HomeController.prototype.loadActiveProjects = function () {
+            this.projectService.GetActiveProjects()
                 .then(function (projects) {
-                    c.getFinishedProjects = projects;
-                });
-        }
-    }
-})();
+                this.c.getActiveProjects = projects;
+            });
+        };
+        HomeController.prototype.loadFinishedProjects = function () {
+            this.projectService.GetFinishedProjects()
+                .then(function (projects) {
+                this.c.getFinishedProjects = projects;
+            });
+        };
+        HomeController.id = "HomeController";
+        return HomeController;
+    }());
+    App.HomeController = HomeController;
+    angular.module(App.Module)
+        .controller(HomeController.id, HomeController);
+})(App || (App = {}));
+//# sourceMappingURL=home.js.map

@@ -3,11 +3,14 @@
     "noImplicitAny": true,
     "removeComments": false,
     "preserveConstEnums": true,
-    "target": "ES5",
-    "sourceMap": true,
-    "listFiles": false
+    "target": "ES5"
   },
   "files": [
-    "public/components/app/angular/filters.ts"
+    "public/components/app/angular/init.ts",
+    "public/components/app/angular/filters.ts",
+    "public/components/app/angular/services/page.ts",
+    "public/components/app/angular/services/projects.ts",
+    "public/components/app/angular/controllers/page.ts",
+    "public/components/app/angular/controllers/home.ts"
   ]
 }

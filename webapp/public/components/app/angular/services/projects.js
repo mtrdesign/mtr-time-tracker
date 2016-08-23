@@ -1,43 +1,40 @@
-﻿(function () {
+///<reference path="../_all.ts"/>
+var App;
+(function (App) {
     'use strict';
-    angular
-        .module('app')
-        .factory('ProjectsService', ProjectsService);
-    ProjectsService.$inject = [
-        '$http',
-        'config',
-        'envService'
-    ];
-    function ProjectsService($http, config, envService) {
-        var service = {};
-        service.GetAllProjects = GetAllProjects;
-        service.GetActiveProjects = GetActiveProjects;
-        service.GetFinishedProjects = GetFinishedProjects;
-        service.GetProject = GetProject;
-        function GetAllProjects() {
-            return $http.get(envService.read('apiUrl') + '/projects/')
-                        .then(handleSuccess, handleError('Error getting all projects.'));
+    var ProjectService = (function () {
+        function ProjectService(_$http, _envService) {
+            this._$http = _$http;
+            this._envService = _envService;
+            this.$http = _$http;
+            this.envService = _envService;
         }
-        function GetActiveProjects() {
-            return $http.get(envService.read('apiUrl') + '/projects/?is_finished=3')
-                        .then(handleSuccess, handleError('Error getting active projects.'));
-        }
-        function GetFinishedProjects() {
-            return $http.get(envService.read('apiUrl') + '/projects/?is_finished=2')
-                        .then(handleSuccess, handleError('Error getting finished projects.'));
-        }
-        function GetProject(id) {
-            return $http.get(envService.read('apiUrl') + '/projects/' + id + '/')
-                        .then(handleSuccess, handleError('Error getting project.'));
-        }
-        function handleSuccess(res) {
+        ProjectService.prototype.GetAllProjects = function () {
+            return this.$http.get(this.envService.read('apiUrl') + '/projects/')
+                .then(this.handleSuccess, this.handleError('Error getting all projects.'));
+        };
+        ProjectService.prototype.GetActiveProjects = function () {
+            return this.$http.get(this.envService.read('apiUrl') + '/projects/?is_finished=3')
+                .then(this.handleSuccess, this.handleError('Error getting active projects.'));
+        };
+        ProjectService.prototype.GetFinishedProjects = function () {
+            return this.$http.get(this.envService.read('apiUrl') + '/projects/?is_finished=2')
+                .then(this.handleSuccess, this.handleError('Error getting finished projects.'));
+        };
+        ProjectService.prototype.GetProject = function (id) {
+            return this.$http.get(this.envService.read('apiUrl') + '/projects/' + id + '/')
+                .then(this.handleSuccess, this.handleError('Error getting project.'));
+        };
+        ProjectService.prototype.handleSuccess = function (res) {
             return res.data;
-        }
-        function handleError(error) {
+        };
+        ProjectService.prototype.handleError = function (error) {
             return function () {
                 return { success: false, message: error };
             };
-        }
-        return service;
-    }
-})();
+        };
+        return ProjectService;
+    }());
+    App.ProjectService = ProjectService;
+})(App || (App = {}));
+//# sourceMappingURL=projects.js.map

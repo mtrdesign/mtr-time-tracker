@@ -1,6 +1,6 @@
 ///<reference path="../../../../typings/angularjs/angular.d.ts"/>
 
-module Filters {
+module app {
     export function matchMonthAndYear()
     {
         return function (items:  [any], month: number, year: number) {
@@ -37,6 +37,6 @@ module Filters {
 }
 (function () {
     'use strict';
-    angular.module('app').filter("matchMonthAndYear", Filters.matchMonthAndYear);
-    angular.module('app').filter("dateRange", Filters.dateRange);
+    angular.module(Module).filter("matchMonthAndYear", app.matchMonthAndYear);
+    angular.module(Module).filter("dateRange", app.dateRange);
 })();

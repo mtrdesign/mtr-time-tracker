@@ -1,6 +1,6 @@
 ///<reference path="../../../../typings/angularjs/angular.d.ts"/>
-var Filters;
-(function (Filters) {
+var app;
+(function (app) {
     function matchMonthAndYear() {
         return function (items, month, year) {
             var result = [];
@@ -12,7 +12,7 @@ var Filters;
             return result;
         };
     }
-    Filters.matchMonthAndYear = matchMonthAndYear;
+    app.matchMonthAndYear = matchMonthAndYear;
     function dateRange() {
         return function (items, month, year) {
             var d = new Date();
@@ -30,11 +30,11 @@ var Filters;
             return result;
         };
     }
-    Filters.dateRange = dateRange;
-})(Filters || (Filters = {}));
+    app.dateRange = dateRange;
+})(app || (app = {}));
 (function () {
     'use strict';
-    angular.module('app').filter("matchMonthAndYear", Filters.matchMonthAndYear);
-    angular.module('app').filter("dateRange", Filters.dateRange);
+    angular.module(Module).filter("matchMonthAndYear", app.matchMonthAndYear);
+    angular.module(Module).filter("dateRange", app.dateRange);
 })();
 //# sourceMappingURL=filters.js.map

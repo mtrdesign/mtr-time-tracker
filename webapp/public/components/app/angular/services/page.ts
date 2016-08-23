@@ -1,19 +1,24 @@
-﻿///<reference path="../../../../../typings/angularjs/angular.d.ts"/>
+﻿///<reference path="../_all.ts"/>
 
-module PageService {
-
-    interface IService {
-        website_title: string;
-        html_title: string;
-        slug: string;
+module App {
+    'use strict';
+    interface IPageService {
+        website_title:string;
+        html_title:string;
+        slug:string;
     }
 
-    export class Page {
-        public service :IService;
-        public config: any;
-        static $inject = ["config", "$http"];
+    export class PageService {
+        static id = "PageService";
 
-        constructor(config: ng.IAngularBootstrapConfig) {
+        public service:IPageService;
+        public config:any;
+        public static $inject = [
+            "config",
+            "$http"
+        ];
+
+        constructor(config:angular.environment.Config) {
             this.config = config;
         }
 
@@ -22,38 +27,18 @@ module PageService {
             this.service.html_title = this.config.appTitle;
             this.service.slug = '';
         }
+
+        setHtmlTitle(html_title:string) {
+            this.service.html_title = html_title + ' | ' + this.service.html_title;
+        }
+
+        setSlug(slug:string) {
+            this.service.slug = slug;
+        }
+
     }
+
+    angular.module(Module)
+        .factory(PageService.id, PageService);
 }
 
-(function () {
-    'use strict';
-    angular
-        .module('app')
-        .factory('PageService', PageService);
-    PageService.$inject = [
-        '$http',
-        'config'
-    ];
-    function PageService($http, config) {
-        var service = {};
-        service.setHtmlTitle = setHtmlTitle;
-        service.setSlug = setSlug;
-        service.resetData = resetData;
-        resetData();
-        function resetData() {
-            service.website_title = config.appTitle;
-            service.html_title = config.appTitle;
-            service.slug = '';
-        }
-
-        function setHtmlTitle(html_title) {
-            service.html_title = html_title + ' | ' + service.html_title;
-        }
-
-        function setSlug(slug) {
-            service.slug = slug;
-        }
-
-        return service;
-    }
-})();

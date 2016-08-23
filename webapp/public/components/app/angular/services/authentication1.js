@@ -1,4 +1,4 @@
-(function () {
+﻿(function () {
     'use strict';
     angular
         .module('app')
@@ -12,7 +12,8 @@
         'jwtHelper',
         'ProfilesService'
     ];
-    function AuthenticationService($http, $cookieStore, $rootScope, config, envService, jwtHelper, ProfilesService) {
+    function AuthenticationService($http, $cookieStore, $rootScope, config,
+                                   envService, jwtHelper, ProfilesService) {
         var service = {};
         service.Login = Login;
         service.SetCredentials = SetCredentials;
@@ -21,23 +22,23 @@
         service.VerifyToken = VerifyToken;
         function Login(username, password, callback) {
             $http.post(envService.read('apiUrl') + '/auth/jwt/new/', {
-                username: username,
-                password: password
-            })
+                    username: username,
+                    password: password
+                })
                 .error(function (response) {
-                callback(response);
-            })
+                    callback(response);
+                })
                 .success(function (response) {
-                callback(response);
-            });
+                    callback(response);
+                });
         }
         function SetCredentials(token, callback) {
-            VerifyToken(token, function (tokenResponse) {
+            VerifyToken(token, function(tokenResponse) {
                 if (typeof tokenResponse == 'object'
                     && typeof tokenResponse.token == 'string'
                     && tokenResponse.token.length > 0) {
                     $http.defaults.headers.common.Authorization = 'JWT ' + token;
-                    VerifyUser(token, function (userResponse) {
+                    VerifyUser(token, function(userResponse) {
                         if (typeof userResponse[0] == 'object'
                             && typeof userResponse[0].id == 'number'
                             && userResponse[0].id > 0) {
@@ -48,17 +49,15 @@
                                 }
                             };
                             $cookieStore.put('globals', $rootScope.globals);
-                            callback({ 'success': true });
-                        }
-                        else {
+                            callback({'success': true});
+                        } else {
                             ClearCredentials();
-                            callback({ 'success': false });
+                            callback({'success': false});
                         }
                     });
-                }
-                else {
+                } else {
                     ClearCredentials();
-                    callback({ 'success': false });
+                    callback({'success': false});
                 }
             });
         }
@@ -70,21 +69,20 @@
         function VerifyUser(token, callback) {
             ProfilesService.GetOneByUserID(jwtHelper.decodeToken(token).user_id)
                 .then(function (profile) {
-                callback(profile);
-            });
+                    callback(profile);
+                });
         }
         function VerifyToken(token, callback) {
             $http.post(envService.read('apiUrl') + '/auth/jwt/verify/', {
-                token: token
-            })
+                    token: token
+                })
                 .error(function (response) {
-                callback(response);
-            })
+                    callback(response);
+                })
                 .success(function (response) {
-                callback(response);
-            });
+                   callback(response);
+                });
         }
         return service;
     }
 })();
-//# sourceMappingURL=authentication.js.map

@@ -1,47 +1,31 @@
-///<reference path="../../../../../typings/angularjs/angular.d.ts"/>
-var PageService;
-(function (PageService) {
-    var Page = (function () {
-        function Page(config) {
+///<reference path="../_all.ts"/>
+var App;
+(function (App) {
+    'use strict';
+    var PageService = (function () {
+        function PageService(config) {
             this.config = config;
         }
-        Page.prototype.resetData = function () {
+        PageService.prototype.resetData = function () {
             this.service.website_title = this.config.appTitle;
             this.service.html_title = this.config.appTitle;
             this.service.slug = '';
         };
-        Page.$inject = ["config", "$http"];
-        return Page;
+        PageService.prototype.setHtmlTitle = function (html_title) {
+            this.service.html_title = html_title + ' | ' + this.service.html_title;
+        };
+        PageService.prototype.setSlug = function (slug) {
+            this.service.slug = slug;
+        };
+        PageService.id = "PageService";
+        PageService.$inject = [
+            "config",
+            "$http"
+        ];
+        return PageService;
     }());
-    PageService.Page = Page;
-})(PageService || (PageService = {}));
-(function () {
-    'use strict';
-    angular
-        .module('app')
-        .factory('PageService', PageService);
-    PageService.$inject = [
-        '$http',
-        'config'
-    ];
-    function PageService($http, config) {
-        var service = {};
-        service.setHtmlTitle = setHtmlTitle;
-        service.setSlug = setSlug;
-        service.resetData = resetData;
-        resetData();
-        function resetData() {
-            service.website_title = config.appTitle;
-            service.html_title = config.appTitle;
-            service.slug = '';
-        }
-        function setHtmlTitle(html_title) {
-            service.html_title = html_title + ' | ' + service.html_title;
-        }
-        function setSlug(slug) {
-            service.slug = slug;
-        }
-        return service;
-    }
-})();
+    App.PageService = PageService;
+    angular.module(App.Module)
+        .factory(PageService.id, PageService);
+})(App || (App = {}));
 //# sourceMappingURL=page.js.map

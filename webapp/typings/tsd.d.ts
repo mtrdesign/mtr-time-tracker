@@ -1,3 +1,8 @@
 
 /// <reference path="angularjs/angular.d.ts" />
 /// <reference path="jquery/jquery.d.ts" />
+/// <reference path="angularjs/angular-route.d.ts" />
+/// <reference path="angular-environment/angular-environment.d.ts" />
+/// <reference path="angularjs/angular-cookies.d.ts" />
+/// <reference path="angular-jwt/angular-jwt.d.ts" />
+
