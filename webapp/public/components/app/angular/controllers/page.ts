@@ -1,14 +1,20 @@
 ﻿///<reference path="../_all.ts"/>
-module App {
-    'use strict';
-    export class PageController {
-        static id = "PageController";
 
-        constructor(private scope:globalScope) {
-            scope.page = PageService;
-        }
+import {NewPageService} from "../services/page";
+import IScope = angular.IScope;
+import {Module} from "../init";
+
+export class PageController {
+    static id = "PageController";
+
+    constructor(private $scope:IScope, private config:angular.environment.Config) {
+        $scope.page = NewPageService(config);
+        debugger;
     }
 
-    angular.module(Module)
-        .controller(PageController.id, PageController);
+}
+
+angular.module(Module).controller("PageController", ["$scope", "config", NewPageController]);
+function NewPageController($scope, config) {
+    return new PageController($scope, config);
 }

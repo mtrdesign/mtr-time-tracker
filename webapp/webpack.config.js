@@ -25,7 +25,7 @@ module.exports = {
 
             // Add js vendor
             './public/components/app/angular/init.js',
-            // './public/components/app/angular/filters.ts',
+            // './public/components/app/angular/filters.js',
             // './public/components/app/angular/http_loader.js',
             // './public/components/app/angular/services/authentication.js',
             // './public/components/app/angular/services/flash.js',
@@ -34,7 +34,7 @@ module.exports = {
             // './public/components/app/angular/services/projects.js',
             // './public/components/app/angular/services/profiles.js',
             // './public/components/app/angular/services/time_reports.js',
-            // './public/components/app/angular/controllers/page.js',
+            './public/components/app/angular/controllers/page.js',
             // './public/components/app/angular/controllers/404.js',
             // './public/components/app/angular/controllers/home.js',
             // './public/components/app/angular/controllers/account.js',
@@ -87,6 +87,7 @@ module.exports = {
             },
             // Shim Angular modules
             {test: /angular.min.js$/, loader: "expose?angular!exports?angular"},
+            {test: /init.js$/, loader: "expose?App"},
             {test: /moment.js$/, loader: "expose?moment"},
             {test: /jquery.datetimepicker.full.min.js$/, loader: "imports?define=>false,exports=>false,moment=moment"},
             {test: /jquery.mask.min.js$/, loader: "imports?define=>false,exports=>false"},

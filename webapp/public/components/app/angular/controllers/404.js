@@ -1,19 +1,22 @@
-﻿(function () {
+///<reference path="../_all.ts"/>
+var App;
+(function (App) {
     'use strict';
-    angular
-        .module('app')
-        .controller('NotFoundController', NotFoundController);
-    NotFoundController.$inject = [
-        'ProjectsService',
-        '$rootScope',
-        'PageService'
-    ];
-    function NotFoundController(ProjectsService, $rootScope, PageService) {
-        var c = this;
-        (function initController() {
+    var NotFoundController = (function () {
+        function NotFoundController(PageService) {
+            this.PageService = PageService;
+            this.title = 'Oops! That page can\'t be found.';
+            this.slug = "404";
             PageService.resetData();
-            PageService.setHtmlTitle('Oops! That page can\'t be found.');
-            PageService.setSlug('404');
-        })();
-    }
-})();
+            PageService.setHtmlTitle(this.title);
+            PageService.setSlug(this.slug);
+            this.projectService = _ProjectService;
+        }
+        NotFoundController.id = "NotFoundController";
+        return NotFoundController;
+    }());
+    App.NotFoundController = NotFoundController;
+    angular.module(App.Module)
+        .controller(NotFoundController.id, NotFoundController);
+})(App || (App = {}));
+//# sourceMappingURL=404.js.map
