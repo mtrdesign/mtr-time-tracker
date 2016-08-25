@@ -1,6 +1,5 @@
 ﻿///<reference path="_all.ts"/>
-import {PageService} from "./services/page";
-import {PageController} from "./controllers/page";
+import {AuthenticationService} from "./services/authentication";
 export let Module = "app";
 
 angular.module(Module, [
@@ -88,38 +87,48 @@ angular.module(Module, [
                     templateUrl: 'components/app/angular/views/login.html',
                     controllerAs: 'c'
                 })
-            // .otherwise({redirectTo: '/404'});
+                .otherwise({redirectTo: '/404'});
         }])
     .run([
-    '$location',
-    '$cookieStore',
-    '$http',
-    'config',
-    'envService',
-    // 'AuthenticationService',
-    // PageService.id,
-    ($location:ng.ILocationService,
-     $cookieStore:angular.cookies.ICookieStoreService,
-     $http:ng.IHttpService
-     // AuthenticationService:AuthenticationService,
-     // PageService:PageService
-    ) => {
-        // globalScope.globals = $cookieStore.get('globals') || {};
-        // if (globalScope.globals.currentUser) {
-        //     AuthenticationService.SetCredentials(globalScope.globals.currentUser.token, function (response) {
-        //         if (typeof response.success != 'boolean' ||
-        //             typeof response.success == 'boolean' && response.success == false) {
-        //             $location.path('/login');
-        //         }
-        //     });
-        //     $http.defaults.headers.common.Authorization = 'JWT ' + globalScope.globals.currentUser.token;
-        // }
-        // globalScope.$on('$locationChangeStart', function (event, next, current) {
-        //     var restrictedPage = $.inArray($location.path(), ['/login', '/404']) === -1;
-        //     if (restrictedPage && !globalScope.globals.currentUser) {
-        //         $location.path('/login');
-        //     }
-        // });
-    }
-]);
+        '$location',
+        '$cookieStore',
+        '$http',
+        'config',
+        'envService',
+        '$rootScope',
+        'AuthenticationService',
+        ($location:ng.ILocationService,
+         $cookieStore:angular.cookies.ICookieStoreService,
+         $http:ng.IHttpService,
+         config:IEnvConfig,
+         envService:angular.environment.Service,
+         $scope:IScope,
+         AuthenticationService:AuthenticationService) => {
+            $scope.globals = $cookieStore.get('globals') || {};
+            if ($scope.globals.currentUser) {
+                AuthenticationService.SetCredentials($scope.globals.currentUser.token, function (response:any) {
+                    if (typeof response.success != 'boolean' ||
+                        typeof response.success == 'boolean' && response.success == false) {
+                        $location.path('/login');
+                    }
+                });
+                $http.defaults.headers.common.Authorization = 'JWT ' + $scope.globals.currentUser.token;
+            }
+            $scope.$on('$locationChangeStart', function (event, next, current) {
+                var restrictedPage = $.inArray($location.path(), ['/login', '/404']) === -1;
+                if (restrictedPage && !$scope.globals.currentUser) {
+                    $location.path('/login');
+                }
+            });
+        }
+    ]);
 
+export interface IScope extends ng.IScope {
+    globals:any,
+    page:any,
+    flash:any
+}
+
+export interface IEnvConfig extends angular.environment.Config {
+    appTitle:string
+}

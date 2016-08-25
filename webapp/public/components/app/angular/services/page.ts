@@ -1,11 +1,5 @@
 ﻿///<reference path="../_all.ts"/>
-import {Module} from "../init";
-
-export interface IService {
-    website_title:string;
-    html_title:string;
-    slug:string;
-}
+import {Module, IEnvConfig, IScope} from "../init";
 
 export interface IPageService {
     resetData(text:string):string;
@@ -14,35 +8,34 @@ export interface IPageService {
 }
 
 export class PageService implements IPageService {
-    static id = "PageService";
-    static $inject = ['config'];
-
     public website_title:string;
     public html_title:string;
     public slug:string;
 
-    constructor(private config:angular.environment.Config) {
+    constructor(private config:IEnvConfig, 
+                private $scope:IScope) {
+
     }
 
     public resetData() {
-        this.website_title = this.config.appTitle;
-        this.html_title = this.config.appTitle;
-        this.slug = '';
+        this.$scope.page.website_title = this.config.appTitle;
+        this.$scope.page.html_title = this.config.appTitle;
+        this.$scope.page.slug = '';
         return '';
     }
 
     public setHtmlTitle(html_title:string) {
-        this.service.html_title = html_title + ' | ' + this.service.html_title;
+        this.$scope.page.html_title = html_title + ' | ' + this.$scope.page.html_title;
         return '';
     }
 
     public setSlug(slug:string) {
-        this.slug = slug;
+        this.$scope.page.slug = slug;
         return '';
     }
 }
 
-angular.module(Module).controller("PageService", ["config", NewPageService]);
-export function NewPageService(config) {
-    return new PageService(config);
+angular.module(Module).factory("PageService", ["config", "$rootScope", NewPageService]);
+export function NewPageService(config:IEnvConfig, $scope:IScope) {
+    return new PageService(config, $scope);
 }

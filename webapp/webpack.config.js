@@ -26,9 +26,9 @@ module.exports = {
             // Add js vendor
             './public/components/app/angular/init.js',
             // './public/components/app/angular/filters.js',
-            // './public/components/app/angular/http_loader.js',
-            // './public/components/app/angular/services/authentication.js',
-            // './public/components/app/angular/services/flash.js',
+            './public/components/app/angular/http_loader.js',
+            './public/components/app/angular/services/authentication.js',
+            './public/components/app/angular/services/flash.js',
             './public/components/app/angular/services/page.js',
             // './public/components/app/angular/services/users.js',
             // './public/components/app/angular/services/projects.js',
@@ -43,7 +43,7 @@ module.exports = {
             // './public/components/app/angular/controllers/time_report_list.js',
             // './public/components/app/angular/controllers/time_report_edit.js',
             // './public/components/app/angular/controllers/time_report_view.js',
-            // './public/components/app/angular/controllers/login.js'
+            './public/components/app/angular/controllers/login.js'
         ]
     },
     output: {

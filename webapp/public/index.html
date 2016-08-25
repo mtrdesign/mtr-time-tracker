@@ -8,27 +8,27 @@
         <link type="text/css" rel="stylesheet" href="components/app/css/app.min.css">
     </head>
     <body>
-        <!--<nav class="navbar navbar-default navbar-fixed-top">-->
-            <!--<div class="container">-->
-                <!--<div class="navbar-header">-->
-                    <!--<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">-->
-                        <!--<span class="sr-only">Toggle navigation</span>-->
-                        <!--<span class="icon-bar"></span>-->
-                        <!--<span class="icon-bar"></span>-->
-                        <!--<span class="icon-bar"></span>-->
-                    <!--</button>-->
-                    <!--<a class="navbar-brand" href="#" ng-href="#/">{{ page.website_title }}</a>-->
-                <!--</div>-->
-                <!--<div ng-if="globals.currentUser.profile.id > 0" id="navbar" class="navbar-collapse collapse">-->
-                    <!--<ul class="nav navbar-nav navbar-right">-->
-                        <!--<li ng-class="{ 'active': page.slug == 'home' || page.slug == 'projects' }"><a href="#" ng-href="#/">Projects</a></li>-->
-                        <!--<li ng-class="{ 'active': page.slug === 'account' }"><a href="#" ng-href="#/account">Account</a></li>-->
-                        <!--<li ng-class="{ 'active': page.slug === 'time-reports' }"><a href="#" ng-href="#/time-reports">Time</a></li>-->
-                        <!--<li><a href="#" ng-href="#/login">Logout</a></li>-->
-                    <!--</ul>-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--</nav>-->
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#" ng-href="#/">{{ page.website_title }}</a>
+                </div>
+                <div ng-if="globals.currentUser.profile.id > 0" id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li ng-class="{ 'active': page.slug == 'home' || page.slug == 'projects' }"><a href="#" ng-href="#/">Projects</a></li>
+                        <li ng-class="{ 'active': page.slug === 'account' }"><a href="#" ng-href="#/account">Account</a></li>
+                        <li ng-class="{ 'active': page.slug === 'time-reports' }"><a href="#" ng-href="#/time-reports">Time</a></li>
+                        <li><a href="#" ng-href="#/login">Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
         <div class="container">
             <!--<div ng-class="{ 'alert': flash, 'alert-success': flash.type === 'success', 'alert-danger': flash.type === 'error' }" ng-if="flash">-->
                 <!--<span ng-repeat="message in flash.messages">-->

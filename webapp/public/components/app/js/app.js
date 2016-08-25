@@ -48,7 +48,11 @@
 	__webpack_require__(5);
 	__webpack_require__(7);
 	__webpack_require__(9);
-	module.exports = __webpack_require__(10);
+	__webpack_require__(10);
+	__webpack_require__(11);
+	__webpack_require__(12);
+	__webpack_require__(13);
+	module.exports = __webpack_require__(14);
 
 
 /***/ },
@@ -161,8 +165,8 @@
 	            controller: 'LoginController',
 	            templateUrl: 'components/app/angular/views/login.html',
 	            controllerAs: 'c'
-	        });
-	        // .otherwise({redirectTo: '/404'});
+	        })
+	            .otherwise({ redirectTo: '/404' });
 	    }])
 	    .run([
 	    '$location',
@@ -170,90 +174,342 @@
 	    '$http',
 	    'config',
 	    'envService',
-	    // 'AuthenticationService',
-	    // PageService.id,
-	    function ($location, $cookieStore, $http) {
-	        // globalScope.globals = $cookieStore.get('globals') || {};
-	        // if (globalScope.globals.currentUser) {
-	        //     AuthenticationService.SetCredentials(globalScope.globals.currentUser.token, function (response) {
-	        //         if (typeof response.success != 'boolean' ||
-	        //             typeof response.success == 'boolean' && response.success == false) {
-	        //             $location.path('/login');
-	        //         }
-	        //     });
-	        //     $http.defaults.headers.common.Authorization = 'JWT ' + globalScope.globals.currentUser.token;
-	        // }
-	        // globalScope.$on('$locationChangeStart', function (event, next, current) {
-	        //     var restrictedPage = $.inArray($location.path(), ['/login', '/404']) === -1;
-	        //     if (restrictedPage && !globalScope.globals.currentUser) {
-	        //         $location.path('/login');
-	        //     }
-	        // });
+	    '$rootScope',
+	    'AuthenticationService',
+	    function ($location, $cookieStore, $http, config, envService, $scope, AuthenticationService) {
+	        $scope.globals = $cookieStore.get('globals') || {};
+	        if ($scope.globals.currentUser) {
+	            AuthenticationService.SetCredentials($scope.globals.currentUser.token, function (response) {
+	                if (typeof response.success != 'boolean' ||
+	                    typeof response.success == 'boolean' && response.success == false) {
+	                    $location.path('/login');
+	                }
+	            });
+	            $http.defaults.headers.common.Authorization = 'JWT ' + $scope.globals.currentUser.token;
+	        }
+	        $scope.$on('$locationChangeStart', function (event, next, current) {
+	            var restrictedPage = $.inArray($location.path(), ['/login', '/404']) === -1;
+	            if (restrictedPage && !$scope.globals.currentUser) {
+	                $location.path('/login');
+	            }
+	        });
 	    }
 	]);
-	//# sourceMappingURL=init.js.map
+
 
 /***/ },
 /* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	///<reference path="../_all.ts"/>
+	///<reference path="./_all.ts"/>
 	var init_1 = __webpack_require__(7);
-	var PageService = (function () {
-	    function PageService(config) {
-	        this.config = config;
-	    }
-	    PageService.prototype.resetData = function () {
-	        this.website_title = this.config.appTitle;
-	        this.html_title = this.config.appTitle;
-	        this.slug = '';
-	        return '';
+	var app = angular.module(init_1.Module);
+	app.factory('httpLoaderInterceptor', ['$rootScope', function ($rootScope) {
+	        // Active request count
+	        var requestCount = 0;
+	        function startRequest(config) {
+	            // If no request ongoing, then broadcast start event
+	            if (!requestCount) {
+	                $rootScope.$broadcast('httpLoaderStart');
+	            }
+	            requestCount++;
+	            return config;
+	        }
+	        function endRequest(arg) {
+	            // No request ongoing, so make sure we don’t go to negative count
+	            if (!requestCount)
+	                return;
+	            requestCount--;
+	            // If it was last ongoing request, broadcast event
+	            if (!requestCount) {
+	                $rootScope.$broadcast('httpLoaderEnd');
+	            }
+	            return arg;
+	        }
+	        // Return interceptor configuration object
+	        return {
+	            'request': startRequest,
+	            'requestError': endRequest,
+	            'response': endRequest,
+	            'responseError': endRequest
+	        };
+	    }]);
+	// app.config(['$httpProvider', function ($httpProvider:ng.IHttpProvider) {
+	//     $httpProvider.interceptors.push('httpLoaderInterceptor');
+	// }]);
+	app.directive('httpLoader', function () {
+	    return {
+	        restrict: 'EA',
+	        link: function (scope, element) {
+	            // Store original display mode of element
+	            var shownType = element.css('display');
+	            function hideElement() {
+	                element.css('display', 'none');
+	            }
+	            scope.$on('httpLoaderStart', function () {
+	                element.css('display', shownType);
+	            });
+	            scope.$on('httpLoaderEnd', hideElement);
+	            // Initially hidden
+	            hideElement();
+	        }
 	    };
-	    PageService.prototype.setHtmlTitle = function (html_title) {
-	        this.service.html_title = html_title + ' | ' + this.service.html_title;
-	        return '';
-	    };
-	    PageService.prototype.setSlug = function (slug) {
-	        this.slug = slug;
-	        return '';
-	    };
-	    PageService.id = "PageService";
-	    PageService.$inject = ['config'];
-	    return PageService;
-	}());
-	exports.PageService = PageService;
-	angular.module(init_1.Module).controller("PageService", ["config", NewPageService]);
-	function NewPageService(config) {
-	    return new PageService(config);
-	}
-	exports.NewPageService = NewPageService;
-	//# sourceMappingURL=page.js.map
+	});
+
 
 /***/ },
 /* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
-	///<reference path="../_all.ts"/>
 	"use strict";
-	var page_1 = __webpack_require__(9);
+	///<reference path="../_all.ts"/>
 	var init_1 = __webpack_require__(7);
-	var PageController = (function () {
-	    function PageController($scope, config) {
+	var AuthenticationService = (function () {
+	    function AuthenticationService($http, $cookieStore, $scope, config, envService) {
+	        this.$http = $http;
+	        this.$cookieStore = $cookieStore;
 	        this.$scope = $scope;
 	        this.config = config;
-	        $scope.page = page_1.NewPageService(config);
-	        debugger;
+	        this.envService = envService;
+	    }
+	    AuthenticationService.prototype.Login = function (username, password, callback) {
+	        this.$http.post(this.envService.read('apiUrl') + '/auth/jwt/new/', {
+	            username: username,
+	            password: password
+	        })
+	            .error(function (response) {
+	            callback(response);
+	        })
+	            .success(function (response) {
+	            callback(response);
+	        });
+	    };
+	    AuthenticationService.prototype.SetCredentials = function (token, callback) {
+	        this.VerifyToken(token, function (tokenResponse) {
+	            if (typeof tokenResponse == 'object'
+	                && typeof tokenResponse.token == 'string'
+	                && tokenResponse.token.length > 0) {
+	                this.$http.defaults.headers.common.Authorization = 'JWT ' + token;
+	                this.VerifyUser(token, function (userResponse) {
+	                    if (typeof userResponse[0] == 'object'
+	                        && typeof userResponse[0].id == 'number'
+	                        && userResponse[0].id > 0) {
+	                        this.$rootScope.globals = {
+	                            currentUser: {
+	                                token: token,
+	                                profile: userResponse[0]
+	                            }
+	                        };
+	                        this.$cookieStore.put('globals', this.$rootScope.globals);
+	                        callback({ 'success': true });
+	                    }
+	                    else {
+	                        this.ClearCredentials();
+	                        callback({ 'success': false });
+	                    }
+	                });
+	            }
+	            else {
+	                this.ClearCredentials();
+	                callback({ 'success': false });
+	            }
+	        });
+	    };
+	    AuthenticationService.prototype.ClearCredentials = function () {
+	        this.$scope.globals = {};
+	        this.$cookieStore.remove('globals');
+	        this.$http.defaults.headers.common.Authorization = 'JWT';
+	    };
+	    AuthenticationService.prototype.VerifyUser = function (token, callback) {
+	        // let ProfileService = NewPageService(this.config);
+	        // ProfilesService.GetOneByUserID(jwtHelper.decodeToken(token).user_id)
+	        //     .then(function (profile) {
+	        //         callback(profile);
+	        //     });
+	    };
+	    AuthenticationService.prototype.VerifyToken = function (token, callback) {
+	        this.$http.post(this.envService.read('apiUrl') + '/auth/jwt/verify/', {
+	            token: token
+	        })
+	            .error(function (response) {
+	            callback(response);
+	        })
+	            .success(function (response) {
+	            callback(response);
+	        });
+	    };
+	    return AuthenticationService;
+	}());
+	exports.AuthenticationService = AuthenticationService;
+	angular.module(init_1.Module).factory("AuthenticationService", ["$http", "$cookieStore", "$rootScope", "config", "envService", NewAuthenticationService]);
+	function NewAuthenticationService($http, $cookieStore, $scope, config, envService) {
+	    return new AuthenticationService($http, $cookieStore, $scope, config, envService);
+	}
+	exports.NewAuthenticationService = NewAuthenticationService;
+
+
+/***/ },
+/* 11 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	///<reference path="../_all.ts"/>
+	var init_1 = __webpack_require__(7);
+	var FlashService = (function () {
+	    function FlashService($scope) {
+	        this.$scope = $scope;
+	        this.init();
+	    }
+	    FlashService.prototype.init = function () {
+	        this.$scope.$on('$locationChangeStart', function () {
+	            var flash = this.$scope.flash;
+	            if (flash) {
+	                if (!flash.keepAfterLocationChange) {
+	                    delete this.$scope.flash;
+	                }
+	                else {
+	                    flash.keepAfterLocationChange = false;
+	                }
+	            }
+	        });
+	    };
+	    FlashService.prototype.Success = function (messages, keepAfterLocationChange) {
+	        this.$scope.flash = {
+	            messages: messages,
+	            type: 'success',
+	            keepAfterLocationChange: keepAfterLocationChange
+	        };
+	    };
+	    FlashService.prototype.Error = function (messages, keepAfterLocationChange) {
+	        this.$scope.flash = {
+	            messages: messages,
+	            type: 'error',
+	            keepAfterLocationChange: keepAfterLocationChange
+	        };
+	    };
+	    return FlashService;
+	}());
+	exports.FlashService = FlashService;
+	angular.module(init_1.Module).factory("FlashService", ["$rootScope", NewFlashService]);
+	function NewFlashService($scope) {
+	    return new FlashService($scope);
+	}
+	exports.NewFlashService = NewFlashService;
+
+
+/***/ },
+/* 12 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	///<reference path="../_all.ts"/>
+	var init_1 = __webpack_require__(7);
+	var PageService = (function () {
+	    function PageService(config, $scope) {
+	        this.config = config;
+	        this.$scope = $scope;
+	    }
+	    PageService.prototype.resetData = function () {
+	        this.$scope.page.website_title = this.config.appTitle;
+	        this.$scope.page.html_title = this.config.appTitle;
+	        this.$scope.page.slug = '';
+	        return '';
+	    };
+	    PageService.prototype.setHtmlTitle = function (html_title) {
+	        this.$scope.page.html_title = html_title + ' | ' + this.$scope.page.html_title;
+	        return '';
+	    };
+	    PageService.prototype.setSlug = function (slug) {
+	        this.$scope.page.slug = slug;
+	        return '';
+	    };
+	    return PageService;
+	}());
+	exports.PageService = PageService;
+	angular.module(init_1.Module).factory("PageService", ["config", "$rootScope", NewPageService]);
+	function NewPageService(config, $scope) {
+	    return new PageService(config, $scope);
+	}
+	exports.NewPageService = NewPageService;
+
+
+/***/ },
+/* 13 */
+/***/ function(module, exports, __webpack_require__) {
+
+	///<reference path="../_all.ts"/>
+	"use strict";
+	var init_1 = __webpack_require__(7);
+	var PageController = (function () {
+	    function PageController($scope, config, PageService) {
+	        this.$scope = $scope;
+	        this.config = config;
+	        this.PageService = PageService;
+	        $scope.page = PageService;
+	        $scope.page.resetData();
 	    }
 	    PageController.id = "PageController";
 	    return PageController;
 	}());
 	exports.PageController = PageController;
-	angular.module(init_1.Module).controller("PageController", ["$scope", "config", NewPageController]);
-	function NewPageController($scope, config) {
-	    return new PageController($scope, config);
+	angular.module(init_1.Module).controller("PageController", ["$rootScope", "config", "PageService", NewPageController]);
+	function NewPageController($scope, config, PageService) {
+	    return new PageController($scope, config, PageService);
 	}
-	//# sourceMappingURL=page.js.map
+
+
+/***/ },
+/* 14 */
+/***/ function(module, exports, __webpack_require__) {
+
+	///<reference path="../_all.ts"/>
+	"use strict";
+	var init_1 = __webpack_require__(7);
+	var LoginController = (function () {
+	    function LoginController($location, PageService, AuthenticationService, FlashService) {
+	        this.$location = $location;
+	        this.PageService = PageService;
+	        this.AuthenticationService = AuthenticationService;
+	        this.FlashService = FlashService;
+	        this.c = this;
+	        PageService.resetData();
+	        PageService.setHtmlTitle('Login');
+	        PageService.setSlug('login');
+	        AuthenticationService.ClearCredentials();
+	    }
+	    LoginController.prototype.login = function () {
+	        this.AuthenticationService.Login(this.c.username, this.c.password, function (response) {
+	            if (typeof response.token == 'string' && response.token.length > 0) {
+	                this.AuthenticationService.SetCredentials(response.token, function (response) {
+	                    if (typeof response.success == 'boolean' && response.success == true) {
+	                        this.$location.path('/');
+	                    }
+	                    else {
+	                        this.FlashService.Error(['The username and password you entered don\'t match.']);
+	                    }
+	                });
+	            }
+	            else {
+	                this.FlashService.Error(['The username and password you entered don\'t match.']);
+	            }
+	        });
+	    };
+	    ;
+	    return LoginController;
+	}());
+	exports.LoginController = LoginController;
+	angular.module(init_1.Module).controller("LoginController", [
+	    "$location",
+	    "PageService",
+	    "AuthenticationService",
+	    "FlashService",
+	    NewLoginController]);
+	function NewLoginController($location, PageService, AuthenticationService, FlashService) {
+	    return new LoginController($location, PageService, AuthenticationService, FlashService);
+	}
+	exports.NewLoginController = NewLoginController;
+
 
 /***/ }
 /******/ ]);

@@ -1,45 +1,43 @@
-﻿(function () {
-    'use strict';
-    angular
-        .module('app')
-        .factory('FlashService', FlashService);
-    FlashService.$inject = [
-        '$rootScope'
-    ];
-    function FlashService($rootScope) {
-        var service = {};
-        service.Success = Success;
-        service.Error = Error;
-        initService();
-        function initService() {
-            $rootScope.$on('$locationChangeStart', function () {
-                clearFlashMessage();
-            });
-            function clearFlashMessage() {
-                var flash = $rootScope.flash;
-                if (flash) {
-                    if (!flash.keepAfterLocationChange) {
-                        delete $rootScope.flash;
-                    } else {
-                        flash.keepAfterLocationChange = false;
-                    }
+"use strict";
+///<reference path="../_all.ts"/>
+var init_1 = require("../init");
+var FlashService = (function () {
+    function FlashService($scope) {
+        this.$scope = $scope;
+        this.init();
+    }
+    FlashService.prototype.init = function () {
+        this.$scope.$on('$locationChangeStart', function () {
+            var flash = this.$scope.flash;
+            if (flash) {
+                if (!flash.keepAfterLocationChange) {
+                    delete this.$scope.flash;
+                }
+                else {
+                    flash.keepAfterLocationChange = false;
                 }
             }
-        }
-        function Success(messages, keepAfterLocationChange) {
-            $rootScope.flash = {
-                messages: messages,
-                type: 'success',
-                keepAfterLocationChange: keepAfterLocationChange
-            };
-        }
-        function Error(messages, keepAfterLocationChange) {
-            $rootScope.flash = {
-                messages: messages,
-                type: 'error',
-                keepAfterLocationChange: keepAfterLocationChange
-            };
-        }
-        return service;
-    }
-})();
+        });
+    };
+    FlashService.prototype.Success = function (messages, keepAfterLocationChange) {
+        this.$scope.flash = {
+            messages: messages,
+            type: 'success',
+            keepAfterLocationChange: keepAfterLocationChange
+        };
+    };
+    FlashService.prototype.Error = function (messages, keepAfterLocationChange) {
+        this.$scope.flash = {
+            messages: messages,
+            type: 'error',
+            keepAfterLocationChange: keepAfterLocationChange
+        };
+    };
+    return FlashService;
+}());
+exports.FlashService = FlashService;
+angular.module(init_1.Module).factory("FlashService", ["$rootScope", NewFlashService]);
+function NewFlashService($scope) {
+    return new FlashService($scope);
+}
+exports.NewFlashService = NewFlashService;

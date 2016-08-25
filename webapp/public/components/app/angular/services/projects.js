@@ -37,4 +37,3 @@ var App;
     }());
     App.ProjectService = ProjectService;
 })(App || (App = {}));
-//# sourceMappingURL=projects.js.map

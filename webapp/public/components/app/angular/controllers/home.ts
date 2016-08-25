@@ -1,9 +1,9 @@
 ///<reference path="../_all.ts"/>
 
 'use strict';
-import PageService = App.PageService;
+import {PageService} from "../services/page";
 import ProjectService = App.ProjectService;
-import Module = App.Module;
+import {Module} from "../init";
 
 export class HomeController {
     static id = "HomeController";
@@ -13,11 +13,11 @@ export class HomeController {
     public c:any;
     public projectService:any;
 
-    constructor(private PageService:PageService, private ProjectService:ProjectService) {
+    constructor(private PageService:PageService) {
         PageService.resetData();
         PageService.setHtmlTitle(this.title);
         PageService.setSlug(this.slug);
-        this.projectService = ProjectService
+        // this.projectService = ProjectService
     }
 
     public loadActiveProjects():any {
@@ -37,4 +37,11 @@ export class HomeController {
 }
 
 angular.module(Module)
-    .controller(HomeController.id, ["PageService", "ProjectService", HomeController]);
+    .controller("HomeController", ["PageService", "ProjectService", HomeController]);
+angular.module(Module).controller("HomeController", [
+   "PageService",
+    // "ProjectService",
+    NewHomeController]);
+export function NewHomeController(PageService:PageService) {
+    return new HomeController(PageService);
+}

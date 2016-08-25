@@ -81,8 +81,8 @@ angular.module(exports.Module, [
             controller: 'LoginController',
             templateUrl: 'components/app/angular/views/login.html',
             controllerAs: 'c'
-        });
-        // .otherwise({redirectTo: '/404'});
+        })
+            .otherwise({ redirectTo: '/404' });
     }])
     .run([
     '$location',
@@ -90,25 +90,24 @@ angular.module(exports.Module, [
     '$http',
     'config',
     'envService',
-    // 'AuthenticationService',
-    // PageService.id,
-    function ($location, $cookieStore, $http) {
-        // globalScope.globals = $cookieStore.get('globals') || {};
-        // if (globalScope.globals.currentUser) {
-        //     AuthenticationService.SetCredentials(globalScope.globals.currentUser.token, function (response) {
-        //         if (typeof response.success != 'boolean' ||
-        //             typeof response.success == 'boolean' && response.success == false) {
-        //             $location.path('/login');
-        //         }
-        //     });
-        //     $http.defaults.headers.common.Authorization = 'JWT ' + globalScope.globals.currentUser.token;
-        // }
-        // globalScope.$on('$locationChangeStart', function (event, next, current) {
-        //     var restrictedPage = $.inArray($location.path(), ['/login', '/404']) === -1;
-        //     if (restrictedPage && !globalScope.globals.currentUser) {
-        //         $location.path('/login');
-        //     }
-        // });
+    '$rootScope',
+    'AuthenticationService',
+    function ($location, $cookieStore, $http, config, envService, $scope, AuthenticationService) {
+        $scope.globals = $cookieStore.get('globals') || {};
+        if ($scope.globals.currentUser) {
+            AuthenticationService.SetCredentials($scope.globals.currentUser.token, function (response) {
+                if (typeof response.success != 'boolean' ||
+                    typeof response.success == 'boolean' && response.success == false) {
+                    $location.path('/login');
+                }
+            });
+            $http.defaults.headers.common.Authorization = 'JWT ' + $scope.globals.currentUser.token;
+        }
+        $scope.$on('$locationChangeStart', function (event, next, current) {
+            var restrictedPage = $.inArray($location.path(), ['/login', '/404']) === -1;
+            if (restrictedPage && !$scope.globals.currentUser) {
+                $location.path('/login');
+            }
+        });
     }
 ]);
-//# sourceMappingURL=init.js.map

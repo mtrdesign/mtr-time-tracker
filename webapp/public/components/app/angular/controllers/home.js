@@ -1,16 +1,15 @@
 ///<reference path="../_all.ts"/>
 'use strict';
-var Module = App.Module;
+var init_1 = require("../init");
 var HomeController = (function () {
-    function HomeController(PageService, ProjectService) {
+    function HomeController(PageService) {
         this.PageService = PageService;
-        this.ProjectService = ProjectService;
         this.title = "Home";
         this.slug = "home";
         PageService.resetData();
         PageService.setHtmlTitle(this.title);
         PageService.setSlug(this.slug);
-        this.projectService = ProjectService;
+        // this.projectService = ProjectService
     }
     HomeController.prototype.loadActiveProjects = function () {
         this.projectService.GetActiveProjects()
@@ -28,6 +27,13 @@ var HomeController = (function () {
     return HomeController;
 }());
 exports.HomeController = HomeController;
-angular.module(Module)
-    .controller(HomeController.id, ["PageService", "ProjectService", HomeController]);
-//# sourceMappingURL=home.js.map
+angular.module(init_1.Module)
+    .controller("HomeController", ["PageService", "ProjectService", HomeController]);
+angular.module(init_1.Module).controller("HomeController", [
+    "PageService",
+    // "ProjectService",
+    NewHomeController]);
+function NewHomeController(PageService) {
+    return new HomeController(PageService);
+}
+exports.NewHomeController = NewHomeController;
