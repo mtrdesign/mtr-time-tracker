@@ -14,21 +14,21 @@ var LoginController = (function () {
         AuthenticationService.ClearCredentials();
     }
     LoginController.prototype.login = function () {
-        this.AuthenticationService.Login(this.c.username, this.c.password, function (response) {
+        this.AuthenticationService.Login(this.c.username, this.c.password, angular.bind(this, function (response) {
             if (typeof response.token == 'string' && response.token.length > 0) {
-                this.AuthenticationService.SetCredentials(response.token, function (response) {
+                this.AuthenticationService.SetCredentials(response.token, angular.bind(this, function (response) {
                     if (typeof response.success == 'boolean' && response.success == true) {
                         this.$location.path('/');
                     }
                     else {
                         this.FlashService.Error(['The username and password you entered don\'t match.']);
                     }
-                });
+                }));
             }
             else {
                 this.FlashService.Error(['The username and password you entered don\'t match.']);
             }
-        });
+        }));
     };
     ;
     return LoginController;

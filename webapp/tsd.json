@@ -22,6 +22,12 @@
     },
     "angular-jwt/angular-jwt.d.ts": {
       "commit": "73e712534896baf8f17b30bbf4f45f05d77f48c5"
+    },
+    "moment/moment.d.ts": {
+      "commit": "ddc0afa3149b24a0ff64fc80afd045cffdda3ecf"
+    },
+    "moment/moment-node.d.ts": {
+      "commit": "ddc0afa3149b24a0ff64fc80afd045cffdda3ecf"
     }
   }
 }

@@ -7,11 +7,12 @@ var FlashService = (function () {
         this.init();
     }
     FlashService.prototype.init = function () {
+        var _this = this;
         this.$scope.$on('$locationChangeStart', function () {
-            var flash = this.$scope.flash;
+            var flash = _this.$scope.flash;
             if (flash) {
                 if (!flash.keepAfterLocationChange) {
-                    delete this.$scope.flash;
+                    delete _this.$scope.flash;
                 }
                 else {
                     flash.keepAfterLocationChange = false;

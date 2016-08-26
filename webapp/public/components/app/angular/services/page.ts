@@ -12,24 +12,24 @@ export class PageService implements IPageService {
     public html_title:string;
     public slug:string;
 
+
     constructor(private config:IEnvConfig, 
                 private $scope:IScope) {
-
     }
 
-    public resetData() {
+    resetData() {
         this.$scope.page.website_title = this.config.appTitle;
         this.$scope.page.html_title = this.config.appTitle;
         this.$scope.page.slug = '';
         return '';
     }
 
-    public setHtmlTitle(html_title:string) {
+    setHtmlTitle(html_title:string) {
         this.$scope.page.html_title = html_title + ' | ' + this.$scope.page.html_title;
         return '';
     }
 
-    public setSlug(slug:string) {
+    setSlug(slug:string) {
         this.$scope.page.slug = slug;
         return '';
     }

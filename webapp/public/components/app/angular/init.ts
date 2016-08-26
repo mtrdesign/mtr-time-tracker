@@ -37,7 +37,7 @@ angular.module(Module, [
             });
             envServiceProvider.check();
             $routeProvider
-                .when('/account', {
+                .when('/', {
                     controller: "HomeController",
                     templateUrl: 'components/app/angular/views/home.html',
                     controllerAs: 'c'
@@ -114,7 +114,7 @@ angular.module(Module, [
                 });
                 $http.defaults.headers.common.Authorization = 'JWT ' + $scope.globals.currentUser.token;
             }
-            $scope.$on('$locationChangeStart', function (event, next, current) {
+            $scope.$on('$locationChangeStart', (event, next, current):any =>  {
                 var restrictedPage = $.inArray($location.path(), ['/login', '/404']) === -1;
                 if (restrictedPage && !$scope.globals.currentUser) {
                     $location.path('/login');

@@ -1,78 +1,74 @@
-﻿(function () {
-    'use strict';
-    angular
-        .module('app')
-        .controller('TimeReportViewController', TimeReportViewController);
-    TimeReportViewController.$inject = [
-        '$rootScope', 
-        '$location', 
-        'PageService', 
-        'FlashService', 
-        'ProjectsService', 
-        'TimeReportsService', 
-        '$routeParams'
-    ];
-    function TimeReportViewController($rootScope, $location, PageService, FlashService,
-                                      ProjectsService, TimeReportsService, $routeParams) {
-        var c = this;
-        c.removeItem = removeItem;
-        c.getProject = [];
-        c.getProjectTimeReports = [];
-        c.timeReportData = {};
-        c.timeReportData.id = '';
-        c.timeReportData.name = '';
-        c.timeReportData.seconds = '';
-        c.timeReportData.description = '';
-        c.timeReportData.date = '';
-        c.timeReportData.profile = $rootScope.globals.currentUser.profile.id;
-        c.timeReportData.project = $routeParams.id;
-        c.readableKeys = {};
-        c.readableKeys.name = 'Name';
-        c.readableKeys.seconds = 'Hours';
-        c.readableKeys.description = 'Description';
-        c.readableKeys.date = 'Date';
-        (function initController() {
-            PageService.resetData();
-            PageService.setHtmlTitle('Time Reports');
-            PageService.setSlug('time-reports');
-            loadReportData($routeParams.id);
-            loadProject($routeParams.project_id);
-            initUI();
-        })();
-        function loadProject(id) {
-            ProjectsService.GetProject(id)
-                .then(function (project) {
-                    if(typeof project.id == 'number' && project.id > 0) {
-                        c.getProject = project;
-                        PageService.setHtmlTitle(project.name);
-                    } else {
-                        $location.path('/404');
-                    }
-                });
-        }
-        function loadReportData(id) {
-            TimeReportsService.GetByID(id)
-                .then(function (timeReports) {
-                    if(typeof timeReports.id == 'number' && timeReports.id > 0) {
-                        c.timeReportData = timeReports;
-                        PageService.setHtmlTitle(timeReports.name);
-                    } else {
-                        $location.path('/404');
-                    }
-                });
-        }
-        function removeItem(id) {
-            var r = confirm('Are you sure that you want to delete this item?');
-            if(r){
-                TimeReportsService.Delete(id, function (response) {
-                    if(response.length  == 0){
-                        FlashService.Success(['Time report has been successfully deleted.']);
-                    } else {
-                        FlashService.Error(['Unexpected error']);
-                    }
-                    history.go(-1);
-                });
-            }
-        }
+///<reference path="../_all.ts"/>
+"use strict";
+var init_1 = require("../init");
+var TimeReportViewController = (function () {
+    function TimeReportViewController($scope, $location, PageService, FlashService, ProjectsService, TimeReportsService, $routeParams) {
+        this.$scope = $scope;
+        this.$location = $location;
+        this.PageService = PageService;
+        this.FlashService = FlashService;
+        this.ProjectsService = ProjectsService;
+        this.TimeReportsService = TimeReportsService;
+        this.$routeParams = $routeParams;
+        this.c = this;
+        PageService.resetData();
+        PageService.setHtmlTitle('Time Reports');
+        PageService.setSlug('time-reports');
+        this.loadReportData($routeParams.id);
+        this.loadProject($routeParams.project_id);
+        // initUI();
     }
-})();
+    TimeReportViewController.prototype.loadProject = function (id) {
+        var _this = this;
+        this.ProjectsService.GetProject(id)
+            .then(function (project) {
+            if (typeof project.id == 'number' && project.id > 0) {
+                _this.c.getProject = project;
+                _this.PageService.setHtmlTitle(project.name);
+            }
+            else {
+                _this.$location.path('/404');
+            }
+        });
+    };
+    TimeReportViewController.prototype.loadReportData = function (id) {
+        var _this = this;
+        this.TimeReportsService.GetByID(id)
+            .then(function (timeReports) {
+            if (typeof timeReports.id == 'number' && timeReports.id > 0) {
+                _this.c.timeReportData = timeReports;
+                _this.PageService.setHtmlTitle(timeReports.name);
+            }
+            else {
+                _this.$location.path('/404');
+            }
+        });
+    };
+    TimeReportViewController.prototype.removeItem = function (id) {
+        var _this = this;
+        var r = confirm('Are you sure that you want to delete this item?');
+        if (r) {
+            this.TimeReportsService.Delete(id, function (response) {
+                if (response.length == 0) {
+                    _this.FlashService.Success(['Time report has been successfully deleted.'], false);
+                }
+                else {
+                    _this.FlashService.Error(['Unexpected error'], false);
+                }
+                history.go(-1);
+            });
+        }
+    };
+    return TimeReportViewController;
+}());
+exports.TimeReportViewController = TimeReportViewController;
+angular.module(init_1.Module).controller("TimeReportViewController", ['$rootScope',
+    '$location',
+    'PageService',
+    'FlashService',
+    'ProjectsService',
+    'TimeReportsService',
+    '$routeParams', NewTimeReportViewController]);
+function NewTimeReportViewController($scope, $location, PageService, FlashService, ProjectsService, TimeReportsService, $routeParams) {
+    return new TimeReportViewController($scope, $location, PageService, FlashService, ProjectsService, TimeReportsService, $routeParams);
+}

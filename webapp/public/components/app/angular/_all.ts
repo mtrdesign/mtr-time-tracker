@@ -1,9 +1,1 @@
 ///<reference path="../../../../typings/tsd.d.ts"/>
-///<reference path="services/page.ts"/>
-///<reference path="services/flash.ts"/>
-///<reference path="services/authentication.ts"/>
-///<reference path="controllers/page.ts"/>
-///<reference path="controllers/home.ts"/>
-///<reference path="controllers/login.ts"/>
-///<reference path="http_loader.ts"/>
-///<reference path="init.ts"/>

@@ -5,4 +5,6 @@
 /// <reference path="angular-environment/angular-environment.d.ts" />
 /// <reference path="angularjs/angular-cookies.d.ts" />
 /// <reference path="angular-jwt/angular-jwt.d.ts" />
+/// <reference path="moment/moment-node.d.ts" />
+/// <reference path="moment/moment.d.ts" />
 

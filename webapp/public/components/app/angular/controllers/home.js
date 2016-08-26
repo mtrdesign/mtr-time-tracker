@@ -2,38 +2,38 @@
 'use strict';
 var init_1 = require("../init");
 var HomeController = (function () {
-    function HomeController(PageService) {
+    function HomeController(PageService, ProjectsService) {
         this.PageService = PageService;
-        this.title = "Home";
-        this.slug = "home";
+        this.ProjectsService = ProjectsService;
+        this.c = this;
         PageService.resetData();
-        PageService.setHtmlTitle(this.title);
-        PageService.setSlug(this.slug);
-        // this.projectService = ProjectService
+        PageService.setHtmlTitle("Home");
+        PageService.setSlug("home");
+        this.loadActiveProjects();
+        this.loadFinishedProjects();
     }
     HomeController.prototype.loadActiveProjects = function () {
-        this.projectService.GetActiveProjects()
+        var _this = this;
+        this.ProjectsService.GetActiveProjects()
             .then(function (projects) {
-            this.c.getActiveProjects = projects;
+            _this.c.getActiveProjects = projects;
         });
     };
     HomeController.prototype.loadFinishedProjects = function () {
-        this.projectService.GetFinishedProjects()
+        var _this = this;
+        this.ProjectsService.GetFinishedProjects()
             .then(function (projects) {
-            this.c.getFinishedProjects = projects;
+            _this.c.getFinishedProjects = projects;
         });
     };
-    HomeController.id = "HomeController";
     return HomeController;
 }());
 exports.HomeController = HomeController;
-angular.module(init_1.Module)
-    .controller("HomeController", ["PageService", "ProjectService", HomeController]);
 angular.module(init_1.Module).controller("HomeController", [
     "PageService",
-    // "ProjectService",
+    "ProjectsService",
     NewHomeController]);
-function NewHomeController(PageService) {
-    return new HomeController(PageService);
+function NewHomeController(PageService, ProjectsService) {
+    return new HomeController(PageService, ProjectsService);
 }
 exports.NewHomeController = NewHomeController;

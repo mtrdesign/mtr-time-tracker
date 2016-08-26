@@ -13,8 +13,18 @@
     "public/components/app/angular/services/flash.ts",
     "public/components/app/angular/services/authentication.ts",
     "public/components/app/angular/services/projects.ts",
+    "public/components/app/angular/services/profiles.ts",
+    "public/components/app/angular/services/time_reports.ts",
+    "public/components/app/angular/services/users.ts",
+    "public/components/app/angular/controllers/account.ts",
     "public/components/app/angular/controllers/page.ts",
     "public/components/app/angular/controllers/home.ts",
+    "public/components/app/angular/controllers/project.ts",
+    "public/components/app/angular/controllers/time_report_edit.ts",
+    "public/components/app/angular/controllers/time_report_list.ts",
+    "public/components/app/angular/controllers/time_report_new.ts",
+    "public/components/app/angular/controllers/time_report_view.ts",
+    "public/components/app/angular/controllers/404.ts",
     "public/components/app/angular/controllers/login.ts"
   ]
 }

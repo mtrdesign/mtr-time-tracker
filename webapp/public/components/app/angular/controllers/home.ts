@@ -2,46 +2,43 @@
 
 'use strict';
 import {PageService} from "../services/page";
-import ProjectService = App.ProjectService;
 import {Module} from "../init";
+import {ProjectsService} from "../services/projects";
 
 export class HomeController {
-    static id = "HomeController";
 
-    public title:string = "Home";
-    public slug:string = "home";
-    public c:any;
-    public projectService:any;
+    public c = this;
+    public getActiveProjects:any;
+    public getFinishedProjects:any;
 
-    constructor(private PageService:PageService) {
+    constructor(private PageService:PageService,
+                private ProjectsService:ProjectsService) {
         PageService.resetData();
-        PageService.setHtmlTitle(this.title);
-        PageService.setSlug(this.slug);
-        // this.projectService = ProjectService
+        PageService.setHtmlTitle("Home");
+        PageService.setSlug("home");
+        this.loadActiveProjects();
+        this.loadFinishedProjects();
     }
 
-    public loadActiveProjects():any {
-        this.projectService.GetActiveProjects()
-            .then(function (projects:any) {
+    loadActiveProjects() {
+        this.ProjectsService.GetActiveProjects()
+            .then((projects:any) => {
                 this.c.getActiveProjects = projects;
             });
     }
 
-    public loadFinishedProjects():any {
-        this.projectService.GetFinishedProjects()
-            .then(function (projects:any) {
+    loadFinishedProjects() {
+        this.ProjectsService.GetFinishedProjects()
+            .then((projects:any) => {
                 this.c.getFinishedProjects = projects;
             });
     }
-
 }
 
-angular.module(Module)
-    .controller("HomeController", ["PageService", "ProjectService", HomeController]);
 angular.module(Module).controller("HomeController", [
-   "PageService",
-    // "ProjectService",
+    "PageService",
+    "ProjectsService",
     NewHomeController]);
-export function NewHomeController(PageService:PageService) {
-    return new HomeController(PageService);
+export function NewHomeController(PageService:PageService, ProjectsService:ProjectsService) {
+    return new HomeController(PageService, ProjectsService);
 }

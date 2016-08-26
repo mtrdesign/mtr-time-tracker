@@ -30,11 +30,11 @@
             </div>
         </nav>
         <div class="container">
-            <!--<div ng-class="{ 'alert': flash, 'alert-success': flash.type === 'success', 'alert-danger': flash.type === 'error' }" ng-if="flash">-->
-                <!--<span ng-repeat="message in flash.messages">-->
+            <div ng-class="{ 'alert': flash, 'alert-success': flash.type === 'success', 'alert-danger': flash.type === 'error' }" ng-if="flash">
+                <span ng-repeat="message in flash.messages">
                     {{ message }}
-                <!--</span>-->
-            <!--</div>-->
+                </span>
+            </div>
             <div ng-view></div>
         </div>
         <div class="loading" http-loader>Loading</div>

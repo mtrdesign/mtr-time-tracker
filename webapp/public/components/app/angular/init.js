@@ -32,7 +32,7 @@ angular.module(exports.Module, [
         });
         envServiceProvider.check();
         $routeProvider
-            .when('/account', {
+            .when('/', {
             controller: "HomeController",
             templateUrl: 'components/app/angular/views/home.html',
             controllerAs: 'c'

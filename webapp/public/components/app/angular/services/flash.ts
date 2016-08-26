@@ -8,7 +8,7 @@ export class FlashService {
     }
 
     protected init() {
-        this.$scope.$on('$locationChangeStart', function () {
+        this.$scope.$on('$locationChangeStart', () => {
             let flash = this.$scope.flash;
             if (flash) {
                 if (!flash.keepAfterLocationChange) {
@@ -20,7 +20,7 @@ export class FlashService {
         });
     }
 
-    public Success(messages:string, keepAfterLocationChange:any) {
+    public Success(messages:any, keepAfterLocationChange:any) {
         this.$scope.flash = {
             messages: messages,
             type: 'success',
@@ -28,7 +28,7 @@ export class FlashService {
         };
     }
 
-    public Error(messages:string, keepAfterLocationChange:any) {
+    public Error(messages:any, keepAfterLocationChange:any) {
         this.$scope.flash = {
             messages: messages,
             type: 'error',

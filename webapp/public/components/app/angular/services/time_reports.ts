@@ -1,43 +1,50 @@
-"use strict";
-///<reference path="../_all.ts"/>
-var init_1 = require("../init");
-var TimeReportsService = (function () {
-    function TimeReportsService($http, config, envService) {
-        this.$http = $http;
-        this.config = config;
-        this.envService = envService;
+﻿///<reference path="../_all.ts"/>
+import {Module, IEnvConfig, IScope} from "../init";
+
+export class TimeReportsService {
+
+    constructor(private $http:ng.IHttpService,
+                private config:IEnvConfig,
+                private envService:angular.environment.Service) {
     }
-    TimeReportsService.prototype.GetByID = function (id) {
+
+
+    GetByID(id:number) {
         return this.$http.get(this.envService.read('apiUrl') + '/time-reports/' + id + '/')
             .then(this.handleSuccess, this.handleError('Error getting time reports.'));
-    };
-    TimeReportsService.prototype.GetReportsByConditions = function (conditions) {
+    }
+
+    GetReportsByConditions(conditions:any) {
         return this.$http.get(this.envService.read('apiUrl') + '/time-reports/?' + this.getParams(conditions))
             .then(this.handleSuccess, this.handleError('Error getting time reports.'));
-    };
-    TimeReportsService.prototype.GetReportsProfilesByConditions = function (conditions) {
+    }
+
+    GetReportsProfilesByConditions(conditions:any) {
         return this.$http.get(this.envService.read('apiUrl') + '/time-reports/profiles/?' + this.getParams(conditions))
             .then(this.handleSuccess, this.handleError('Error getting time reports.'));
-    };
-    TimeReportsService.prototype.GetReportsProjectsByConditions = function (conditions) {
+    }
+
+    GetReportsProjectsByConditions(conditions:any) {
         return this.$http.get(this.envService.read('apiUrl') + '/time-reports/projects/?' + this.getParams(conditions))
             .then(this.handleSuccess, this.handleError('Error getting time reports.'));
-    };
-    TimeReportsService.prototype.GetReportsTotalHoursByConditions = function (conditions) {
+    }
+
+    GetReportsTotalHoursByConditions(conditions:any) {
         return this.$http.get(this.envService.read('apiUrl') + '/time-reports/total-hours/?' + this.getParams(conditions))
             .then(this.handleSuccess, this.handleError('Error getting time reports.'));
-    };
-    TimeReportsService.prototype.GetReports = function (project_id) {
+    }
+
+    GetReports(project_id:number) {
         return this.$http.get(this.envService.read('apiUrl') + '/time-reports/?project__id=' + project_id)
             .then(this.handleSuccess, this.handleError('Error getting time reports.'));
-    };
-    TimeReportsService.prototype.Create = function (timeReportData, callback) {
+    }
+
+    Create(timeReportData:any, callback:any) {
         var seconds = 0;
         if (moment.duration(timeReportData.seconds, "HH:mm").asSeconds()) {
             seconds = moment.duration(timeReportData.seconds, "HH:mm");
-        }
-        else {
-            seconds = moment.duration({ 'hours': timeReportData.seconds });
+        } else {
+            seconds = moment.duration({'hours': timeReportData.seconds});
         }
         this.$http.post(this.envService.read('apiUrl') + '/time-reports/', {
             'name': timeReportData.name,
@@ -47,20 +54,20 @@ var TimeReportsService = (function () {
             'profile': timeReportData.profile,
             'project': timeReportData.project
         })
-            .error(function (response) {
-            callback(response);
-        })
-            .success(function (response) {
-            callback(response);
-        });
-    };
-    TimeReportsService.prototype.Update = function (id, timeReportData, callback) {
+            .error(function (response:any) {
+                callback(response);
+            })
+            .success(function (response:any) {
+                callback(response);
+            });
+    }
+
+    Update(id:number, timeReportData:any, callback:any) {
         var seconds = 0;
         if (moment.duration(timeReportData.hours, "HH:mm").asSeconds()) {
             seconds = moment.duration(timeReportData.hours, "HH:mm");
-        }
-        else {
-            seconds = moment.duration({ 'hours': timeReportData.hours });
+        } else {
+            seconds = moment.duration({'hours': timeReportData.hours});
         }
         this.$http.patch(this.envService.read('apiUrl') + '/time-reports/' + id + '/', {
             'name': timeReportData.name,
@@ -68,41 +75,46 @@ var TimeReportsService = (function () {
             'description': timeReportData.description,
             'date': timeReportData.date
         })
-            .error(function (response) {
-            callback(response);
-        })
-            .success(function (response) {
-            callback(response);
-        });
-    };
-    TimeReportsService.prototype.Delete = function (id, callback) {
+            .error(function (response:any) {
+                callback(response);
+            })
+            .success(function (response:any) {
+                callback(response);
+            });
+    }
+
+    Delete(id:number, callback:any) {
         this.$http.delete(this.envService.read('apiUrl') + '/time-reports/' + id + '/')
-            .error(function (response) {
-            callback(response);
-        })
-            .success(function (response) {
-            callback(response);
-        });
-    };
-    TimeReportsService.prototype.handleSuccess = function (res) {
+            .error(function (response:any) {
+                callback(response);
+            })
+            .success(function (response:any) {
+                callback(response);
+            });
+    }
+
+    handleSuccess(res:any) {
         return res.data;
-    };
-    TimeReportsService.prototype.handleError = function (error) {
+    }
+
+    handleError(error:any) {
         return function () {
-            return { success: false, message: error };
+            return {success: false, message: error};
         };
-    };
-    TimeReportsService.prototype.getParams = function (conditions) {
-        var params = '';
+    }
+
+    protected getParams(conditions:any) {
+        let params = '';
         if (conditions)
             params = $.param(conditions);
         return params;
-    };
-    return TimeReportsService;
-}());
-exports.TimeReportsService = TimeReportsService;
-angular.module(init_1.Module).factory("TimeReportsService", ['$http', 'config', 'envService', NewTimeReportsService]);
-function NewTimeReportsService($http, config, envService) {
-    return new TimeReportsService($http, config, envService);
+    }
 }
-exports.NewTimeReportsService = NewTimeReportsService;
+
+angular.module(Module).factory("TimeReportsService", ['$http', 'config', 'envService', NewTimeReportsService]);
+export function NewTimeReportsService($http:ng.IHttpService,
+                                      config:IEnvConfig,
+                                      envService:angular.environment.Service) {
+    return new TimeReportsService($http, config, envService);
+
+}
