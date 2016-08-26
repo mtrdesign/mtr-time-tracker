@@ -1,5 +1,6 @@
 ﻿///<reference path="_all.ts"/>
 import {AuthenticationService} from "./services/authentication";
+import {IScope, IEnvConfig} from "./interface";
 export let Module = "app";
 
 angular.module(Module, [
@@ -122,13 +123,3 @@ angular.module(Module, [
             });
         }
     ]);
-
-export interface IScope extends ng.IScope {
-    globals:any,
-    page:any,
-    flash:any
-}
-
-export interface IEnvConfig extends angular.environment.Config {
-    appTitle:string
-}

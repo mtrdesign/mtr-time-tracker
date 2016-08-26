@@ -1,11 +1,13 @@
 ﻿///<reference path="../_all.ts"/>
 
 import {PageService} from "../services/page";
-import {Module, IScope, IEnvConfig} from "../init";
+import {Module} from "../init";
 import {FlashService} from "../services/flash";
 import {ProjectsService} from "../services/projects";
 import {ProfilesService} from "../services/profiles";
 import {TimeReportsService} from "../services/time_reports";
+import {IScope} from "../interface";
+
 
 interface IProjectRouteParam extends angular.route.IRouteParamsService {
     id:number;

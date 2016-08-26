@@ -853,37 +853,59 @@
 	        this.AuthenticationService = AuthenticationService;
 	        this.UsersService = UsersService;
 	        this.c = this;
+	        this.accountData = {};
+	        this.profile = {};
+	        this.user = {};
+	        this.readableKeys = {
+	            email_address: 'Email address',
+	            first_name: 'First name',
+	            last_name: 'Last name',
+	            job_title: 'Job title',
+	            phone_number: 'Phone number',
+	            current_password: 'Current password',
+	            new_password: 'New password',
+	            confirm_new_password: 'Confirm new password'
+	        };
 	        PageService.resetData();
 	        PageService.setHtmlTitle('Account');
 	        PageService.setSlug('account');
+	        this.c.accountData.profile = {};
+	        this.c.accountData.profile.email_address = $scope.globals.currentUser.profile.email_address;
+	        this.c.accountData.profile.first_name = $scope.globals.currentUser.profile.first_name;
+	        this.c.accountData.profile.last_name = $scope.globals.currentUser.profile.last_name;
+	        this.c.accountData.profile.job_title = $scope.globals.currentUser.profile.job_title;
+	        this.c.accountData.profile.phone_number = $scope.globals.currentUser.profile.phone_number;
 	    }
 	    AccountController.prototype.changeProfile = function () {
+	        var _this = this;
 	        var messages = [];
 	        this.ProfilesService.Edit(this.c.accountData.profile, function (response) {
 	            if (typeof response.id == 'number' && response.id > 0) {
-	                this.$scope.globals.currentUser.profile = response;
-	                this.FlashService.Success(['Your account has been successfully updated.']);
+	                _this.$scope.globals.currentUser.profile = response;
+	                _this.FlashService.Success(['Your account has been successfully updated.'], false);
 	            }
 	            else {
+	                var self = _this;
 	                angular.forEach(response, function (value, key) {
-	                    messages.push(this.c.readableKeys[key] + ': ' + value);
+	                    messages.push(self.c.readableKeys[key] + ': ' + value);
 	                });
-	                this.FlashService.Error(messages);
+	                _this.FlashService.Error(messages, false);
 	            }
 	        });
 	    };
-	    ;
 	    AccountController.prototype.changePassword = function () {
+	        var _this = this;
 	        var messages = [];
 	        this.UsersService.Edit(this.c.accountData.user, function (response) {
 	            if (typeof response.id == 'number' && response.id > 0) {
-	                this.FlashService.Success(['Your account has been successfully updated.']);
+	                _this.FlashService.Success(['Your account has been successfully updated.'], false);
 	            }
 	            else {
+	                var self = _this;
 	                angular.forEach(response, function (value, key) {
-	                    messages.push(this.c.readableKeys[key] + ': ' + value);
+	                    messages.push(self.c.readableKeys[key] + ': ' + value);
 	                });
-	                this.FlashService.Error(messages);
+	                _this.FlashService.Error(messages, false);
 	            }
 	        });
 	    };
@@ -1045,11 +1067,24 @@
 	        this.$routeParams = $routeParams;
 	        this.c = this;
 	        this.filterData = {};
+	        this.timeReportData = {};
+	        this.readableKeys = {
+	            name: 'Name',
+	            seconds: 'Hours',
+	            description: 'Name',
+	            date: 'Date',
+	        };
 	        PageService.resetData();
 	        PageService.setHtmlTitle('Projects');
 	        PageService.setSlug('projects');
+	        this.c.timeReportData.name = '';
+	        this.c.timeReportData.seconds = '';
+	        this.c.timeReportData.description = '';
+	        this.c.timeReportData.date = moment().format('YYYY-MM-DD');
+	        this.c.timeReportData.profile = $scope.globals.currentUser.profile.id;
+	        this.c.timeReportData.project = $routeParams.id;
 	        this.loadProject($routeParams.id);
-	        // initUI();
+	        initUI();
 	    }
 	    TimeReportNewController.prototype.loadProject = function (id) {
 	        var _this = this;
@@ -1073,8 +1108,9 @@
 	                _this.$location.path('/projects/' + _this.$routeParams.id + '/time-reports');
 	            }
 	            else {
+	                var self_1 = _this;
 	                angular.forEach(response, function (value, key) {
-	                    messages.push(this.c.readableKeys[key] + ': ' + value);
+	                    messages.push(self_1.c.readableKeys[key] + ': ' + value);
 	                });
 	                _this.FlashService.Error(messages, false);
 	            }
@@ -1226,12 +1262,18 @@
 	        this.TimeReportsService = TimeReportsService;
 	        this.$routeParams = $routeParams;
 	        this.c = this;
+	        this.readableKeys = {
+	            name: 'Name',
+	            seconds: 'Hours',
+	            description: 'Name',
+	            date: 'Date',
+	        };
 	        PageService.resetData();
 	        PageService.setHtmlTitle('Time Reports');
 	        PageService.setSlug('time-reports');
 	        this.loadReportData($routeParams.id);
 	        this.loadProject($routeParams.project_id);
-	        // initUI();
+	        initUI();
 	    }
 	    TimeReportEditController.prototype.loadProject = function (id) {
 	        var _this = this;
@@ -1268,8 +1310,9 @@
 	                _this.$location.path('/projects/' + _this.$routeParams.project_id + '/time-reports/' + _this.$routeParams.id);
 	            }
 	            else {
+	                var self_1 = _this;
 	                angular.forEach(response, function (value, key) {
-	                    messages.push(this.c.readableKeys[key] + ': ' + value);
+	                    messages.push(self_1.c.readableKeys[key] + ': ' + value);
 	                });
 	                _this.FlashService.Error(messages, false);
 	            }
@@ -1312,7 +1355,7 @@
 	        PageService.setSlug('time-reports');
 	        this.loadReportData($routeParams.id);
 	        this.loadProject($routeParams.project_id);
-	        // initUI();
+	        initUI();
 	    }
 	    TimeReportViewController.prototype.loadProject = function (id) {
 	        var _this = this;

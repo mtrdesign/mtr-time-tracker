@@ -1,5 +1,6 @@
 ///<reference path="./_all.ts"/>
-import {Module, IScope} from "./init";
+import {Module} from "./init";
+import IScope = angular.IScope;
 var app = angular.module(Module);
 
 app.factory('httpLoaderInterceptor', ['$rootScope', function ($rootScope:IScope) {

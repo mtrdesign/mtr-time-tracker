@@ -1,5 +1,6 @@
 ﻿///<reference path="../_all.ts"/>
-import {Module, IEnvConfig, IScope} from "../init";
+import {Module} from "../init";
+import {IScope, IEnvConfig} from "../interface";
 
 export class ProfilesService {
 

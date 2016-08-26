@@ -1,5 +1,6 @@
 ﻿///<reference path="../_all.ts"/>
-import {IEnvConfig, IScope, Module} from "../init";
+import {Module} from "../init";
+import {IScope, IEnvConfig} from "../interface";
 import {ProfilesService} from "./profiles";
 
 export class AuthenticationService {

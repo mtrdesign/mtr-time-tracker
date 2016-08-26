@@ -1,9 +1,10 @@
 ﻿///<reference path="../_all.ts"/>
 
-import {Module, IScope} from "../init";
+import {Module} from "../init";
 import {PageService} from "../services/page";
 import {AuthenticationService} from "../services/authentication";
 import {FlashService} from "../services/flash";
+import {IScope} from "../interface";
 
 export class LoginController {
     public c = this;

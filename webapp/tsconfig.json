@@ -7,6 +7,7 @@
   },
   "files": [
     "public/components/app/angular/init.ts",
+    "public/components/app/angular/interface.ts",
     "public/components/app/angular/filters.ts",
     "public/components/app/angular/http_loader.ts",
     "public/components/app/angular/services/page.ts",

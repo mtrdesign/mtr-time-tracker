@@ -1,10 +1,10 @@
 ﻿///<reference path="../_all.ts"/>
 
 import {PageService} from "../services/page";
-import {Module, IScope, IEnvConfig} from "../init";
+import {Module} from "../init";
+import {IScope} from "../interface";
 import {FlashService} from "../services/flash";
 import {ProjectsService} from "../services/projects";
-import {ProfilesService} from "../services/profiles";
 import {TimeReportsService} from "../services/time_reports";
 
 interface IProjectRouteParam extends angular.route.IRouteParamsService {
@@ -16,9 +16,14 @@ export class TimeReportNewController {
     public c = this;
     public search:any;
     public filterData:any = {};
-    public readableKeys:any;
     public getProject:any;
-    public timeReportData:any;
+    public timeReportData:any = {};
+    public readableKeys = {
+        name : 'Name',
+        seconds : 'Hours',
+        description  : 'Name',
+        date   : 'Date',
+    };
 
     constructor(private $scope:IScope,
                 private $location:ng.ILocationService,
@@ -31,8 +36,16 @@ export class TimeReportNewController {
         PageService.resetData();
         PageService.setHtmlTitle('Projects');
         PageService.setSlug('projects');
+
+        this.c.timeReportData.name = '';
+        this.c.timeReportData.seconds = '';
+        this.c.timeReportData.description = '';
+        this.c.timeReportData.date = moment().format('YYYY-MM-DD');
+        this.c.timeReportData.profile = $scope.globals.currentUser.profile.id;
+        this.c.timeReportData.project = $routeParams.id;
+
         this.loadProject($routeParams.id);
-        // initUI();
+        initUI();
     }
 
     loadProject(id:number) {
@@ -54,8 +67,9 @@ export class TimeReportNewController {
                 this.FlashService.Success(['Time report has been successfully created.'], false);
                 this.$location.path('/projects/' + this.$routeParams.id + '/time-reports');
             } else {
+                let self = this;
                 angular.forEach(response, function (value, key) {
-                    messages.push(this.c.readableKeys[key] + ': ' + value);
+                    messages.push(self.c.readableKeys[key] + ': ' + value);
                 });
                 this.FlashService.Error(messages, false);
             }

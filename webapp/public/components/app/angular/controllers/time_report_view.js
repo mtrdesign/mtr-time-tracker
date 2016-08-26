@@ -16,7 +16,7 @@ var TimeReportViewController = (function () {
         PageService.setSlug('time-reports');
         this.loadReportData($routeParams.id);
         this.loadProject($routeParams.project_id);
-        // initUI();
+        initUI();
     }
     TimeReportViewController.prototype.loadProject = function (id) {
         var _this = this;

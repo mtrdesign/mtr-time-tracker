@@ -1,10 +1,10 @@
 ﻿///<reference path="../_all.ts"/>
 
 import {PageService} from "../services/page";
-import {Module, IScope, IEnvConfig} from "../init";
+import {Module} from "../init";
+import {IScope} from "../interface";
 import {FlashService} from "../services/flash";
 import {ProjectsService} from "../services/projects";
-import {ProfilesService} from "../services/profiles";
 import {TimeReportsService} from "../services/time_reports";
 
 interface IProjectRouteParam extends angular.route.IRouteParamsService {
@@ -33,7 +33,7 @@ export class TimeReportViewController {
         PageService.setSlug('time-reports');
         this.loadReportData($routeParams.id);
         this.loadProject($routeParams.project_id);
-        // initUI();
+        initUI();
     }
 
     loadProject(id:number) {

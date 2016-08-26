@@ -12,11 +12,24 @@ var TimeReportNewController = (function () {
         this.$routeParams = $routeParams;
         this.c = this;
         this.filterData = {};
+        this.timeReportData = {};
+        this.readableKeys = {
+            name: 'Name',
+            seconds: 'Hours',
+            description: 'Name',
+            date: 'Date',
+        };
         PageService.resetData();
         PageService.setHtmlTitle('Projects');
         PageService.setSlug('projects');
+        this.c.timeReportData.name = '';
+        this.c.timeReportData.seconds = '';
+        this.c.timeReportData.description = '';
+        this.c.timeReportData.date = moment().format('YYYY-MM-DD');
+        this.c.timeReportData.profile = $scope.globals.currentUser.profile.id;
+        this.c.timeReportData.project = $routeParams.id;
         this.loadProject($routeParams.id);
-        // initUI();
+        initUI();
     }
     TimeReportNewController.prototype.loadProject = function (id) {
         var _this = this;
@@ -40,8 +53,9 @@ var TimeReportNewController = (function () {
                 _this.$location.path('/projects/' + _this.$routeParams.id + '/time-reports');
             }
             else {
+                var self_1 = _this;
                 angular.forEach(response, function (value, key) {
-                    messages.push(this.c.readableKeys[key] + ': ' + value);
+                    messages.push(self_1.c.readableKeys[key] + ': ' + value);
                 });
                 _this.FlashService.Error(messages, false);
             }

@@ -1,11 +1,11 @@
 ﻿///<reference path="../_all.ts"/>
 
 import {PageService} from "../services/page";
-import {Module, IScope, IEnvConfig} from "../init";
+import {Module} from "../init";
 import {FlashService} from "../services/flash";
 import {ProjectsService} from "../services/projects";
-import {ProfilesService} from "../services/profiles";
 import {TimeReportsService} from "../services/time_reports";
+import {IScope} from "../interface";
 
 interface IProjectRouteParam extends angular.route.IRouteParamsService {
     id:number;
@@ -16,7 +16,12 @@ export class TimeReportEditController {
     public c = this;
     public search:any;
     public filterData:any;
-    public readableKeys:any;
+    public readableKeys = {
+        name: 'Name',
+        seconds: 'Hours',
+        description: 'Name',
+        date: 'Date',
+    };
     public getProject:any;
     public timeReportData:any;
 
@@ -33,13 +38,13 @@ export class TimeReportEditController {
         PageService.setSlug('time-reports');
         this.loadReportData($routeParams.id);
         this.loadProject($routeParams.project_id);
-        // initUI();
+        initUI();
     }
 
     loadProject(id:number) {
 
         this.ProjectsService.GetProject(id)
-            .then( (project:any) => {
+            .then((project:any) => {
                 if (typeof project.id == 'number' && project.id > 0) {
                     this.c.getProject = project;
                     this.PageService.setHtmlTitle(project.name);
@@ -68,8 +73,9 @@ export class TimeReportEditController {
                 this.FlashService.Success(['Time report has been successfully updated.'], false);
                 this.$location.path('/projects/' + this.$routeParams.project_id + '/time-reports/' + this.$routeParams.id);
             } else {
+                let self = this;
                 angular.forEach(response, function (value, key) {
-                    messages.push(this.c.readableKeys[key] + ': ' + value);
+                    messages.push(self.c.readableKeys[key] + ': ' + value);
                 });
                 this.FlashService.Error(messages, false);
             }

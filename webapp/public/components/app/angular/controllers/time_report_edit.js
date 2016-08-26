@@ -11,12 +11,18 @@ var TimeReportEditController = (function () {
         this.TimeReportsService = TimeReportsService;
         this.$routeParams = $routeParams;
         this.c = this;
+        this.readableKeys = {
+            name: 'Name',
+            seconds: 'Hours',
+            description: 'Name',
+            date: 'Date',
+        };
         PageService.resetData();
         PageService.setHtmlTitle('Time Reports');
         PageService.setSlug('time-reports');
         this.loadReportData($routeParams.id);
         this.loadProject($routeParams.project_id);
-        // initUI();
+        initUI();
     }
     TimeReportEditController.prototype.loadProject = function (id) {
         var _this = this;
@@ -53,8 +59,9 @@ var TimeReportEditController = (function () {
                 _this.$location.path('/projects/' + _this.$routeParams.project_id + '/time-reports/' + _this.$routeParams.id);
             }
             else {
+                var self_1 = _this;
                 angular.forEach(response, function (value, key) {
-                    messages.push(this.c.readableKeys[key] + ': ' + value);
+                    messages.push(self_1.c.readableKeys[key] + ': ' + value);
                 });
                 _this.FlashService.Error(messages, false);
             }
