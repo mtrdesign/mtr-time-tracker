@@ -5,6 +5,7 @@ $(function () {
 function initUI() {
     $('.datepicker').datetimepicker({
         format: 'Y-m-d',
+        dayOfWeekStart: '1',
         maxDate: new Date(),
         defaultDate: new Date(),
         timepicker: false,

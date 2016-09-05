@@ -3,16 +3,16 @@
         {{ c.getProject.name }}'s time reports
     </div>
     <div class="panel-body">
-        <span ng-if="!c.getProject.is_finished">
+        <ngif ng-if="!c.getProject.is_finished">
             <div class="row">
                 <div class="col-md-12">
-                    <a class="btn btn-default btn-sm" href="#" ng-href="#/projects/{{ c.getProject.id }}/time-reports/new">
+                    <a class="btn btn-success btn-sm" href="#" ng-href="#/projects/{{ c.getProject.id }}/time-reports/new">
                         Add time
                     </a>
                 </div>
             </div>
             <hr>
-        </span>
+        </ngif>
         <form name="form" class="search-form" ng-submit="c.filter()" role="form" novalidate>
             <div class="row">
                 <div class="col-md-12 col-xs-12">
