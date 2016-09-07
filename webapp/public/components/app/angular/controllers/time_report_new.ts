@@ -19,10 +19,10 @@ export class TimeReportNewController {
     public getProject:any;
     public timeReportData:any = {};
     public readableKeys = {
-        name : 'Name',
-        seconds : 'Hours',
-        description  : 'Name',
-        date   : 'Date',
+        name: 'Name',
+        seconds: 'Hours',
+        description: 'Name',
+        date: 'Date',
     };
 
     constructor(private $scope:IScope,
@@ -67,7 +67,7 @@ export class TimeReportNewController {
                 this.FlashService.Success(['Time report has been successfully created.'], false);
                 this.$location.path('/projects/' + this.$routeParams.id + '/time-reports');
             } else {
-                let self = this;
+                let self:any = this;
                 angular.forEach(response, function (value, key) {
                     messages.push(self.c.readableKeys[key] + ': ' + value);
                 });

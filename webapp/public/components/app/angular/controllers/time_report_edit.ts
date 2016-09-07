@@ -73,7 +73,7 @@ export class TimeReportEditController {
                 this.FlashService.Success(['Time report has been successfully updated.'], false);
                 this.$location.path('/projects/' + this.$routeParams.project_id + '/time-reports/' + this.$routeParams.id);
             } else {
-                let self = this;
+                let self:any = this;
                 angular.forEach(response, function (value, key) {
                     messages.push(self.c.readableKeys[key] + ': ' + value);
                 });

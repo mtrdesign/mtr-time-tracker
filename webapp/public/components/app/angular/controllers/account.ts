@@ -51,7 +51,7 @@ export class AccountController {
                 this.$scope.globals.currentUser.profile = response;
                 this.FlashService.Success(['Your account has been successfully updated.'], false);
             } else {
-                var self = this;
+                var self:any = this;
                 angular.forEach(response, function (value:any, key:any) {
                     messages.push(self.c.readableKeys[key] + ': ' + value);
                 });
@@ -66,7 +66,7 @@ export class AccountController {
             if (typeof response.id == 'number' && response.id > 0) {
                 this.FlashService.Success(['Your account has been successfully updated.'], false);
             } else {
-                var self = this;
+                var self:any = this;
                 angular.forEach(response, function (value:any, key:any) {
                     messages.push(self.c.readableKeys[key] + ': ' + value);
                 });

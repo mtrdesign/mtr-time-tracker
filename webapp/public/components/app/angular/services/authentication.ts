@@ -28,35 +28,31 @@ export class AuthenticationService {
     }
 
     public SetCredentials(token:string, callback:any) {
-        this.VerifyToken(token,
-            angular.bind(this,
-                function (tokenResponse:any) {
-                    if (typeof tokenResponse == 'object' && typeof tokenResponse.token == 'string' && tokenResponse.token.length > 0) {
-                        this.$http.defaults.headers.common.Authorization = 'JWT ' + token;
-                        this.VerifyUser(token,
-                            angular.bind(this,
-                                function (userResponse:any) {
-                                    if (typeof userResponse[0] == 'object'
-                                        && typeof userResponse[0].id == 'number'
-                                        && userResponse[0].id > 0) {
-                                        this.$scope.globals = {
-                                            currentUser: {
-                                                token: token,
-                                                profile: userResponse[0]
-                                            }
-                                        };
-                                        this.$cookieStore.put('globals', this.$scope.globals);
-                                        callback({'success': true});
-                                    } else {
-                                        this.ClearCredentials();
-                                        callback({'success': false});
-                                    }
-                                }));
+        this.VerifyToken(token, (tokenResponse:any) => {
+            if (typeof tokenResponse == 'object' && typeof tokenResponse.token == 'string' && tokenResponse.token.length > 0) {
+                this.$http.defaults.headers.common.Authorization = 'JWT ' + token;
+                this.VerifyUser(token, (userResponse:any) => {
+                    if (typeof userResponse[0] == 'object'
+                        && typeof userResponse[0].id == 'number'
+                        && userResponse[0].id > 0) {
+                        this.$scope.globals = {
+                            currentUser: {
+                                token: token,
+                                profile: userResponse[0]
+                            }
+                        };
+                        this.$cookieStore.put('globals', this.$scope.globals);
+                        callback({'success': true});
                     } else {
                         this.ClearCredentials();
                         callback({'success': false});
                     }
-                }));
+                });
+            } else {
+                this.ClearCredentials();
+                callback({'success': false});
+            }
+        });
     }
 
     public ClearCredentials() {

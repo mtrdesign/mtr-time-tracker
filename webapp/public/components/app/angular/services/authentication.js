@@ -24,33 +24,34 @@ var AuthenticationService = (function () {
         });
     };
     AuthenticationService.prototype.SetCredentials = function (token, callback) {
-        this.VerifyToken(token, angular.bind(this, function (tokenResponse) {
+        var _this = this;
+        this.VerifyToken(token, function (tokenResponse) {
             if (typeof tokenResponse == 'object' && typeof tokenResponse.token == 'string' && tokenResponse.token.length > 0) {
-                this.$http.defaults.headers.common.Authorization = 'JWT ' + token;
-                this.VerifyUser(token, angular.bind(this, function (userResponse) {
+                _this.$http.defaults.headers.common.Authorization = 'JWT ' + token;
+                _this.VerifyUser(token, function (userResponse) {
                     if (typeof userResponse[0] == 'object'
                         && typeof userResponse[0].id == 'number'
                         && userResponse[0].id > 0) {
-                        this.$scope.globals = {
+                        _this.$scope.globals = {
                             currentUser: {
                                 token: token,
                                 profile: userResponse[0]
                             }
                         };
-                        this.$cookieStore.put('globals', this.$scope.globals);
+                        _this.$cookieStore.put('globals', _this.$scope.globals);
                         callback({ 'success': true });
                     }
                     else {
-                        this.ClearCredentials();
+                        _this.ClearCredentials();
                         callback({ 'success': false });
                     }
-                }));
+                });
             }
             else {
-                this.ClearCredentials();
+                _this.ClearCredentials();
                 callback({ 'success': false });
             }
-        }));
+        });
     };
     AuthenticationService.prototype.ClearCredentials = function () {
         this.$scope.globals = {};

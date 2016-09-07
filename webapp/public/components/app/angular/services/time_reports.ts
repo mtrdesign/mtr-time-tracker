@@ -9,7 +9,6 @@ export class TimeReportsService {
                 private envService:angular.environment.Service) {
     }
 
-
     GetByID(id:number) {
         return this.$http.get(this.envService.read('apiUrl') + '/time-reports/' + id + '/')
             .then(this.handleSuccess, this.handleError('Error getting time reports.'));
@@ -41,7 +40,7 @@ export class TimeReportsService {
     }
 
     Create(timeReportData:any, callback:any) {
-        var seconds = 0;
+        let seconds:any = 0;
         if (moment.duration(timeReportData.seconds, "HH:mm").asSeconds()) {
             seconds = moment.duration(timeReportData.seconds, "HH:mm");
         } else {
@@ -64,7 +63,7 @@ export class TimeReportsService {
     }
 
     Update(id:number, timeReportData:any, callback:any) {
-        var seconds = 0;
+        let seconds:any = 0;
         if (moment.duration(timeReportData.hours, "HH:mm").asSeconds()) {
             seconds = moment.duration(timeReportData.hours, "HH:mm");
         } else {

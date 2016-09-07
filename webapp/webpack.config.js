@@ -51,17 +51,17 @@ module.exports = {
         filename: '[name].js'
     },
     resolve: {
-        modulesDirectories: ["./public/components/bower/"],
+        modulesDirectories: ["./public/components/bower/"]
     },
     plugins: [
-        // new webpack.optimize.UglifyJsPlugin({
-        //     compress: {
-        //         warnings: false
-        //     },
-        //     output: {
-        //         comments: false
-        //     }
-        // }),
+        new webpack.optimize.UglifyJsPlugin({
+            compress: {
+                warnings: false
+            },
+            output: {
+                comments: false
+            }
+        }),
         new ExtractTextPlugin("../css/app.min.css"),
         new webpack.ResolverPlugin(
             new webpack.ResolverPlugin.DirectoryDescriptionFilePlugin("bower.json", ["main"])
@@ -87,12 +87,9 @@ module.exports = {
             },
             // Shim Angular modules
             {test: /angular.min.js$/, loader: "expose?angular!exports?angular"},
-            {test: /init.js$/, loader: "expose?App"},
             {test: /moment.js$/, loader: "expose?moment"},
             {test: /jquery.datetimepicker.full.min.js$/, loader: "imports?define=>false,exports=>false,moment=moment"},
-            {test: /jquery.mask.min.js$/, loader: "imports?define=>false,exports=>false"},
-
-
+            {test: /jquery.mask.min.js$/, loader: "imports?define=>false,exports=>false"}
         ]
-    },
+    }
 };

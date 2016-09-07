@@ -65,9 +65,9 @@ export class TimeReportViewController {
         if (r) {
             this.TimeReportsService.Delete(id, (response:any) => {
                 if (response.length == 0) {
-                    this.FlashService.Success(['Time report has been successfully deleted.'],false);
+                    this.FlashService.Success(['Time report has been successfully deleted.'], false);
                 } else {
-                    this.FlashService.Error(['Unexpected error'],false);
+                    this.FlashService.Error(['Unexpected error'], false);
                 }
                 history.go(-1);
             });

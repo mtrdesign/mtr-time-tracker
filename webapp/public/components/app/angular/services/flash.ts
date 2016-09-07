@@ -1,6 +1,6 @@
 ﻿///<reference path="../_all.ts"/>
 import {Module} from "../init";
-import {IScope, IEnvConfig} from "../interface";
+import {IScope} from "../interface";
 
 export class FlashService {
 

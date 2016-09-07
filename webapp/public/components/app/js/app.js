@@ -342,33 +342,34 @@
 	        });
 	    };
 	    AuthenticationService.prototype.SetCredentials = function (token, callback) {
-	        this.VerifyToken(token, angular.bind(this, function (tokenResponse) {
+	        var _this = this;
+	        this.VerifyToken(token, function (tokenResponse) {
 	            if (typeof tokenResponse == 'object' && typeof tokenResponse.token == 'string' && tokenResponse.token.length > 0) {
-	                this.$http.defaults.headers.common.Authorization = 'JWT ' + token;
-	                this.VerifyUser(token, angular.bind(this, function (userResponse) {
+	                _this.$http.defaults.headers.common.Authorization = 'JWT ' + token;
+	                _this.VerifyUser(token, function (userResponse) {
 	                    if (typeof userResponse[0] == 'object'
 	                        && typeof userResponse[0].id == 'number'
 	                        && userResponse[0].id > 0) {
-	                        this.$scope.globals = {
+	                        _this.$scope.globals = {
 	                            currentUser: {
 	                                token: token,
 	                                profile: userResponse[0]
 	                            }
 	                        };
-	                        this.$cookieStore.put('globals', this.$scope.globals);
+	                        _this.$cookieStore.put('globals', _this.$scope.globals);
 	                        callback({ 'success': true });
 	                    }
 	                    else {
-	                        this.ClearCredentials();
+	                        _this.ClearCredentials();
 	                        callback({ 'success': false });
 	                    }
-	                }));
+	                });
 	            }
 	            else {
-	                this.ClearCredentials();
+	                _this.ClearCredentials();
 	                callback({ 'success': false });
 	            }
-	        }));
+	        });
 	    };
 	    AuthenticationService.prototype.ClearCredentials = function () {
 	        this.$scope.globals = {};
@@ -1433,21 +1434,24 @@
 	        AuthenticationService.ClearCredentials();
 	    }
 	    LoginController.prototype.login = function () {
-	        this.AuthenticationService.Login(this.c.username, this.c.password, angular.bind(this, function (response) {
+	        var _this = this;
+	        this.AuthenticationService.Login(this.c.username, this.c.password, function (response) {
+	            var self = _this;
 	            if (typeof response.token == 'string' && response.token.length > 0) {
-	                this.AuthenticationService.SetCredentials(response.token, angular.bind(this, function (response) {
+	                _this.AuthenticationService.SetCredentials(response.token, function (response) {
+	                    var self = _this;
 	                    if (typeof response.success == 'boolean' && response.success == true) {
-	                        this.$location.path('/');
+	                        self.$location.path('/');
 	                    }
 	                    else {
-	                        this.FlashService.Error(['The username and password you entered don\'t match.']);
+	                        self.FlashService.Error(['The username and password you entered don\'t match.']);
 	                    }
-	                }));
+	                });
 	            }
 	            else {
-	                this.FlashService.Error(['The username and password you entered don\'t match.']);
+	                self.FlashService.Error(['The username and password you entered don\'t match.']);
 	            }
-	        }));
+	        });
 	    };
 	    ;
 	    return LoginController;
