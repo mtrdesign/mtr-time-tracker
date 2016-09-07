@@ -10,7 +10,8 @@
                     <p><strong>Name:</strong> {{ c.timeReportData.name }}</p>
                     <p><strong>Hours:</strong> {{ c.timeReportData.hours }}</p>
                     <p><strong>Date:</strong> {{ c.timeReportData.date | amDateFormat:'dddd, DD MMMM YYYY' }}</p>
-                    <div ng-if="c.timeReportData.description" class="well" style="white-space: pre-line;" ng-bind="c.timeReportData.description"></div>
+
+                    <textarea ng-if="c.timeReportData.description" class="well" style="width: 100%;" rows="6" ng-bind="c.timeReportData.description" disabled></textarea>
                     <ngif ng-if="globals.currentUser.profile.user_entry.is_superuser || globals.currentUser.profile.id == c.timeReportData.profile_entry.id">
                         <a href="#" ng-href="#/projects/{{ c.getProject.id }}/time-reports/{{ c.timeReportData.id }}" class="btn btn-default">Edit</a>
                         <a ng-click="c.removeItem(c.timeReportData.id)" class="btn btn-danger">Delete</a>
