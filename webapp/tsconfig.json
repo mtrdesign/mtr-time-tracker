@@ -9,7 +9,6 @@
   },
   "files": [
     "codebase/ts/init.ts",
-    "codebase/ts/ui.ts",
     "codebase/ts/interface.ts",
     "codebase/ts/filters.ts",
     "codebase/ts/http_loader.ts",
