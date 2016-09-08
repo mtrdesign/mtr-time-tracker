@@ -1,4 +1,5 @@
 public/components/bower
+typings
 
 #Test
 public/components/app/angular/tests/output
