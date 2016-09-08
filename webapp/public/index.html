@@ -3,9 +3,9 @@
     <head>
         <meta charset="utf-8">
         <title>{{ page.html_title }}</title>
-        <link type="text/css" rel="stylesheet" href="components/bower/bootstrap/dist/css/bootstrap.min.css">
-        <link type="text/css" rel="stylesheet" href="components/bower/datetimepicker/jquery.datetimepicker.css">
-        <link type="text/css" rel="stylesheet" href="components/app/css/app.min.css">
+        <link type="text/css" rel="stylesheet" href="resources/bower/bootstrap/dist/css/bootstrap.min.css">
+        <link type="text/css" rel="stylesheet" href="resources/bower/datetimepicker/jquery.datetimepicker.css">
+        <link type="text/css" rel="stylesheet" href="resources/stylesheets/app.css">
     </head>
     <body>
         <nav class="navbar navbar-default navbar-fixed-top">
@@ -38,13 +38,8 @@
             <div ng-view></div>
         </div>
         <div class="loading" http-loader>Loading</div>
-
-        <script src="components/app/js/vendor.js"></script>
-        <script src="components/bower/angular-moment/angular-moment.min.js"></script>
-        <script src="components/app/js/app.js"></script>
-
-        <script src="components/app/js/base.js"></script>
-
-
+        <script src="resources/javascripts/vendor.js"></script>
+        <script src="resources/bower/angular-moment/angular-moment.min.js"></script>
+        <script src="resources/javascripts/angular.js"></script>
     </body>
 </html>

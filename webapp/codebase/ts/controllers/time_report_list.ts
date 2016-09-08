@@ -56,7 +56,6 @@ export class TimeReportListController {
         this.listTimeReportsTotalHours();
         this.listProfiles();
         this.listProjects();
-        initUI();
     }
 
     listTimeReports() {

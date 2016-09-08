@@ -1,5 +1,10 @@
-public/components/bower
+public/resources/bower/
+public/resources/javascripts/
+public/resources/stylesheets/
+
+codebase/ts/compiled/
+
 typings
 
-#Test
-public/components/app/angular/tests/output
+# Tests
+public/tests/output/

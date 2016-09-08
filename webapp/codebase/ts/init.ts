@@ -40,52 +40,52 @@ angular.module(Module, [
             $routeProvider
                 .when('/', {
                     controller: "HomeController",
-                    templateUrl: 'components/app/angular/views/home.html',
+                    templateUrl: '/views/home.html',
                     controllerAs: 'c'
                 })
                 .when('/account', {
                     controller: 'AccountController',
-                    templateUrl: 'components/app/angular/views/account.html',
+                    templateUrl: '/views/account.html',
                     controllerAs: 'c'
                 })
                 .when('/projects/:id/time-reports', {
                     controller: 'ProjectController',
-                    templateUrl: 'components/app/angular/views/project.html',
+                    templateUrl: '/views/project.html',
                     controllerAs: 'c'
                 })
                 .when('/projects/:id/time-reports/new', {
                     controller: 'TimeReportNewController',
-                    templateUrl: 'components/app/angular/views/time-reports/new.html',
+                    templateUrl: '/views/time-reports/new.html',
                     controllerAs: 'c'
                 })
                 .when('/projects/:project_id/time-reports/:id', {
                     controller: 'TimeReportEditController',
-                    templateUrl: 'components/app/angular/views/time-reports/edit.html',
+                    templateUrl: '/views/time-reports/edit.html',
                     controllerAs: 'c'
                 })
                 .when('/projects/:project_id/time-reports/:id/view', {
                     controller: 'TimeReportViewController',
-                    templateUrl: 'components/app/angular/views/time-reports/view.html',
+                    templateUrl: '/views/time-reports/view.html',
                     controllerAs: 'c'
                 })
                 .when('/time-reports', {
                     controller: 'TimeReportListController',
-                    templateUrl: 'components/app/angular/views/time-reports/list.html',
+                    templateUrl: '/views/time-reports/list.html',
                     controllerAs: 'c'
                 })
                 .when('/time-reports?from&to', {
                     controller: 'TimeReportListController',
-                    templateUrl: 'components/app/angular/views/time-reports/list.html',
+                    templateUrl: '/views/time-reports/list.html',
                     controllerAs: 'c'
                 })
                 .when('/404', {
                     controller: "NotFoundController",
-                    templateUrl: 'components/app/angular/views/404.html',
+                    templateUrl: '/views/404.html',
                     controllerAs: 'c'
                 })
                 .when('/login', {
                     controller: 'LoginController',
-                    templateUrl: 'components/app/angular/views/login.html',
+                    templateUrl: '/views/login.html',
                     controllerAs: 'c'
                 })
                 .otherwise({redirectTo: '/404'});
@@ -120,6 +120,17 @@ angular.module(Module, [
                 if (restrictedPage && !$scope.globals.currentUser) {
                     $location.path('/login');
                 }
+            });
+            $scope.$on('$viewContentLoaded', function(){
+                $('.datepicker').datetimepicker({
+                    format: 'Y-m-d',
+                    dayOfWeekStart: '1',
+                    maxDate: new Date(),
+                    defaultDate: new Date(),
+                    timepicker: false,
+                    inline: false
+                });
+                $('.timemask').mask('00:00', {placeholder: '00:00'});
             });
         }
     ]);
