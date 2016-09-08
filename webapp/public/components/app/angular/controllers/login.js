@@ -47,3 +47,4 @@ function NewLoginController($location, PageService, AuthenticationService, Flash
     return new LoginController($location, PageService, AuthenticationService, FlashService);
 }
 exports.NewLoginController = NewLoginController;
+//# sourceMappingURL=login.js.map

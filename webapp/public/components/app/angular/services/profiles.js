@@ -42,3 +42,4 @@ function NewProfilesService($http, config, envService, $scope) {
     return new ProfilesService($http, config, envService, $scope);
 }
 exports.NewProfilesService = NewProfilesService;
+//# sourceMappingURL=profiles.js.map

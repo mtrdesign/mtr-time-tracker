@@ -15,7 +15,7 @@ var TimeReportEditController = (function () {
             name: 'Name',
             seconds: 'Hours',
             description: 'Name',
-            date: 'Date',
+            date: 'Date'
         };
         PageService.resetData();
         PageService.setHtmlTitle('Time Reports');
@@ -80,3 +80,4 @@ angular.module(init_1.Module).controller("TimeReportEditController", ['$rootScop
 function NewTimeReportEditController($scope, $location, PageService, FlashService, ProjectsService, TimeReportsService, $routeParams) {
     return new TimeReportEditController($scope, $location, PageService, FlashService, ProjectsService, TimeReportsService, $routeParams);
 }
+//# sourceMappingURL=time_report_edit.js.map

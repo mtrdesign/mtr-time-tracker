@@ -20,3 +20,4 @@
 ///<reference path="http_loader.ts"/>
 ///<reference path="interface.ts"/>
 ///<reference path="init.ts"/> 
+//# sourceMappingURL=_all.js.map

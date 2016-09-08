@@ -72,3 +72,4 @@ angular.module(init_1.Module).controller("TimeReportViewController", ['$rootScop
 function NewTimeReportViewController($scope, $location, PageService, FlashService, ProjectsService, TimeReportsService, $routeParams) {
     return new TimeReportViewController($scope, $location, PageService, FlashService, ProjectsService, TimeReportsService, $routeParams);
 }
+//# sourceMappingURL=time_report_view.js.map

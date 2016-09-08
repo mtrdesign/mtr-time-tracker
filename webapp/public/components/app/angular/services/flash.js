@@ -42,3 +42,4 @@ function NewFlashService($scope) {
     return new FlashService($scope);
 }
 exports.NewFlashService = NewFlashService;
+//# sourceMappingURL=flash.js.map

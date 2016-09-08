@@ -84,3 +84,4 @@ function NewAuthenticationService($http, $cookieStore, $scope, config, jwt, Prof
     return new AuthenticationService($http, $cookieStore, $scope, config, jwt, ProfilesService, envService);
 }
 exports.NewAuthenticationService = NewAuthenticationService;
+//# sourceMappingURL=authentication.js.map

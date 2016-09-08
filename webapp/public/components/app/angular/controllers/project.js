@@ -116,3 +116,4 @@ angular.module(init_1.Module).controller("ProjectController", ['$rootScope',
 function NewProjectController($scope, $location, FlashService, PageService, ProjectsService, ProfilesService, TimeReportsService, $routeParams, $route) {
     return new ProjectController($scope, $location, FlashService, PageService, ProjectsService, ProfilesService, TimeReportsService, $routeParams, $route);
 }
+//# sourceMappingURL=project.js.map

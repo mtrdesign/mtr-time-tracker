@@ -17,3 +17,4 @@ angular.module(init_1.Module).controller("PageController", ["$rootScope", "confi
 function NewPageController($scope, config, PageService) {
     return new PageController($scope, config, PageService);
 }
+//# sourceMappingURL=page.js.map

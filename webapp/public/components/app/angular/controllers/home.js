@@ -37,3 +37,4 @@ function NewHomeController(PageService, ProjectsService) {
     return new HomeController(PageService, ProjectsService);
 }
 exports.NewHomeController = NewHomeController;
+//# sourceMappingURL=home.js.map

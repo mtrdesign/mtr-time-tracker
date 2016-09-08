@@ -81,3 +81,4 @@ angular.module(init_1.Module).controller("AccountController", ['$rootScope',
 function NewAccountController($scope, $location, PageService, ProfilesService, FlashService, AuthenticationService, UsersService) {
     return new AccountController($scope, $location, PageService, ProfilesService, FlashService, AuthenticationService, UsersService);
 }
+//# sourceMappingURL=account.js.map

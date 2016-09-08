@@ -37,3 +37,4 @@ angular.module(init_1.Module).factory("ProjectsService", ["$http", "envService",
 function NewProjectsService($http, envService) {
     return new ProjectsService($http, envService);
 }
+//# sourceMappingURL=projects.js.map

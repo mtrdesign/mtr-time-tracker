@@ -106,3 +106,4 @@ function NewTimeReportsService($http, config, envService) {
     return new TimeReportsService($http, config, envService);
 }
 exports.NewTimeReportsService = NewTimeReportsService;
+//# sourceMappingURL=time_reports.js.map

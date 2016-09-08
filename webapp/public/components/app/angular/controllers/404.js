@@ -18,3 +18,4 @@ function NewNotFoundController(PageService) {
     return new NotFoundController(PageService);
 }
 exports.NewNotFoundController = NewNotFoundController;
+//# sourceMappingURL=404.js.map

@@ -33,3 +33,4 @@ function dateRange() {
 exports.dateRange = dateRange;
 angular.module(init_1.Module).filter("matchMonthAndYear", matchMonthAndYear);
 angular.module(init_1.Module).filter("dateRange", dateRange);
+//# sourceMappingURL=filters.js.map

@@ -28,3 +28,4 @@ function NewPageService(config, $scope) {
     return new PageService(config, $scope);
 }
 exports.NewPageService = NewPageService;
+//# sourceMappingURL=page.js.map

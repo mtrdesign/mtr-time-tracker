@@ -105,3 +105,4 @@ angular.module(init_1.Module).controller("TimeReportListController", ['$rootScop
 function NewTimeReportListController($scope, $location, PageService, FlashService, ProjectsService, ProfilesService, TimeReportsService, $route, $routeParams) {
     return new TimeReportListController($scope, $location, PageService, FlashService, ProjectsService, ProfilesService, TimeReportsService, $route, $routeParams);
 }
+//# sourceMappingURL=time_report_list.js.map

@@ -34,3 +34,4 @@ function NewUsersService($http, config, envService, $scope) {
     return new UsersService($http, config, envService, $scope);
 }
 exports.NewUsersService = NewUsersService;
+//# sourceMappingURL=users.js.map
