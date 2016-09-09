@@ -1,7 +1,6 @@
 var webpack = require('webpack');
 var path = require('path');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
-var BowerWebpackPlugin = require('bower-webpack-plugin');
 
 module.exports = {
     devServer: {
