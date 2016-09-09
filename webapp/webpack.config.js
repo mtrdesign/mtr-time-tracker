@@ -1,11 +1,12 @@
 var webpack = require('webpack');
 var path = require('path');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var BowerWebpackPlugin = require('bower-webpack-plugin');
 
 module.exports = {
     devServer: {
-        host: 'localhost',
-        port: '8080'
+        host: process.env.HOST || 'localhost',
+        port: process.env.PORT || 8080
     },
     entry: {
         vendor: [

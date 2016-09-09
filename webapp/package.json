@@ -6,6 +6,7 @@
   "license": "MIT",
   "repository": "https://github.com/mtrdesign/mtr-time-tracker",
   "scripts": {
+    "start": "cross-env webpack-dev-server --inline --content-base public/"
   },
   "devDependencies": {
     "css-loader": "^0.23.1",
@@ -22,11 +23,12 @@
     "karma-junit-reporter": "^0.4.2",
     "protractor": "^3.3.0",
     "style-loader": "^0.13.1",
-    "ts-loader": "^0.8.2",
-    "webpack": "^1.13.1"
+    "ts-loader": "^0.8.2"
   },
   "dependencies": {
     "cross-env": "^2.0.1",
-    "extract-text-webpack-plugin": "^1.0.1"
+    "extract-text-webpack-plugin": "^1.0.1",
+    "webpack": "^1.13.2",
+    "webpack-dev-server": "^1.15.1"
   }
 }
