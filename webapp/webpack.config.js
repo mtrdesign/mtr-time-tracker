@@ -71,10 +71,6 @@ module.exports = {
                 loader: ExtractTextPlugin.extract('style-loader', 'css-loader')
             },
             {
-                test: /\.ts/,
-                loader: 'ts-loader'
-            },
-            {
                 test: /\.(woff|svg|ttf|eot)([\?]?.*)$/,
                 loader: 'file-loader?[name].[ext]'
             },
