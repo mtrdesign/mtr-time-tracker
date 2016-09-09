@@ -1,6 +1,5 @@
 {
-  "name": "Time Tracking Application",
-  "version": "0.0.1",
+  "name": "mtrtimetracker",
   "dependencies": {
     "angular": "1.5.7",
     "angular-moment": "0.10.3",

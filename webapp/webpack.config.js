@@ -1,8 +1,12 @@
 var webpack = require('webpack');
+var path = require('path');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
-    watch: true,
+    devServer: {
+        host: 'localhost',
+        port: '8080'
+    },
     entry: {
         vendor: [
             './public/resources/bower/jquery/dist/jquery.min.js',
@@ -14,7 +18,7 @@ module.exports = {
             './public/resources/bower/angular-environment/dist/angular-environment.js',
             './public/resources/bower/angular-cookies/angular-cookies.js',
             './public/resources/bower/angular-route/angular-route.js',
-            './public/resources/bower/angular-jwt/dist/angular-jwt.js'
+            './public/resources/bower/angular-jwt/dist/angular-jwt.js',
         ],
         angular: [
             './codebase/ts/compiled/init.js',
@@ -36,7 +40,7 @@ module.exports = {
             './codebase/ts/compiled/controllers/time_report_list.js',
             './codebase/ts/compiled/controllers/time_report_edit.js',
             './codebase/ts/compiled/controllers/time_report_view.js',
-            './codebase/ts/compiled/controllers/login.js'
+            './codebase/ts/compiled/controllers/login.js',
         ],
         app: [
             './codebase/stylesheets/loading.css',
@@ -44,11 +48,14 @@ module.exports = {
         ]
     },
     output: {
-        path: './public/resources',
-        filename: 'javascripts/[name].js'
+        path: path.resolve(__dirname, 'public/'),
+        filename: 'resources/javascripts/[name].js',
     },
     resolve: {
-        modulesDirectories: ['./public/resources/bower/']
+        modulesDirectories: [
+            './public/resources/bower/',
+            './node_modules/',
+        ]
     },
     plugins: [
         new webpack.optimize.UglifyJsPlugin({
@@ -59,7 +66,7 @@ module.exports = {
                 comments: false
             }
         }),
-        new ExtractTextPlugin('stylesheets/app.css'),
+        new ExtractTextPlugin('resources/stylesheets/app.css'),
         new webpack.ResolverPlugin(
             new webpack.ResolverPlugin.DirectoryDescriptionFilePlugin('bower.json', ['main'])
         )

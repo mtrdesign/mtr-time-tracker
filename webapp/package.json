@@ -1,8 +1,12 @@
 {
-  "name": "mtr-time-tracker",
-  "description": "",
-  "repository": "https://github.com/mtrdesign/mtr-time-tracker",
+  "private": false,
+  "version": "0.0.1",
+  "name": "mtrtimetracker",
+  "company": "MTR Design",
   "license": "MIT",
+  "repository": "https://github.com/mtrdesign/mtr-time-tracker",
+  "scripts": {
+  },
   "devDependencies": {
     "css-loader": "^0.23.1",
     "exports-loader": "^0.6.3",
@@ -21,8 +25,8 @@
     "ts-loader": "^0.8.2",
     "webpack": "^1.13.1"
   },
-  "scripts": {},
   "dependencies": {
+    "cross-env": "^2.0.1",
     "extract-text-webpack-plugin": "^1.0.1"
   }
 }
