@@ -39,9 +39,7 @@ angular.module(Module, [
             envServiceProvider.check();
             $routeProvider
                 .when('/', {
-                    controller: "HomeController",
-                    templateUrl: '/views/home.html',
-                    controllerAs: 'c'
+                    redirectTo: '/time-reports'
                 })
                 .when('/account', {
                     controller: 'AccountController',
@@ -88,7 +86,9 @@ angular.module(Module, [
                     templateUrl: '/views/login.html',
                     controllerAs: 'c'
                 })
-                .otherwise({redirectTo: '/404'});
+                .otherwise({
+                    redirectTo: '/404'
+                });
         }])
     .run([
         '$location',

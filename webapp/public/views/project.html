@@ -3,31 +3,32 @@
         {{ c.getProject.name }}'s time reports
     </div>
     <div class="panel-body">
-        <ngif ng-if="!c.getProject.is_finished">
-            <div class="row">
-                <div class="col-md-12">
-                    <a class="btn btn-success btn-sm" href="#" ng-href="#/projects/{{ c.getProject.id }}/time-reports/new">
+        <div class="row">
+            <div class="col-md-6">
+                <form name="form" class="search-form" ng-submit="c.filter()" role="form" novalidate>
+                    <div class="row">
+                        <div class="col-md-12 col-xs-12">
+                            <div class="form-group">
+                                <label for="profile">By user</label>
+                                <select class="form-control full-width" name="profile" id="profile" ng-model="c.filterData.profile__id">
+                                    <option value="" selected="selected">All</option>
+                                    <option ng-repeat="profile in c.profiles" value="{{profile.id}}">{{profile.full_name}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-sm btn-primary">Search</button>
+                    <a ng-href="#/projects/{{ c.getProject.id }}/time-reports" class="btn btn-sm btn-default">Clear</a>
+                </form>
+            </div>
+            <div class="col-md-6">
+                <ngif ng-if="!c.getProject.is_finished">
+                    <a class="btn btn-success btn-md btn-block" href="#" ng-href="#/projects/{{ c.getProject.id }}/time-reports/new">
                         Add time
                     </a>
-                </div>
+                </ngif>
             </div>
-            <hr>
-        </ngif>
-        <form name="form" class="search-form" ng-submit="c.filter()" role="form" novalidate>
-            <div class="row">
-                <div class="col-md-12 col-xs-12">
-                    <div class="form-group">
-                        <label for="profile">By user</label>
-                        <select class="form-control full-width" name="profile" id="profile" ng-model="c.filterData.profile__id">
-                            <option value="" selected="selected">All</option>
-                            <option ng-repeat="profile in c.profiles" value="{{profile.id}}">{{profile.full_name}}</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <button type="submit" class="btn btn-sm btn-primary">Search</button>
-            <a ng-href="#/projects/{{ c.getProject.id }}/time-reports" class="btn btn-sm btn-default">Clear</a>
-        </form>
+        </div>
         <div ng-if="!c.getProjectTimeReports.length" class="panel panel-default">
             <div class="panel-body">
                 Unfortunately there are no results matching your query.

@@ -61,6 +61,7 @@ export class ProjectController {
                             this.c.getProjectTimeReports = response;
                         });
                     this.PageService.setHtmlTitle(project.name);
+                    this.PageService.setActiveProjectID(project.id);
                 } else {
                     this.$location.path('/404');
                 }

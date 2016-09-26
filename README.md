@@ -22,3 +22,6 @@
 12. vagrant@mtr-time-tracker:/srv/project/rest$ python manage.py migrate --settings=rest.env.local
 13. vagrant@mtr-time-tracker:/srv/project/rest$ python manage.py createsuperuser --settings=rest.env.local
 14. vagrant@mtr-time-tracker:/srv/project/rest$ python manage.py runserver 0:8000 --settings=rest.env.local
+
+1. npm run start
+2. tsc -w

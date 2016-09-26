@@ -21,21 +21,51 @@
                 </div>
                 <div ng-if="globals.currentUser.profile.id > 0" id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav navbar-right">
-                        <li ng-class="{ 'active': page.slug == 'home' || page.slug == 'projects' }"><a href="#" ng-href="#/">Projects</a></li>
-                        <li ng-class="{ 'active': page.slug === 'account' }"><a href="#" ng-href="#/account">Account</a></li>
                         <li ng-class="{ 'active': page.slug === 'time-reports' }"><a href="#" ng-href="#/time-reports">Time</a></li>
+                        <li ng-class="{ 'active': page.slug === 'account' }"><a href="#" ng-href="#/account">Account</a></li>
                         <li><a href="#" ng-href="#/login">Logout</a></li>
                     </ul>
                 </div>
             </div>
         </nav>
         <div class="container">
-            <div ng-class="{ 'alert': flash, 'alert-success': flash.type === 'success', 'alert-danger': flash.type === 'error' }" ng-if="flash">
-                <span ng-repeat="message in flash.messages">
-                    {{ message }}
-                </span>
+            <div class="row">
+                <div class="col-md-3">
+                    <div ng-if="!page.getActiveProjects.length && !page.getFinishedProjects.length" class="panel panel-default">
+                        <div class="panel-body">
+                            Unfortunately there are no results matching your query.
+                        </div>
+                    </div>
+                    <div ng-if="page.getActiveProjects.length" class="panel panel-default">
+                        <div class="panel-heading">
+                            My active projects
+                        </div>
+                        <div class="panel-body">
+                            <div class="list-group">
+                                <a ng-repeat="project in page.getActiveProjects" class="list-group-item" ng-class="{'list-group-item-info': project.id == page.active_project_id}" href="#/projects/{{ project.id }}/time-reports">{{ project.name }}</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-if="page.getFinishedProjects.length" class="panel panel-default">
+                        <div class="panel-heading">
+                            My finished projects
+                        </div>
+                        <div class="panel-body">
+                            <div class="list-group">
+                                <a ng-repeat="project in page.getFinishedProjects" class="list-group-item" ng-class="{'list-group-item-info': project.id == page.active_project_id}" href="#/projects/{{ project.id }}/time-reports">{{ project.name }}</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <div ng-class="{ 'alert': flash, 'alert-success': flash.type === 'success', 'alert-danger': flash.type === 'error' }" ng-if="flash">
+                        <span ng-repeat="message in flash.messages">
+                            {{ message }}
+                        </span>
+                    </div>
+                    <div ng-view></div>
+                </div>
             </div>
-            <div ng-view></div>
         </div>
         <div class="loading" http-loader>Loading</div>
         <script src="resources/javascripts/vendor.js"></script>

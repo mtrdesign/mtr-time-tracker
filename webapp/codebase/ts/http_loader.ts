@@ -40,9 +40,9 @@ app.factory('httpLoaderInterceptor', ['$rootScope', function ($rootScope:IScope)
     };
 }]);
 
-// app.config(['$httpProvider', function ($httpProvider:ng.IHttpProvider) {
-//     $httpProvider.interceptors.push('httpLoaderInterceptor');
-// }]);
+app.config(['$httpProvider', function ($httpProvider:ng.IHttpProvider) {
+     $httpProvider.interceptors.push('httpLoaderInterceptor');
+}]);
 
 app.directive('httpLoader', function () {
     return {
