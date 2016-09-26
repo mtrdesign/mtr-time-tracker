@@ -3,9 +3,9 @@
     <head>
         <meta charset="utf-8">
         <title>{{ page.html_title }}</title>
-        <link type="text/css" rel="stylesheet" href="resources/bower/bootstrap/dist/css/bootstrap.min.css">
-        <link type="text/css" rel="stylesheet" href="resources/bower/datetimepicker/jquery.datetimepicker.css">
-        <link type="text/css" rel="stylesheet" href="resources/stylesheets/app.css">
+        <link type="text/css" rel="stylesheet" href="/resources/bower/bootstrap/dist/css/bootstrap.min.css">
+        <link type="text/css" rel="stylesheet" href="/resources/bower/datetimepicker/jquery.datetimepicker.css">
+        <link type="text/css" rel="stylesheet" href="/resources/stylesheets/app.css">
     </head>
     <body>
         <nav class="navbar navbar-default navbar-fixed-top">
@@ -30,34 +30,7 @@
         </nav>
         <div class="container">
             <div class="row">
-                <div ng-if="globals.currentUser.profile.id > 0" class="col-md-3">
-                    <div ng-if="!page.getActiveProjects.length && !page.getFinishedProjects.length" class="panel panel-default">
-                        <div class="panel-body">
-                            Unfortunately there are no results matching your query.
-                        </div>
-                    </div>
-                    <div ng-if="page.getActiveProjects.length" class="panel panel-default">
-                        <div class="panel-heading">
-                            My active projects
-                        </div>
-                        <div class="panel-body">
-                            <div class="list-group">
-                                <a ng-repeat="project in page.getActiveProjects" class="list-group-item" ng-class="{'list-group-item-info': project.id == page.active_project_id}" href="#/projects/{{ project.id }}/time-reports">{{ project.name }}</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div ng-if="page.getFinishedProjects.length" class="panel panel-default">
-                        <div class="panel-heading">
-                            My finished projects
-                        </div>
-                        <div class="panel-body">
-                            <div class="list-group">
-                                <a ng-repeat="project in page.getFinishedProjects" class="list-group-item" ng-class="{'list-group-item-info': project.id == page.active_project_id}" href="#/projects/{{ project.id }}/time-reports">{{ project.name }}</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-{{ globals.currentUser.profile.id > 0 ? 9 : 12 }}">
+                <div class="col-md-12">
                     <div ng-class="{ 'alert': flash, 'alert-success': flash.type === 'success', 'alert-danger': flash.type === 'error' }" ng-if="flash">
                         <span ng-repeat="message in flash.messages">
                             {{ message }}
@@ -68,8 +41,8 @@
             </div>
         </div>
         <div class="loading" http-loader>Loading</div>
-        <script src="resources/javascripts/vendor.js"></script>
-        <script src="resources/bower/angular-moment/angular-moment.min.js"></script>
-        <script src="resources/javascripts/angular.js"></script>
+        <script src="/resources/javascripts/vendor.js"></script>
+        <script src="/resources/bower/angular-moment/angular-moment.min.js"></script>
+        <script src="/resources/javascripts/angular.js"></script>
     </body>
 </html>

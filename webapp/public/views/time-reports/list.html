@@ -46,6 +46,11 @@
                     </div>
                 </div>
             </div>
+            <ngif ng-if="c.filterData.project__id">
+                <a class="btn btn-success btn-sm pull-right" href="#" ng-href="#/projects/{{ c.filterData.project__id }}/time-reports/new">
+                    Add time
+                </a>
+            </ngif>
             <button type="submit" class="btn btn-sm btn-primary">Search</button>
             <a ng-href="#/time-reports" class="btn btn-sm btn-default">Clear</a>
         </form>

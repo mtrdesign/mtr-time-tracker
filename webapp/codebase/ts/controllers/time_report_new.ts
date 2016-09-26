@@ -64,7 +64,7 @@ export class TimeReportNewController {
         this.TimeReportsService.Create(this.c.timeReportData, (response:any) => {
             if (typeof response.id == 'number' && response.id > 0) {
                 this.FlashService.Success(['Time report has been successfully created.'], false);
-                this.$location.path('/projects/' + this.$routeParams.id + '/time-reports');
+                this.$location.path('/time-reports').search({project__id: this.$routeParams.id});
             } else {
                 let self:any = this;
                 angular.forEach(response, function (value, key) {

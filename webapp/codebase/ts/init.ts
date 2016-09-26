@@ -25,7 +25,10 @@ angular.module(Module, [
             envServiceProvider.config({
                 domains: {
                     development: ['mtr-time-tracker.dev'],
-                    production: ['mtr-time-tracker.aws.mtrdev.com']
+                    production: [
+                        'www.mtr-time-tracker.aws.mtrdev.com',
+                        'mtr-time-tracker.aws.mtrdev.com'
+                    ]
                 },
                 vars: {
                     development: {
@@ -44,11 +47,6 @@ angular.module(Module, [
                 .when('/account', {
                     controller: 'AccountController',
                     templateUrl: '/views/account.html',
-                    controllerAs: 'c'
-                })
-                .when('/projects/:id/time-reports', {
-                    controller: 'ProjectController',
-                    templateUrl: '/views/project.html',
                     controllerAs: 'c'
                 })
                 .when('/projects/:id/time-reports/new', {

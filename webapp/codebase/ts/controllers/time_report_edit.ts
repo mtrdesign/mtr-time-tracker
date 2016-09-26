@@ -70,7 +70,7 @@ export class TimeReportEditController {
         this.TimeReportsService.Update(this.$routeParams.id, this.c.timeReportData, (response:any) => {
             if (typeof response.id == 'number' && response.id > 0) {
                 this.FlashService.Success(['Time report has been successfully updated.'], false);
-                this.$location.path('/projects/' + this.$routeParams.project_id + '/time-reports/' + this.$routeParams.id);
+                this.$location.path('/time-reports').search({project__id: this.$routeParams.project_id});
             } else {
                 let self:any = this;
                 angular.forEach(response, function (value, key) {
