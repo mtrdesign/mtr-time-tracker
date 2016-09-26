@@ -30,7 +30,7 @@
         </nav>
         <div class="container">
             <div class="row">
-                <div class="col-md-3">
+                <div ng-if="globals.currentUser.profile.id > 0" class="col-md-3">
                     <div ng-if="!page.getActiveProjects.length && !page.getFinishedProjects.length" class="panel panel-default">
                         <div class="panel-body">
                             Unfortunately there are no results matching your query.
@@ -57,7 +57,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-9">
+                <div class="col-md-{{ globals.currentUser.profile.id > 0 ? 9 : 12 }}">
                     <div ng-class="{ 'alert': flash, 'alert-success': flash.type === 'success', 'alert-danger': flash.type === 'error' }" ng-if="flash">
                         <span ng-repeat="message in flash.messages">
                             {{ message }}

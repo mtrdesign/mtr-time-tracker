@@ -27,14 +27,16 @@ export class PageService implements IPageService {
         this.$scope.page.website_title = this.config.appTitle;
         this.$scope.page.html_title = this.config.appTitle;
         this.$scope.page.slug = '';
-        this.ProjectsService.GetActiveProjects()
-            .then((projects:any) => {
-                this.$scope.page.getActiveProjects = projects;
-            });
-        this.ProjectsService.GetFinishedProjects()
-            .then((projects:any) => {
-                this.$scope.page.getFinishedProjects = projects;
-            });
+        if(this.$scope.globals.currentUser) {
+            this.ProjectsService.GetActiveProjects()
+                .then((projects:any) => {
+                    this.$scope.page.getActiveProjects = projects;
+                });
+            this.ProjectsService.GetFinishedProjects()
+                .then((projects:any) => {
+                    this.$scope.page.getFinishedProjects = projects;
+                });
+        }
     }
 
     setActiveProjectID(id:number) {
