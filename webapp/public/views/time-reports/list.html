@@ -47,7 +47,7 @@
                 </div>
             </div>
             <ngif ng-if="c.filterData.project__id">
-                <a class="btn btn-success btn-sm pull-right" href="#" ng-href="#/projects/{{ c.filterData.project__id }}/time-reports/new">
+                <a class="btn btn-success btn-sm pull-right" ng-href="#/projects/{{ c.filterData.project__id }}/time-reports/new">
                     Add time
                 </a>
             </ngif>
@@ -73,7 +73,7 @@
                     <tr ng-if="c.getTimeReports.length" ng-repeat="report in c.getTimeReports">
                         <td style="vertical-align: middle;">{{ report.date | amDateFormat:'dddd, DD MMMM YYYY' }}</td>
                         <td style="vertical-align: middle;">
-                            <a href="#" ng-href="#/projects/{{ report.project_entry.id }}/time-reports">
+                            <a href="#" ng-href="#/time-reports?project__id={{ report.project_entry.id }}">
                                 {{ report.project_entry.name }}
                             </a>
                         </td>
