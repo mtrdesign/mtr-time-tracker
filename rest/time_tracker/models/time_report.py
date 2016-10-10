@@ -37,7 +37,7 @@ class TimeReport(models.Model):
     project = models.ForeignKey(Project, verbose_name=_("Project"), null=True, blank=False, on_delete=models.PROTECT)
     seconds = models.IntegerField(verbose_name=_("Seconds"), null=True, blank=False)
     date = models.DateField(verbose_name=_("Date"), default=timezone.now, null=True, blank=False)
-    description = models.CharField(verbose_name=_("Description"), max_length=2048, unique=False, null=True, blank=True)
+    description = models.TextField(verbose_name=_("Description"), unique=False, null=True, blank=True)
     is_active = models.BooleanField(verbose_name=_("Is active"), default=True)
 
     created_at = models.DateTimeField(verbose_name=_("Created at"), auto_now_add=True)
