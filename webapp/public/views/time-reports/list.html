@@ -104,7 +104,7 @@
                     <tr ng-if="c.getTimeReportsProjects.length" ng-repeat="reportProject in c.getTimeReportsProjects">
                         <td></td>
                         <td colspan="2">
-                            <a href="#" ng-href="#/projects/{{ reportProject.project.id }}/time-reports">
+                            <a href="#" ng-href="#/time-reports?project__id={{ reportProject.project.id }}">
                                 {{ reportProject.project.name }}
                             </a>
                         </td>
