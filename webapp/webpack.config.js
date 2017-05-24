@@ -35,7 +35,6 @@ module.exports = {
             './codebase/ts/compiled/controllers/404.js',
             './codebase/ts/compiled/controllers/home.js',
             './codebase/ts/compiled/controllers/account.js',
-            './codebase/ts/compiled/controllers/project.js',
             './codebase/ts/compiled/controllers/time_report_new.js',
             './codebase/ts/compiled/controllers/time_report_list.js',
             './codebase/ts/compiled/controllers/time_report_edit.js',
