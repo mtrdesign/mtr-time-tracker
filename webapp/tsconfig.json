@@ -22,7 +22,6 @@
     "codebase/ts/controllers/account.ts",
     "codebase/ts/controllers/page.ts",
     "codebase/ts/controllers/home.ts",
-    "codebase/ts/controllers/project.ts",
     "codebase/ts/controllers/time_report_edit.ts",
     "codebase/ts/controllers/time_report_list.ts",
     "codebase/ts/controllers/time_report_new.ts",
