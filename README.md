@@ -15,7 +15,7 @@ This is done by running the following command.
 vagrant up
 ```
 
-2. How you need to SSH into the running Vagrant guest machine.
+2. Now you need to SSH into the running Vagrant guest machine.
 
 ```
 vagrant ssh
@@ -28,7 +28,7 @@ vagrant ssh
 vagrant@mtr-time-tracker:~$ sudo apt-get install dos2unix
 ```
 
-4. How you should navigate to the /srv/project/vmachines/vagrant folder where the bootstrap.sh file is located and run doc2unix command. 
+4. Now you should navigate to the /srv/project/vmachines/vagrant folder where the bootstrap.sh file is located and run the doc2unix command. 
 
 ```
 vagrant@mtr-time-tracker:~$ cd /srv/project/vmachines/vagrant
@@ -53,8 +53,8 @@ vagrant@mtr-time-tracker:/srv/project/vmachines/vagrant$ exit
 cd /rest/rest/env
 ```
 
-Before writing your local setting in the local.py file. You should first import the settings from the settings.py file.
-This can be done by adding this line of code.
+Before writing your local setting in the local.py file you should first import the settings from the settings.py file.
+This can be done by adding this line of code to the local.py file.
 
 ```
 from ..settings import *
@@ -76,7 +76,7 @@ DATABASES = {
 }
 ```
 
-10. How let's SHH to the vagrant machine again and navigate to the /srv/project folder.
+10. Now let's SHH to the vagrant machine again and navigate to the /srv/project folder.
 
 ```
 vagrant ssh
@@ -114,20 +114,20 @@ mysql > exit;
 vagrant@mtr-time-tracker:~/$ cd /srv/project/rest
 ```
 
-13. Now we want to tell Django to use our local settings instead of the default settings in the settings.py file.
+13. Now you want to tell Django to use our local settings instead of the default ones in the settings.py file.
 To do this you must migrate to the local settings.
 
 ```
 vagrant@mtr-time-tracker:/srv/project/rest$ python manage.py migrate --settings=rest.env.local
 ```
 
-14. We must create a super user by executing:
+14. The next step is to create a super user by executing:
 
 ```
 vagrant@mtr-time-tracker:/srv/project/rest$ python manage.py createsuperuser --settings=rest.env.local
 ```
 
-15. Now we can run our server:
+15. Now you can run the Django server:
 
 ```
 vagrant@mtr-time-tracker:/srv/project/rest$ python manage.py runserver 0:8000 --settings=rest.env.local
@@ -147,8 +147,8 @@ Quit the server with CONTROL-C.
 
 Now the server is running.
 
-16. Now we need to download the npm and bower packages.
-To do that we must navigate to the  webapp folder and run the following commands:
+16. You need to download the npm and bower packages.
+To do that you must navigate to the webapp folder and run the following commands:
 
 ```
 vagrant@mtr-time-tracker:/srv/project/rest$ cd ../webapp/
@@ -156,10 +156,29 @@ vagrant@mtr-time-tracker:/srv/project/webapp$ npm install
 vagrant@mtr-time-tracker:/srv/project/webapp$ bower install
 ```
 
-17. Now compile the typescript filesby running:
+17. Now compile the typescript files by running:
 
 ```
 vagrant@mtr-time-tracker:/srv/project/webapp$ tsc -w
 ```
 
 **Note:** -w flag is used to watch the input files.
+
+18. To run everything now you need to start the Django server and the webpack server.
+To do that you can use two terminals and SSH to the Vagrant machine. The first terminal will run the Django server and the second one will run the webpack server.
+
+1. Command to run in the first terminal:
+
+```
+vagrant ssh
+vagrant@mtr-time-tracker:~$ cd /srv/project/rest
+vagrant@mtr-time-tracker:/srv/project/rest$ python manage.py runserver 0:8000 --settings=rest.env.local
+```
+
+2. Command to run in the second terminal:
+
+```
+vagrant ssh
+vagrant@mtr-time-tracker:~$ cd /srv/project/webapp
+vagrant@mtr-time-tracker:/srv/project/webapp$ npm start
+```
