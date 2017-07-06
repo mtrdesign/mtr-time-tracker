@@ -42,7 +42,7 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'corsheaders',
-    
+
     'time_tracker',
 
     'behave_django'

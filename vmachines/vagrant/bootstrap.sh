@@ -114,7 +114,8 @@ install_dev_tools() { # Install dev tools
     sudo sh -c "echo '${BASHRC}' >> $HOME/.bash_profile"
 
     # Add Bower
-    npm install bower -g
+    npm install -g bower
+    npm install -g typescript
 }
 
 install_mysql() { # Install mysql
