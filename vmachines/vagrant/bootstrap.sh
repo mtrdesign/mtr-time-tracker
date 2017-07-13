@@ -116,6 +116,7 @@ install_dev_tools() { # Install dev tools
     # Add Bower
     npm install -g bower
     npm install -g typescript
+    npm install -g angular-cli
 }
 
 install_mysql() { # Install mysql

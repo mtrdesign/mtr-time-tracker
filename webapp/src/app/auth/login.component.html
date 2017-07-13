@@ -1,0 +1,33 @@
+<div class="container">
+
+  <form class="form-signin" (ngSubmit)="onSubmit()" #loginForm="ngForm">
+    <h2 class="form-signin-heading text-center">Sign In</h2>
+
+    <label for="inputUsername" class="sr-only">Username</label>
+    <input type="text" name="username" id="inputUsername"
+      class="form-control" placeholder="Username"
+      [(ngModel)]="user.username" #username="ngModel"
+      required autofocus>
+
+    <label for="inputPassword" class="sr-only">Password</label>
+    <input type="password" name="password" id="inputPassword"
+      class="form-control" placeholder="Password"
+      [(ngModel)]="user.password" #password="ngModel"
+      required>
+
+    <div class="checkbox">
+      <label>
+        <input type="checkbox" name="remember" [(ngModel)]="user.remember" value="remember-me"> Remember me
+      </label>
+    </div>
+
+    <div *ngIf="(!username.valid && username.touched) || (!password.valid && password.touched) || errorMessage" class="alert alert-danger">
+      <div [hidden]="username.valid || username.untouched">Username is required.</div>
+      <div [hidden]="password.valid || password.untouched">Password is required.</div>
+      <div [hidden]="!errorMessage">{{errorMessage}}</div>
+    </div>
+
+    <button class="btn btn-lg btn-primary btn-block" type="submit" [disabled]="!loginForm.form.valid || submitted">Sign In</button>
+  </form>
+
+</div> <!-- /container -->

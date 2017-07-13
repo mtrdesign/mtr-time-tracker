@@ -1,0 +1,134 @@
+
+import { Injectable } from '@angular/core';
+import { Http, Response, Headers, RequestOptions } from '@angular/http';
+
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/observable/throw';
+
+import { environment } from './../../environments/environment';
+
+import { User } from './../models/user.model';
+
+@Injectable()
+export class UserService {
+  private getUrl = environment.apiUrl + 'profiles/';
+  private updateUrl = environment.apiUrl + 'profiles/';
+  private setPasswordUrl = environment.apiUrl + 'users/:id/set_password/';
+
+  constructor (private http: Http) {}
+
+  /**
+   * Get User details from the API
+   * @param  {User}             user [description]
+   * @return {Observable<User>}      [description]
+   */
+  getUser(user: User): Observable<User> {
+    let apiUrl = this.getUrl + user.id + '/';
+    let headers = new Headers({
+      'Content-Type': 'application/json',
+      'Authorization': 'JWT ' + user.token
+    });
+    let options = new RequestOptions({ headers: headers });
+
+    return this.http.get(apiUrl, options)
+                    .map(this.extractUserData)
+                    .catch(this.handleError);
+  }
+
+  /**
+   * Pass a request to the API to update the user details
+   * @param  {User}             user
+   * @return {Observable<User>}
+   */
+  updateUser(user: User): Observable<User> {
+    let apiUrl = this.updateUrl + user.id + '/';
+    let headers = new Headers({
+      'Content-Type': 'application/json',
+      'Authorization': 'JWT ' + user.token
+    });
+    let options = new RequestOptions({ headers: headers });
+
+    return this.http.patch(apiUrl, this.packData(user), options)
+                    .map(this.extractUserData)
+                    .catch(this.handleError);
+  }
+
+  /**
+   * Pass a request to reset user's pasword to the API
+   * @param  {User}            user [description]
+   * @param  {any}             data [description]
+   * @return {Observable<any>}      [description]
+   */
+  setPassword(user: User, data: any): Observable<any> {
+    let apiUrl = this.setPasswordUrl.replace(/:id/g, String(user.id));
+    let headers = new Headers({
+      'Content-Type': 'application/json',
+      'Authorization': 'JWT ' + user.token
+    });
+    let options = new RequestOptions({ headers: headers });
+
+    return this.http.post(apiUrl, data, options)
+                    .map(this.extrcatPasswordData)
+                    .catch(this.handleError);
+  }
+
+  // Helper methods
+
+  /**
+   * Extract the body data from the response and serialize it
+   * @param {Response} res HttpResponse object
+   */
+  private extractUserData(res: Response) {
+    let body = res.json();
+    let user: User = new User();
+
+    if (body) {
+      user.id = body.id;
+      user.email = body.email_address;
+      user.firstName = body.first_name;
+      user.lastName = body.last_name;
+      user.jobTitle = body.job_title;
+      user.phoneNumber = body.phone_number;
+    }
+
+    return user;
+  }
+
+  private extrcatPasswordData(res: Response) {
+    let body = res.json();
+    return body || {};
+  }
+
+  /**
+   * Serialize the data for the Server API
+   * @param {User} user [description]
+   */
+  private packData(user: User) {
+    return {
+      email_address: user.email,
+      first_name: user.firstName,
+      last_name: user.lastName,
+      job_title: user.jobTitle,
+      phone_number: user.phoneNumber
+    }
+  }
+
+  /**
+   * Extract the error message from the response
+   * @param {Response | any} error [description]
+   */
+  private handleError (error: Response | any) {
+    let errMsg: string;
+    if (error instanceof Response) {
+      const body = error.json() || '';
+      const err = body.error || JSON.stringify(body);
+      errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
+    } else {
+      errMsg = error.message ? error.message : error.toString();
+    }
+    console.error(errMsg);
+    return Observable.throw(errMsg);
+  }
+}
