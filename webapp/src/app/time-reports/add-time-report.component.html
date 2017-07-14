@@ -1,0 +1,52 @@
+<form [formGroup]="addTimeReportForm" (ngSubmit)="onAddTimeReportFormSubmit()" novalidate>
+  <div class="modal-header">
+    <h4 class="modal-title text-center">New Time Report</h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+
+      <div class="form-group">
+        <label for="addTimeReportProject">Project*</label>
+        <select class="form-control" id="addTimeReportProject" formControlName="project">
+          <option value="0">Select a Project</option>
+          <option *ngFor="let project of projects" value="{{project.id}}">{{project.name}}</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="addTimeReportDate">Date*</label>
+        <div class="input-group">
+          <input class="form-control" placeholder="yyyy-mm-dd" id="addTimeReportDate"
+                 name="dp" ngbDatepicker #d="ngbDatepicker" formControlName="date">
+          <div class="input-group-addon" (click)="d.toggle()" >
+            <i class="fa fa-calendar"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="addTimeReportName">Name*</label>
+        <input type="text" class="form-control" id="addTimeReportName" formControlName="name">
+      </div>
+
+      <div class="form-group">
+        <label for="addTimeReportHours">Hours*</label>
+        <input type="text" class="form-control" id="addTimeReportHours" formControlName="hours" placeholder="h:mm">
+      </div>
+
+      <div class="form-group">
+        <label for="addTimeReportDescription">Description</label>
+        <textarea class="form-control" id="addTimeReportDescription" formControlName="description" rows="5"></textarea>
+      </div>
+
+      <div *ngIf="addTimeReportFormSuccessMessage" class="alert alert-success" [innerHTML]="addTimeReportFormSuccessMessage"></div>
+      <div *ngIf="addTimeReportFormErrorMessage" class="alert alert-danger" [innerHTML]="addTimeReportFormErrorMessage"></div>
+
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="activeModal.close('Close click')">Close</button>
+    <button type="submit" [disabled]="addTimeReportForm.pristine || addTimeReportForm.status === 'INVALID'" class="btn btn-primary">Save</button>
+  </div>
+</form>

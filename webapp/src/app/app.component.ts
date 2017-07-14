@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+
+import { AddTimeReportComponent } from './time-reports/add-time-report.component';
+
 import { RootService } from './core/root.service';
 
 import { User } from './models/user.model';
@@ -22,7 +26,8 @@ export class AppComponent implements OnInit {
 
   constructor(
     private rootService: RootService,
-    private router: Router) {
+    private router: Router,
+    private modalService: NgbModal) {
   }
 
   ngOnInit() {
@@ -40,6 +45,10 @@ export class AppComponent implements OnInit {
 
     // Subscribe for changes but wait a tick first to avoid one-time devMode unidirectional-data-flow-violation error
     this.rootService.userChange.subscribe(user => setTimeout(() => this.user = user, 0));
+  }
+
+  openAddTimeReportModal() {
+    const modalRef = this.modalService.open(AddTimeReportComponent);
   }
 
 }
