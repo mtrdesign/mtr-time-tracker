@@ -5,13 +5,13 @@
 
     <label for="inputUsername" class="sr-only">Username</label>
     <input type="text" name="username" id="inputUsername"
-      class="form-control" placeholder="Username"
+      class="form-control form-validate" placeholder="Username"
       [(ngModel)]="user.username" #username="ngModel"
       required autofocus>
 
     <label for="inputPassword" class="sr-only">Password</label>
     <input type="password" name="password" id="inputPassword"
-      class="form-control" placeholder="Password"
+      class="form-control form-validate" placeholder="Password"
       [(ngModel)]="user.password" #password="ngModel"
       required>
 

@@ -16,6 +16,7 @@ export class UserService {
   private getUrl = environment.apiUrl + 'profiles/';
   private updateUrl = environment.apiUrl + 'profiles/';
   private setPasswordUrl = environment.apiUrl + 'users/:id/set_password/';
+  private getProfilesUrl = environment.apiUrl + 'profiles/';
 
   constructor (private http: Http) {}
 
@@ -52,6 +53,24 @@ export class UserService {
 
     return this.http.patch(apiUrl, this.packData(user), options)
                     .map(this.extractUserData)
+                    .catch(this.handleError);
+  }
+
+  /**
+   * Get User profiles from the API
+   * @param  {User}             user [description]
+   * @return {Observable<User>}      [description]
+   */
+  getProfiles(user: User): Observable<Array<User>> {
+    let apiUrl = this.getProfilesUrl;
+    let headers = new Headers({
+      'Content-Type': 'application/json',
+      'Authorization': 'JWT ' + user.token
+    });
+    let options = new RequestOptions({ headers: headers });
+
+    return this.http.get(apiUrl, options)
+                    .map(this.extractProfilesData)
                     .catch(this.handleError);
   }
 
@@ -94,6 +113,11 @@ export class UserService {
     }
 
     return user;
+  }
+
+  private extractProfilesData(res: Response) {
+    let body = res.json();
+    return body || {};
   }
 
   private extrcatPasswordData(res: Response) {

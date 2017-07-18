@@ -9,32 +9,32 @@
 
             <div class="form-group">
               <label for="profileUsername">Username*</label>
-              <input type="text" class="form-control" id="profileUsername" formControlName="username">
+              <input type="text" class="form-control form-validate" id="profileUsername" formControlName="username">
             </div>
 
             <div class="form-group">
               <label for="profileInputEmail">Email Address*</label>
-              <input type="email" class="form-control" id="profileInputEmail" formControlName="email">
+              <input type="email" class="form-control form-validate" id="profileInputEmail" formControlName="email">
             </div>
 
             <div class="form-group">
               <label for="profileInputFirstName">First Name*</label>
-              <input type="text" class="form-control" id="profileInputFirstName" formControlName="firstName">
+              <input type="text" class="form-control form-validate" id="profileInputFirstName" formControlName="firstName">
             </div>
 
             <div class="form-group">
               <label for="profileInputLastName">Last Name*</label>
-              <input type="text" class="form-control" id="profileInputLastName" formControlName="lastName">
+              <input type="text" class="form-control form-validate" id="profileInputLastName" formControlName="lastName">
             </div>
 
             <div class="form-group">
               <label for="profileInputJobTitle">Job Title</label>
-              <input type="text" class="form-control" id="profileInputJobTitle" formControlName="jobTitle">
+              <input type="text" class="form-control form-validate" id="profileInputJobTitle" formControlName="jobTitle">
             </div>
 
             <div class="form-group">
               <label for="profileInputPhoneNumber">Phone Number</label>
-              <input type="text" class="form-control" id="profileInputPhoneNumber" formControlName="phoneNumber">
+              <input type="text" class="form-control form-validate" id="profileInputPhoneNumber" formControlName="phoneNumber">
             </div>
 
             <div *ngIf="profileFormSuccessMessage" class="alert alert-success" [innerHTML]="profileFormSuccessMessage"></div>
@@ -54,17 +54,17 @@
 
             <div class="form-group">
               <label for="securityCurrentPassword">Current Password*</label>
-              <input type="password" class="form-control" id="securityCurrentPassword" formControlName="currentPassword">
+              <input type="password" class="form-control form-validate" id="securityCurrentPassword" formControlName="currentPassword">
             </div>
 
             <div class="form-group">
               <label for="securityNewPassword">New Password*</label>
-              <input type="password" class="form-control" id="securityNewPassword" formControlName="newPassword">
+              <input type="password" class="form-control form-validate" id="securityNewPassword" formControlName="newPassword">
             </div>
 
             <div class="form-group">
               <label for="securityConfirmNewPassword">Confirm New Password*</label>
-              <input type="password" class="form-control" id="securityConfirmNewPassword" formControlName="confirmNewPassword">
+              <input type="password" class="form-control form-validate" id="securityConfirmNewPassword" formControlName="confirmNewPassword">
             </div>
 
             <div *ngIf="securityFormSuccessMessage" class="alert alert-success" [innerHTML]="securityFormSuccessMessage"></div>

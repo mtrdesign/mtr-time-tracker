@@ -1,0 +1,135 @@
+<div class="container">
+  <div class="card">
+    <div class="card-header">Time Reports</div>
+    <div class="card-block">
+
+      <form [formGroup]="listTimeReportsForm" (ngSubmit)="onListTimeReporsFormSubmit()" novalidate>
+        <div class="row">
+          <div class="col-sm-6 col-lg-3">
+            <div class="form-group">
+              <label for="listTimeReportsFromDate">From Date</label>
+              <div class="input-group">
+                <input class="form-control" placeholder="yyyy-mm-dd" id="listTimeReportsFromDate"
+                       name="dp" ngbDatepicker #fromDateDatepicker="ngbDatepicker" formControlName="fromDate">
+                <div class="input-group-addon" (click)="fromDateDatepicker.toggle()" >
+                  <i class="fa fa-calendar"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-sm-6 col-lg-3">
+            <div class="form-group">
+              <label for="listTimeReportsToDate">To Date</label>
+              <div class="input-group">
+                <input class="form-control" placeholder="yyyy-mm-dd" id="listTimeReportsToDate"
+                       name="dp" ngbDatepicker #toDateDatepicker="ngbDatepicker" formControlName="toDate">
+                <div class="input-group-addon" (click)="toDateDatepicker.toggle()" >
+                  <i class="fa fa-calendar"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-sm-6 col-lg-3">
+            <div class="form-group">
+              <label for="listTimeReportsProfile">By User</label>
+              <select class="form-control" id="listTimeReportsProfile" formControlName="profile">
+                <option value="0">Select a User</option>
+                <option *ngFor="let profile of profiles" value="{{profile.id}}">{{profile.full_name}}</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="col-sm-6 col-lg-3">
+            <div class="form-group">
+              <label for="listTimeReportsProject">By Project</label>
+              <select class="form-control" id="listTimeReportsProject" formControlName="project">
+                <option value="0">Select a Project</option>
+                <option *ngFor="let project of projects" value="{{project.id}}">{{project.name}}</option>
+              </select>
+            </div>
+          </div>
+
+        </div>
+        <div class="row">
+          <div class="col text-right">
+            <button type="buttom" class="btn btn-secondary">Clear</button>
+            <button type="submit" class="btn btn-primary">Search</button>
+          </div>
+        </div>
+      </form>
+
+      <br>
+
+      <div class="row">
+        <div class="col">
+          <table class="table table-striped table-hover table-sm">
+            <thead class="thead-inverse">
+              <tr>
+                <th>Date</th>
+                <th>Project</th>
+                <th>User</th>
+                <th>Details</th>
+                <th width="90">Hours</th>
+                <th width="90">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+
+              <ng-template [ngIf]="timeReports">
+                <tr *ngFor="let timeReport of timeReports">
+                  <td>{{timeReport.date | date:"EEEE, d MMMM y" }}</td>
+                  <td>{{timeReport.project_entry.name}}</td>
+                  <td>{{timeReport.profile_entry.full_name}}</td>
+                  <td>{{timeReport.name}}</td>
+                  <td>{{timeReport.hours}}</td>
+                  <td>
+                    <!-- <button class="btn btn-primary btn-sm"><i class="fa fa-pencil"></i></button> -->
+                    <!-- <button class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button> -->
+                  </td>
+                </tr>
+              </ng-template>
+
+              <ng-template [ngIf]="profilesTimeReports">
+                <tr class="bg-inverse">
+                  <td colspan="6"></td>
+                </tr>
+
+                <tr *ngFor="let profileTimeReport of profilesTimeReports" class="table-active">
+                  <td colspan="2"></td>
+                  <td>{{profileTimeReport.profile.full_name}}</td>
+                  <td>Total time:</td>
+                  <td colspan="2">{{profileTimeReport.total_hours}}</td>
+                </tr>
+              </ng-template>
+
+              <ng-template [ngIf]="projectsTimeReports">
+                <tr class="bg-inverse">
+                  <td colspan="6"></td>
+                </tr>
+
+                <tr *ngFor="let projectTimeReport of projectsTimeReports" class="table-active">
+                  <td></td>
+                  <td colspan="2">{{projectTimeReport.project.name}}</td>
+                  <td>Total time:</td>
+                  <td colspan="2">{{projectTimeReport.total_hours}}</td>
+                </tr>
+              </ng-template>
+
+              <ng-template [ngIf]="totalHoursTimeReports">
+                <tr class="bg-inverse">
+                  <td colspan="3"></td>
+                  <td><strong>Total time:</strong></td>
+                  <td colspan="2"><strong>{{totalHoursTimeReports.total_hours}}</strong></td>
+                </tr>
+              </ng-template>
+
+            </tbody>
+          </table>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

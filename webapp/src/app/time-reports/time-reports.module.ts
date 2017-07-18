@@ -5,7 +5,7 @@ import { FormsModule, ReactiveFormsModule }    from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MomentModule } from 'angular2-moment';
 
-import { ReportsListComponent }    from './reports-list.component';
+import { TimeReportsListComponent }    from './time-reports-list.component';
 import { AddTimeReportComponent }     from './add-time-report.component';
 
 import { ProjectService }     from './project.service';
@@ -25,7 +25,7 @@ import { TimeReportsRoutingModule } from './time-reports-routing.module';
     TimeReportsRoutingModule,
   ],
   declarations: [
-    ReportsListComponent,
+    TimeReportsListComponent,
     AddTimeReportComponent,
   ],
   providers: [

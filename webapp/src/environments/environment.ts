@@ -5,5 +5,5 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://0.0.0.0:8000/',
+  apiUrl: 'http://0.0.0.0:8000/time-tracker/api/',
 };

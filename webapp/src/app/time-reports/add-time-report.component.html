@@ -9,7 +9,7 @@
 
       <div class="form-group">
         <label for="addTimeReportProject">Project*</label>
-        <select class="form-control" id="addTimeReportProject" formControlName="project">
+        <select class="form-control form-validate" id="addTimeReportProject" formControlName="project">
           <option value="0">Select a Project</option>
           <option *ngFor="let project of projects" value="{{project.id}}">{{project.name}}</option>
         </select>
@@ -18,7 +18,7 @@
       <div class="form-group">
         <label for="addTimeReportDate">Date*</label>
         <div class="input-group">
-          <input class="form-control" placeholder="yyyy-mm-dd" id="addTimeReportDate"
+          <input class="form-control form-validate" placeholder="yyyy-mm-dd" id="addTimeReportDate"
                  name="dp" ngbDatepicker #d="ngbDatepicker" formControlName="date">
           <div class="input-group-addon" (click)="d.toggle()" >
             <i class="fa fa-calendar"></i>
@@ -28,17 +28,17 @@
 
       <div class="form-group">
         <label for="addTimeReportName">Name*</label>
-        <input type="text" class="form-control" id="addTimeReportName" formControlName="name">
+        <input type="text" class="form-control form-validate" id="addTimeReportName" formControlName="name">
       </div>
 
       <div class="form-group">
         <label for="addTimeReportHours">Hours*</label>
-        <input type="text" class="form-control" id="addTimeReportHours" formControlName="hours" placeholder="h:mm">
+        <input type="text" class="form-control form-validate" id="addTimeReportHours" formControlName="hours" placeholder="h:mm">
       </div>
 
       <div class="form-group">
         <label for="addTimeReportDescription">Description</label>
-        <textarea class="form-control" id="addTimeReportDescription" formControlName="description" rows="5"></textarea>
+        <textarea class="form-control form-validate" id="addTimeReportDescription" formControlName="description" rows="5"></textarea>
       </div>
 
       <div *ngIf="addTimeReportFormSuccessMessage" class="alert alert-success" [innerHTML]="addTimeReportFormSuccessMessage"></div>

@@ -15,6 +15,10 @@ import { TimeReport } from './../models/time-report.model';
 @Injectable()
 export class TimeReportService {
   private createUrl = environment.apiUrl + 'time-reports/';
+  private getTimeReportsUrl = environment.apiUrl + 'time-reports/';
+  private getProfilesTimeReportsUrl = environment.apiUrl + 'time-reports/profiles/';
+  private getProjectsTimeReportsUrl = environment.apiUrl + 'time-reports/projects/';
+  private getTotalHoursTimeReportsUrl = environment.apiUrl + 'time-reports/total-hours/';
 
   constructor (private http: Http) {}
 
@@ -37,7 +41,64 @@ export class TimeReportService {
                     .catch(this.handleError);
   }
 
+  getTimeReports(user: User, filters: any): Observable<any> {
+    let apiUrl = this.getTimeReportsUrl;
+    let options = this.prepareRequest(user, filters);
+
+    return this.http.get(apiUrl, options)
+                    .map(this.extractTimeReportData)
+                    .catch(this.handleError);
+  }
+
+
+  getProfilesTimeReports(user: User, filters: any): Observable<any> {
+    let apiUrl = this.getProfilesTimeReportsUrl;
+    let options = this.prepareRequest(user, filters);
+
+    return this.http.get(apiUrl, options)
+                    .map(this.extractTimeReportData)
+                    .catch(this.handleError);
+  }
+
+  getProjectsTimeReports(user: User, filters: any): Observable<any> {
+    let apiUrl = this.getProjectsTimeReportsUrl;
+    let options = this.prepareRequest(user, filters);
+
+    return this.http.get(apiUrl, options)
+                    .map(this.extractTimeReportData)
+                    .catch(this.handleError);
+  }
+
+  getTotalHoursTimeReports(user: User, filters: any): Observable<any> {
+    let apiUrl = this.getTotalHoursTimeReportsUrl;
+    let options = this.prepareRequest(user, filters);
+
+    return this.http.get(apiUrl, options)
+                    .map(this.extractTimeReportData)
+                    .catch(this.handleError);
+  }
+
   // Helper methods
+
+  private prepareRequest(user: User, filters: any) {
+    let headers = new Headers({
+      'Content-Type': 'application/json',
+      'Authorization': 'JWT ' + user.token
+    });
+
+    let params: URLSearchParams = new URLSearchParams();
+    params.set('date_0', filters.fromDate);
+    params.set('date_1', filters.toDate);
+    params.set('profile__id', filters.profile != 0 ? filters.profile : '');
+    params.set('project__id', filters.project != 0 ? filters.project : '');
+
+    let options = new RequestOptions({
+      headers: headers,
+      search: params.toString()
+    });
+
+    return options;
+  }
 
   /**
    * Extract the body data from the response and serialize it

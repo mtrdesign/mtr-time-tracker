@@ -13,12 +13,16 @@ body {
 /**
  *  Forms
  */
-.form-control.ng-valid.ng-touched,
-.form-control.ng-valid.ng-touched {
+.form-validate.form-control.ng-valid.ng-touched,
+.form-validate.form-control.ng-valid.ng-touched {
   border-left: 5px solid #42A948;
 }
 
-.form-control.ng-invalid:not(form).ng-touched {
+.form-validate.form-control.ng-invalid:not(form).ng-touched {
   border-left: 5px solid #a94442;
 }
 
+a,
+.btn {
+  cursor: pointer;
+}
