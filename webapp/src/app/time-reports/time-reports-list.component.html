@@ -54,7 +54,7 @@
         </div>
         <div class="row">
           <div class="col text-right">
-            <button type="buttom" class="btn btn-secondary">Clear</button>
+            <button type="buttom" class="btn btn-secondary" (click)="onListTimeReporsFormClear()">Clear</button>
             <button type="submit" class="btn btn-primary">Search</button>
           </div>
         </div>
@@ -79,9 +79,9 @@
 
               <ng-template [ngIf]="timeReports">
                 <tr *ngFor="let timeReport of timeReports">
-                  <td>{{timeReport.date | date:"EEEE, d MMMM y" }}</td>
-                  <td>{{timeReport.project_entry.name}}</td>
-                  <td>{{timeReport.profile_entry.full_name}}</td>
+                  <td><a [routerLink]="['/time-reports']" [queryParams]="{ fromDate: timeReport.date, toDate: timeReport.date }" queryParamsHandling="merge">{{timeReport.date | date:"EEEE, d MMMM y" }}</a></td>
+                  <td><a [routerLink]="['/time-reports']" [queryParams]="{ project: timeReport.project }" queryParamsHandling="merge">{{timeReport.project_entry.name}}</a></td>
+                  <td><a [routerLink]="['/time-reports']" [queryParams]="{ profile: timeReport.profile }" queryParamsHandling="merge">{{timeReport.profile_entry.full_name}}</a></td>
                   <td>{{timeReport.name}}</td>
                   <td>{{timeReport.hours}}</td>
                   <td>
@@ -98,7 +98,7 @@
 
                 <tr *ngFor="let profileTimeReport of profilesTimeReports" class="table-active">
                   <td colspan="2"></td>
-                  <td>{{profileTimeReport.profile.full_name}}</td>
+                  <td><a [routerLink]="['/time-reports']" [queryParams]="{ profile: profileTimeReport.profile.id }" queryParamsHandling="merge">{{profileTimeReport.profile.full_name}}</a></td>
                   <td>Total time:</td>
                   <td colspan="2">{{profileTimeReport.total_hours}}</td>
                 </tr>
@@ -111,7 +111,7 @@
 
                 <tr *ngFor="let projectTimeReport of projectsTimeReports" class="table-active">
                   <td></td>
-                  <td colspan="2">{{projectTimeReport.project.name}}</td>
+                  <td colspan="2"><a [routerLink]="['/time-reports']" [queryParams]="{ project: projectTimeReport.project.id }" queryParamsHandling="merge">{{projectTimeReport.project.name}}</a></td>
                   <td>Total time:</td>
                   <td colspan="2">{{projectTimeReport.total_hours}}</td>
                 </tr>

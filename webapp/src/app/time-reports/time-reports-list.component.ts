@@ -1,9 +1,14 @@
 
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 
-import { NgbDatepickerConfig, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDatepickerConfig, NgbDateStruct, NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
+
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/filter';
+import 'rxjs/add/observable/forkJoin';
 
 import { RootService } from './../core/root.service';
 import { ProjectService } from './project.service';
@@ -36,7 +41,10 @@ export class TimeReportsListComponent implements OnInit {
     private projectService: ProjectService,
     private userService: UserService,
     private timeReportsService: TimeReportService,
-    private datepickerConfig: NgbDatepickerConfig) {
+    private datepickerConfig: NgbDatepickerConfig,
+    private datepickerParserFormatter: NgbDateParserFormatter,
+    private router: Router,
+    private route: ActivatedRoute) {
 
     this.createListTimeReportsForm();
     this.setupDatepickerConfigs();
@@ -45,20 +53,29 @@ export class TimeReportsListComponent implements OnInit {
   ngOnInit() {
     this.user = this.rootService.user;
 
-    this.projectService.getProjects(this.user)
-                       .subscribe(
-                          projects => this.projects = projects,
-                          error => console.log(error)
-                        );
+    let getProjects = this.projectService.getProjects(this.user);
+    let getProfiles = this.userService.getProfiles(this.user);
 
-    this.userService.getProfiles(this.user)
-                    .subscribe(
-                      profiles => this.profiles = profiles,
-                      error => console.log(error)
-                    );
+    Observable.forkJoin([getProjects, getProfiles])
+              .subscribe(
+                response => {
+                  this.projects = response[0];
+                  this.profiles = response[1];
 
-    this.fillListTimeReportsForm();
-    this.getTimeReportsData();
+                  this.fillListTimeReportsForm();
+
+                  // Check for query params which are already in the URL
+                  this.handleQueryParamsFilters(this.route.snapshot.queryParams);
+                },
+                error => console.log(error)
+              );
+
+    // Subscribe for new changes of the query params
+    this.router.events.filter(e => e instanceof NavigationEnd)
+                      .forEach(e => {
+                        let params = this.route.snapshot.queryParams;
+                        this.handleQueryParamsFilters(params);
+                      });
   }
 
   /**
@@ -78,27 +95,83 @@ export class TimeReportsListComponent implements OnInit {
    * Fill the form wiith default values
    */
   fillListTimeReportsForm() {
+    let dateStartOfMonth: moment.Moment = moment().startOf('month');
     let dateNow: moment.Moment = moment();
+
     this.listTimeReportsForm.patchValue({
       project: 0,
       profile: 0,
-      fromDate: { year: dateNow.year(), month: dateNow.month()+1, day: 1 },
-      toDate: { year: dateNow.year(), month: dateNow.month()+1, day: dateNow.date() }
+      fromDate: this.dateToNgbStruct(dateStartOfMonth.format('YYYY-MM-DD')),
+      toDate: this.dateToNgbStruct(dateNow.format('YYYY-MM-DD'))
     });
+  }
+
+  /**
+   * Apply the query params to the filters form and forche new fetch of the data
+   * @param {any} params [description]
+   */
+  handleQueryParamsFilters(params: any) {
+
+    if (params.fromDate) {
+      this.listTimeReportsForm.patchValue({ fromDate: this.dateToNgbStruct(params.fromDate) });
+    }
+
+    if (params.toDate) {
+      this.listTimeReportsForm.patchValue({ toDate: this.dateToNgbStruct(params.toDate) });
+    }
+
+    if (params.project) {
+      this.listTimeReportsForm.patchValue({ project: params.project });
+    }
+
+    if (params.profile) {
+      this.listTimeReportsForm.patchValue({ profile: params.profile });
+    }
+
+    this.getTimeReportsData();
   }
 
   /**
    * Submit the filters form and get the resluts
    */
   onListTimeReporsFormSubmit() {
-    this.getTimeReportsData();
+    const formModel = this.listTimeReportsForm.value;
+
+    let queryParams: any = {
+      fromDate: this.datepickerParserFormatter.format(formModel.fromDate),
+      toDate: this.datepickerParserFormatter.format(formModel.toDate),
+    };
+
+    if (formModel.project != 0) {
+      queryParams.project = formModel.project;
+    }
+
+    if (formModel.profile != 0) {
+      queryParams.profile = formModel.profile;
+    }
+
+    this.router.navigate(['/time-reports'], {
+      queryParams: queryParams
+    });
   }
 
+  /**
+   * Clear the filters
+   */
+  onListTimeReporsFormClear() {
+    this.fillListTimeReportsForm();
+    this.router.navigateByUrl('/time-reports');
+  }
+
+  /**
+   * Get the stored data in the filters form and request data according to it
+   */
   getTimeReportsData() {
+
     const formModel = this.listTimeReportsForm.value;
     let filters = {
-      fromDate: formModel.fromDate.year + '-' + formModel.fromDate.month + '-' + formModel.fromDate.day,
-      toDate: formModel.toDate.year + '-' + formModel.toDate.month + '-' + formModel.toDate.day,
+      fromDate: this.datepickerParserFormatter.format(formModel.fromDate),
+      toDate: this.datepickerParserFormatter.format(formModel.toDate),
       project: formModel.project,
       profile: formModel.profile,
     };
@@ -139,6 +212,16 @@ export class TimeReportsListComponent implements OnInit {
       month: dateNow.month() + 1,
       day: dateNow.date(),
     };
+  }
+
+  dateToNgbStruct(dateString?: string) {
+    let date: moment.Moment = moment(dateString || '');
+
+    return {
+      year: date.year(),
+      month: date.month() + 1,
+      day: date.date()
+    }
   }
 
 }

@@ -39,8 +39,8 @@ export class AppComponent implements OnInit {
       this.rootService.setUser(this.user);
 
       // Check for a saved refeer route
-      let redirecrUrl = this.rootService.redirectUrl || '/time-reports';
-      this.router.navigate([redirecrUrl]);
+      //let redirecrUrl = this.rootService.redirectUrl || '/time-reports';
+      //this.router.navigate([redirecrUrl]);
     }
 
     // Subscribe for changes but wait a tick first to avoid one-time devMode unidirectional-data-flow-violation error

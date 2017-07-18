@@ -1,4 +1,4 @@
-import { Component, AfterViewInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { User } from './../models/user.model';
@@ -10,7 +10,7 @@ import { RootService } from './../core/root.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
 
   user: User = new User();
   submitted = false;
@@ -25,6 +25,15 @@ export class LoginComponent {
                                   user => {
                                     this.successfullLogin(user);
                                   });
+  }
+
+  ngOnInit() {
+    let isUserLogged = this.rootService.isLogged();
+    if (isUserLogged) {
+      // Check for a saved refeer route
+      let redirecrUrl = this.rootService.redirectUrl || '/time-reports';
+      this.router.navigate([redirecrUrl]);
+    }
   }
 
   onSubmit() {
