@@ -1,14 +1,20 @@
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewContainerRef } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 
 import { NgbDatepickerConfig, NgbDateStruct, NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import * as moment from 'moment';
 
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/observable/forkJoin';
+
+import { AddTimeReportComponent } from './../time-reports/add-time-report.component';
+import { ViewTimeReportComponent } from './../time-reports/view-time-report.component';
 
 import { RootService } from './../core/root.service';
 import { ProjectService } from './project.service';
@@ -19,11 +25,13 @@ import { User } from './../models/user.model';
 import { TimeReport } from './../models/time-report.model';
 import { Project } from './../models/project.model';
 
+import { environment } from './../../environments/environment';
+
 @Component({
   templateUrl: './time-reports-list.component.html',
   styleUrls: ['./time-reports-list.component.css']
 })
-export class TimeReportsListComponent implements OnInit {
+export class TimeReportsListComponent implements OnInit, OnDestroy {
 
   listTimeReportsForm: FormGroup;
   user: User;
@@ -34,6 +42,12 @@ export class TimeReportsListComponent implements OnInit {
   profiles: Array<User> = [];
   projects: Array<Project> = [];
 
+  config = {
+    pageTitle: 'Time Reports',
+    env: environment
+  };
+
+  routerSubscriber;
 
   constructor(
     private rootService: RootService,
@@ -43,14 +57,20 @@ export class TimeReportsListComponent implements OnInit {
     private timeReportsService: TimeReportService,
     private datepickerConfig: NgbDatepickerConfig,
     private datepickerParserFormatter: NgbDateParserFormatter,
+    private toastr: ToastsManager,
+    private vcr: ViewContainerRef,
+    private modalService: NgbModal,
     private router: Router,
-    private route: ActivatedRoute) {
+    private route: ActivatedRoute,
+    private titleService: Title) {
 
+    this.toastr.setRootViewContainerRef(vcr);
     this.createListTimeReportsForm();
     this.setupDatepickerConfigs();
   }
 
   ngOnInit() {
+    this.titleService.setTitle(`${this.config.pageTitle} - ${this.config.env.website.title} | ${this.config.env.website.company}`);
     this.user = this.rootService.user;
 
     let getProjects = this.projectService.getProjects(this.user);
@@ -67,15 +87,21 @@ export class TimeReportsListComponent implements OnInit {
                   // Check for query params which are already in the URL
                   this.handleQueryParamsFilters(this.route.snapshot.queryParams);
                 },
-                error => console.log(error)
+                error => this.toastr.error(error, 'Error!', { positionClass: 'toast-bottom-right' })
               );
 
-    // Subscribe for new changes of the query params
-    this.router.events.filter(e => e instanceof NavigationEnd)
-                      .forEach(e => {
-                        let params = this.route.snapshot.queryParams;
-                        this.handleQueryParamsFilters(params);
-                      });
+    this.routerSubscriber = this.router.events.subscribe(
+                                                event => {
+                                                  if (event instanceof NavigationEnd) {
+                                                    let params = this.route.snapshot.queryParams;
+                                                    this.handleQueryParamsFilters(params);
+                                                  }
+                                                }
+                                              );
+  }
+
+  ngOnDestroy() {
+    this.routerSubscriber.unsubscribe();
   }
 
   /**
@@ -111,7 +137,6 @@ export class TimeReportsListComponent implements OnInit {
    * @param {any} params [description]
    */
   handleQueryParamsFilters(params: any) {
-
     if (params.fromDate) {
       this.listTimeReportsForm.patchValue({ fromDate: this.dateToNgbStruct(params.fromDate) });
     }
@@ -128,7 +153,14 @@ export class TimeReportsListComponent implements OnInit {
       this.listTimeReportsForm.patchValue({ profile: params.profile });
     }
 
+    // Get time reports data according to the filters above
     this.getTimeReportsData();
+
+    // Open a modal with info about the time report if provided
+    if (params.report) {
+      const modalRef = this.modalService.open(ViewTimeReportComponent);
+      modalRef.componentInstance.timeReportId = params.report;
+    }
   }
 
   /**
@@ -156,6 +188,26 @@ export class TimeReportsListComponent implements OnInit {
   }
 
   /**
+   * Handle event for deleting time report
+   * @param {[type]} timeReport [description]
+   */
+  onDeleteTimeReport(timeReport: TimeReport) {
+    var confirmResponse = confirm('Are you sure that you want to delete this time report?');
+    if (confirmResponse) {
+      this.timeReportsService.delete(this.user, timeReport.id)
+                             .subscribe(
+                                response => this.toastr.success('Your time report has been deleted successfully.', 'Done!', { positionClass: 'toast-bottom-right' }),
+                                error => this.toastr.error(error, 'Error!', { positionClass: 'toast-bottom-right' })
+                              );
+    }
+  }
+
+  onEditTimeReport(timeReport: TimeReport) {
+    const modalRef = this.modalService.open(AddTimeReportComponent);
+    modalRef.componentInstance.timeReport = timeReport;
+  }
+
+  /**
    * Clear the filters
    */
   onListTimeReporsFormClear() {
@@ -179,25 +231,25 @@ export class TimeReportsListComponent implements OnInit {
     this.timeReportsService.getTimeReports(this.user, filters)
                            .subscribe(
                               timeReports => this.timeReports = timeReports,
-                              error => console.log(error)
+                              error => this.toastr.error(error, 'Error!', { positionClass: 'toast-bottom-right' })
                             );
 
     this.timeReportsService.getProfilesTimeReports(this.user, filters)
                            .subscribe(
                               profilesTimeReports => this.profilesTimeReports = profilesTimeReports,
-                              error => console.log(error)
+                              error => this.toastr.error(error, 'Error!', { positionClass: 'toast-bottom-right' })
                             );
 
     this.timeReportsService.getProjectsTimeReports(this.user, filters)
                            .subscribe(
                               projectsTimeReports => this.projectsTimeReports = projectsTimeReports,
-                              error => console.log(error)
+                              error => this.toastr.error(error, 'Error!', { positionClass: 'toast-bottom-right' })
                             );
 
     this.timeReportsService.getTotalHoursTimeReports(this.user, filters)
                            .subscribe(
                               totalHoursTimeReports => this.totalHoursTimeReports = totalHoursTimeReports,
-                              error => console.log(error)
+                              error => this.toastr.error(error, 'Error!', { positionClass: 'toast-bottom-right' })
                             );
   }
 

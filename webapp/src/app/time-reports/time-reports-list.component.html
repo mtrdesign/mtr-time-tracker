@@ -64,30 +64,51 @@
 
       <div class="row">
         <div class="col">
-          <table class="table table-striped table-hover table-sm">
+          <table class="table table-striped table-hover table-sm table-responsive">
             <thead class="thead-inverse">
               <tr>
                 <th>Date</th>
                 <th>Project</th>
                 <th>User</th>
-                <th>Details</th>
+                <th class="hidden-md-down">Details</th>
                 <th width="90">Hours</th>
                 <th width="90">Actions</th>
               </tr>
             </thead>
             <tbody>
 
-              <ng-template [ngIf]="timeReports">
+              <ng-container *ngIf="timeReports && timeReports.length; then timeReportsSuccessBlock; else timeReportsErrorBlock"></ng-container>
+              <ng-template #timeReportsSuccessBlock>
                 <tr *ngFor="let timeReport of timeReports">
-                  <td><a [routerLink]="['/time-reports']" [queryParams]="{ fromDate: timeReport.date, toDate: timeReport.date }" queryParamsHandling="merge">{{timeReport.date | date:"EEEE, d MMMM y" }}</a></td>
-                  <td><a [routerLink]="['/time-reports']" [queryParams]="{ project: timeReport.project }" queryParamsHandling="merge">{{timeReport.project_entry.name}}</a></td>
-                  <td><a [routerLink]="['/time-reports']" [queryParams]="{ profile: timeReport.profile }" queryParamsHandling="merge">{{timeReport.profile_entry.full_name}}</a></td>
-                  <td>{{timeReport.name}}</td>
+                  <td>
+                    <a [routerLink]="['/time-reports']" [queryParams]="{ fromDate: timeReport.date, toDate: timeReport.date }" queryParamsHandling="merge">
+                      <span class="hidden-md-down">{{timeReport.date | date:config.env.settings.datetime_long}}</span>
+                      <span class="hidden-lg-up">{{timeReport.date | date:config.env.settings.datetime_short}}</span>
+                    </a>
+                  </td>
+                  <td>
+                    <a [routerLink]="['/time-reports']" [queryParams]="{ project: timeReport.project }" queryParamsHandling="merge">{{timeReport.project_entry.name}}</a>
+                  </td>
+                  <td>
+                    <a [routerLink]="['/time-reports']" [queryParams]="{ profile: timeReport.profile }" queryParamsHandling="merge">
+                      <span class="hidden-sm-down">{{timeReport.profile_entry.full_name}}</span>
+                      <span class="hidden-md-up">{{timeReport.profile_entry.first_name | slice:0:1}}. {{timeReport.profile_entry.last_name}}</span>
+                    </a>
+                  </td>
+                  <td class="hidden-md-down">
+                    <a [routerLink]="['/time-reports']" [queryParams]="{ report: timeReport.id }" queryParamsHandling="merge"><i class="fa fa-info-circle"></i></a>
+                    {{timeReport.name}}
+                  </td>
                   <td>{{timeReport.hours}}</td>
                   <td>
-                    <!-- <button class="btn btn-primary btn-sm"><i class="fa fa-pencil"></i></button> -->
-                    <!-- <button class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button> -->
+                    <button *ngIf="user.id == timeReport.profile" class="btn btn-primary btn-sm" (click)="onEditTimeReport(timeReport)"><i class="fa fa-pencil"></i></button>
+                    <button *ngIf="user.id == timeReport.profile" class="btn btn-danger btn-sm" (click)="onDeleteTimeReport(timeReport)"><i class="fa fa-trash"></i></button>
                   </td>
+                </tr>
+              </ng-template>
+              <ng-template #timeReportsErrorBlock>
+                <tr>
+                  <td colspan="6" class="text-center">Time reports list for this month is still empty.</td>
                 </tr>
               </ng-template>
 

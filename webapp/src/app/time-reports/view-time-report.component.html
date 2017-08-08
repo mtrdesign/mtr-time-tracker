@@ -1,0 +1,49 @@
+<div class="modal-header">
+  <h4 class="modal-title text-center">
+    Time Report Details
+  </h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+
+  <div *ngIf="!timeReport" class="app-loading-spinner"></div>
+  <table *ngIf="timeReport" width="100%" cellpadding="5">
+    <tr>
+      <td><strong>Profile:</strong></td>
+      <td>{{timeReport.profile_entry.full_name}}</td>
+    </tr>
+    <tr>
+      <td><strong>Project:</strong></td>
+      <td>{{timeReport.project_entry.name}}</td>
+    </tr>
+    <tr>
+      <td colspan="2"><hr></td>
+    </tr>
+    <tr>
+      <td><strong>Name:</strong></td>
+      <td>{{timeReport.name}}</td>
+    </tr>
+    <tr>
+      <td><strong>Date:</strong></td>
+      <td>{{timeReport.date | date:config.env.settings.datetime_long}}</td>
+    </tr>
+    <tr>
+      <td><strong>Hours:</strong></td>
+      <td>{{timeReport.hours}}</td>
+    </tr>
+    <tr valign="top">
+      <td>
+        <strong>Description:</strong><br>
+      </td>
+      <td>
+        <div class="raw-html" [innerHTML]="timeReport.description | safeHtml"></div>
+      </td>
+    </tr>
+  </table>
+
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary" (click)="activeModal.close()">Close</button>
+</div>

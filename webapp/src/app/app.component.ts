@@ -9,6 +9,8 @@ import { RootService } from './core/root.service';
 
 import { User } from './models/user.model';
 
+import { environment } from './../environments/environment';
+
 @Component({
   selector: 'my-app',
   templateUrl: './app.component.html',
@@ -19,10 +21,8 @@ export class AppComponent implements OnInit {
   user: User;
 
   config = {
-    website: {
-      title: 'Time Tracker'
-    }
-  }
+    env: environment
+  };
 
   constructor(
     private rootService: RootService,

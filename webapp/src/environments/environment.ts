@@ -6,4 +6,13 @@
 export const environment = {
   production: false,
   apiUrl: 'http://0.0.0.0:8000/time-tracker/api/',
+  website: {
+    company: "MTR Design",
+    title: "Time Tracker",
+    logo: "assets/images/logo-print.png"
+  },
+  settings: {
+    datetime_long: "EEEE, d MMMM y",
+    datetime_short: "dd.MM.y",
+  }
 };

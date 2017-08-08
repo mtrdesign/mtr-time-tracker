@@ -5,9 +5,11 @@ import { HttpModule, JsonpModule } from '@angular/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {ToastModule} from 'ng2-toastr/ng2-toastr';
 
 import { AppComponent }  from './app.component';
 import { AddTimeReportComponent }     from './time-reports/add-time-report.component';
+import { ViewTimeReportComponent }     from './time-reports/view-time-report.component';
 
 import { AppRoutingModule } from './app-routing.module';
 import { CoreModule }       from './core/core.module';
@@ -27,6 +29,7 @@ import { ProfileModule }     from './profile/profile.module';
     HttpModule,
     JsonpModule,
     NgbModule.forRoot(),
+    ToastModule.forRoot(),
 
     CoreModule,
     SharedModule,
@@ -41,6 +44,7 @@ import { ProfileModule }     from './profile/profile.module';
   ],
   entryComponents: [
     AddTimeReportComponent,
+    ViewTimeReportComponent,
   ],
   bootstrap: [
     AppComponent

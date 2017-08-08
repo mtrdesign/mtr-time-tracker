@@ -1,7 +1,11 @@
 <form [formGroup]="addTimeReportForm" (ngSubmit)="onAddTimeReportFormSubmit()" novalidate>
   <div class="modal-header">
-    <h4 class="modal-title text-center">New Time Report</h4>
-    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <h4 class="modal-title text-center">
+      <span *ngIf="!timeReport">New</span>
+      <span *ngIf="timeReport && timeReport.id">Update</span>
+      Time Report
+    </h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
@@ -46,7 +50,7 @@
 
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" (click)="activeModal.close('Close click')">Close</button>
+    <button type="button" class="btn btn-secondary" (click)="activeModal.close()">Close</button>
     <button type="submit" [disabled]="addTimeReportForm.pristine || addTimeReportForm.status === 'INVALID'" class="btn btn-primary">Save</button>
   </div>
 </form>

@@ -16,3 +16,11 @@ td {
 .table tr.bg-inverse td {
   color: #fff;
 }
+
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 768px) {
+  .table-responsive {
+    display: table;
+  }
+}

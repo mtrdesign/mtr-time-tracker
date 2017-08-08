@@ -1,11 +1,14 @@
 
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
 
 import { RootService } from './../core/root.service';
 import { UserService } from './../shared/user.service';
 
 import { User } from './../models/user.model';
+
+import { environment } from './../../environments/environment';
 
 @Component({
   templateUrl: './profile-details.component.html'
@@ -23,10 +26,16 @@ export class ProfileDetailsComponent implements OnInit {
   securityFormSuccessMessage: string;
   securityFormErrorMessage: string;
 
+  config = {
+    pageTitle: 'Profile',
+    env: environment
+  };
+
   constructor(
     private fb: FormBuilder,
     private rootService: RootService,
-    private userService: UserService) {
+    private userService: UserService,
+    private titleService: Title) {
     this.createProfileDetailsForm();
     this.createSecurityForm();
   }
@@ -35,6 +44,8 @@ export class ProfileDetailsComponent implements OnInit {
    * Get data about the user, because we want to fill the form with the existing data
    */
   ngOnInit() {
+    this.titleService.setTitle(`${this.config.pageTitle} - ${this.config.env.website.title} | ${this.config.env.website.company}`);
+
     // Get data about the logged user and pass it to fill the form data
     this.user = this.rootService.user;
     this.fillProfileDetailsForm();

@@ -14,13 +14,35 @@ import { TimeReport } from './../models/time-report.model';
 
 @Injectable()
 export class TimeReportService {
+  private getUrl = environment.apiUrl + 'time-reports/';
   private createUrl = environment.apiUrl + 'time-reports/';
+  private updateUrl = environment.apiUrl + 'time-reports/';
+  private deleteUrl = environment.apiUrl + 'time-reports/';
   private getTimeReportsUrl = environment.apiUrl + 'time-reports/';
   private getProfilesTimeReportsUrl = environment.apiUrl + 'time-reports/profiles/';
   private getProjectsTimeReportsUrl = environment.apiUrl + 'time-reports/projects/';
   private getTotalHoursTimeReportsUrl = environment.apiUrl + 'time-reports/total-hours/';
 
   constructor (private http: Http) {}
+
+  /**
+   * Get a single time report by its id
+   * @param  {User}            user         [description]
+   * @param  {number}          timeReportId [description]
+   * @return {Observable<any>}              [description]
+   */
+  get(user: User, timeReportId: number): Observable<any> {
+    let apiUrl = this.getUrl + timeReportId + '/';
+    let headers = new Headers({
+      'Content-Type': 'application/json',
+      'Authorization': 'JWT ' + user.token
+    });
+    let options = new RequestOptions({ headers: headers });
+
+    return this.http.get(apiUrl, options)
+                    .map(this.extractTimeReportData)
+                    .catch(this.handleError);
+  }
 
   /**
    * Pass a new serializes time report to the API to save it
@@ -41,6 +63,50 @@ export class TimeReportService {
                     .catch(this.handleError);
   }
 
+  /**
+   * Pass an id of a time report and the new object to the API to update it
+   * @param  {User}            user       [description]
+   * @param  {timeReport}      timeReport [description]
+   * @return {Observable<any>}            [description]
+   */
+  update(user: User, timeReport: TimeReport): Observable<any> {
+    let apiUrl = this.updateUrl + timeReport.id + '/';
+    let headers = new Headers({
+      'Content-Type': 'application/json',
+      'Authorization': 'JWT ' + user.token
+    });
+    let options = new RequestOptions({ headers: headers });
+
+    return this.http.put(apiUrl, timeReport, options)
+                    .map(this.extractTimeReportData)
+                    .catch(this.handleError);
+  }
+
+  /**
+   * Pass an id of a time report to the API to delete it
+   * @param  {User}            user         [description]
+   * @param  {number}          timeReportId [description]
+   * @return {Observable<any>}              [description]
+   */
+  delete(user: User, timeReportId: number): Observable<any> {
+    let apiUrl = this.deleteUrl + timeReportId + '/';
+    let headers = new Headers({
+      'Content-Type': 'application/json',
+      'Authorization': 'JWT ' + user.token
+    });
+    let options = new RequestOptions({ headers: headers });
+
+    return this.http.delete(apiUrl, options)
+                    .map(this.extractTimeReportData)
+                    .catch(this.handleError);
+  }
+
+  /**
+   * Get a list with all time reports
+   * @param  {User}            user    [description]
+   * @param  {any}             filters [description]
+   * @return {Observable<any>}         [description]
+   */
   getTimeReports(user: User, filters: any): Observable<any> {
     let apiUrl = this.getTimeReportsUrl;
     let options = this.prepareRequest(user, filters);
@@ -50,7 +116,12 @@ export class TimeReportService {
                     .catch(this.handleError);
   }
 
-
+  /**
+   * Get a list with all time reports groupped by profiles
+   * @param  {User}            user    [description]
+   * @param  {any}             filters [description]
+   * @return {Observable<any>}         [description]
+   */
   getProfilesTimeReports(user: User, filters: any): Observable<any> {
     let apiUrl = this.getProfilesTimeReportsUrl;
     let options = this.prepareRequest(user, filters);
@@ -60,6 +131,12 @@ export class TimeReportService {
                     .catch(this.handleError);
   }
 
+  /**
+   * Get a list with all time reports groupped by project
+   * @param  {User}            user    [description]
+   * @param  {any}             filters [description]
+   * @return {Observable<any>}         [description]
+   */
   getProjectsTimeReports(user: User, filters: any): Observable<any> {
     let apiUrl = this.getProjectsTimeReportsUrl;
     let options = this.prepareRequest(user, filters);
@@ -69,6 +146,12 @@ export class TimeReportService {
                     .catch(this.handleError);
   }
 
+  /**
+   * Get the total hours for the time reports
+   * @param  {User}            user    [description]
+   * @param  {any}             filters [description]
+   * @return {Observable<any>}         [description]
+   */
   getTotalHoursTimeReports(user: User, filters: any): Observable<any> {
     let apiUrl = this.getTotalHoursTimeReportsUrl;
     let options = this.prepareRequest(user, filters);
@@ -135,6 +218,6 @@ export class TimeReportService {
       errMsg = error.message ? error.message : error.toString();
     }
     console.error(errMsg);
-    return Observable.throw(errMsg);
+    return Observable.throw('Could\'t fetch Time Reports data from the server.');
   }
 }

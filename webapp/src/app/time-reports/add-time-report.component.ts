@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { NgbModal, NgbActiveModal, NgbDatepickerConfig, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
@@ -17,6 +17,8 @@ import { Project } from './../models/project.model';
   providers: [ NgbDatepickerConfig ]
 })
 export class AddTimeReportComponent implements OnInit {
+
+  @Input() timeReport;
 
   addTimeReportForm: FormGroup;
   user: User;
@@ -44,6 +46,7 @@ export class AddTimeReportComponent implements OnInit {
   createAddTimeReportForm() {
 
     this.addTimeReportForm = this.fb.group({
+      id: '',
       project: [0, Validators.required],
       name: ['', Validators.required],
       hours: ['', [Validators.required, Validators.pattern(/(|)(\d|\d{1}:\d{2}|\d{2}:\d{2})/)]],
@@ -52,22 +55,38 @@ export class AddTimeReportComponent implements OnInit {
     });
   }
 
-  fillAddTimeReportsForm() {
+  fillAddTimeReportsForm(isReset?: boolean) {
+
+    isReset = isReset || false;
     let dateNow: moment.Moment = moment();
+
     this.addTimeReportForm.patchValue({
       project: 0,
       date: { year: dateNow.year(), month: dateNow.month()+1, day: dateNow.date()}
     });
+
+    if (this.timeReport !== undefined && !isReset) {
+      let timeReportDate: moment.Moment = moment(this.timeReport.date);
+
+      this.addTimeReportForm.patchValue({
+        id: this.timeReport.id,
+        project: this.timeReport.project,
+        date: { year: timeReportDate.year(), month: timeReportDate.month()+1, day: timeReportDate.date()},
+        name: this.timeReport.name,
+        hours: this.timeReport.hours,
+        description: this.timeReport.description
+      });
+    }
   }
 
   ngOnInit() {
     this.user = this.rootService.user;
 
     this.projectService.getProjects(this.user)
-                        .subscribe(
-                          projects => this.projects = projects,
-                          error => console.log(error)
-                        );
+                       .subscribe(
+                         projects => this.projects = projects,
+                         error => console.log(error)
+                       );
 
     this.fillAddTimeReportsForm();
   }
@@ -75,27 +94,28 @@ export class AddTimeReportComponent implements OnInit {
   onAddTimeReportFormSubmit() {
     this.addTimeReportFormErrorMessage = '';
     let timeReport: TimeReport = this.prepareSaveTimeReport(this.user);
+    let timeReportsServiceAction = timeReport.id ? this.timeReportsService.update(this.user, timeReport) : this.timeReportsService.create(this.user, timeReport);
 
-    this.timeReportsService.create(this.user, timeReport)
-                    .subscribe(
-                      response => {
-                        console.log(response);
-                        if (response.id) {
-                          this.addTimeReportFormSuccessMessage = 'Your Time Report has been successfully added.';
-                          setTimeout(() => this.addTimeReportFormSuccessMessage = '', 3000);
+    timeReportsServiceAction.subscribe(
+                              response => {
+                                if (response.id) {
+                                  this.addTimeReportFormSuccessMessage = 'Your Time Report has been successfully saved.';
+                                  setTimeout(() => this.addTimeReportFormSuccessMessage = '', 3000);
 
-                          this.addTimeReportForm.reset();
-                          this.fillAddTimeReportsForm();
-                        }
-                        else {
-                          this.addTimeReportFormErrorMessage = 'An error has occured while saving your Time Report. PLease try again or contact the developers team.';
-                        }
-                      },
-                      error => {
-                        console.log(error);
-                        this.addTimeReportFormErrorMessage = error
-                      }
-                    );
+                                  if (typeof timeReport.id !== 'number') {
+                                    this.addTimeReportForm.reset();
+                                    this.fillAddTimeReportsForm(true);
+                                  }
+                                }
+                                else {
+                                  this.addTimeReportFormErrorMessage = 'An error has occured while saving your Time Report. PLease try again or contact the developers team.';
+                                }
+                              },
+                              error => {
+                                console.error(error);
+                                this.addTimeReportFormErrorMessage = error
+                              }
+                            );
   }
 
     /**
@@ -119,6 +139,7 @@ export class AddTimeReportComponent implements OnInit {
     var date = formModel.date.year + '-' + formModel.date.month + '-' + formModel.date.day;
 
     const saveTimeReport: TimeReport = {
+      id: formModel.id as number,
       project: formModel.project as number,
       profile: user.id as number,
 
