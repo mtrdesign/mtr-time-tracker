@@ -23,6 +23,7 @@ export class AddTimeReportComponent implements OnInit {
   addTimeReportForm: FormGroup;
   user: User;
   projects: Array<Project> = [];
+  isChanged = false;
 
   // String messages containing the form submission results
   addTimeReportFormSuccessMessage: string;
@@ -99,6 +100,7 @@ export class AddTimeReportComponent implements OnInit {
     timeReportsServiceAction.subscribe(
                               response => {
                                 if (response.id) {
+                                  this.isChanged = true;
                                   this.addTimeReportFormSuccessMessage = 'Your Time Report has been successfully saved.';
                                   setTimeout(() => this.addTimeReportFormSuccessMessage = '', 3000);
 

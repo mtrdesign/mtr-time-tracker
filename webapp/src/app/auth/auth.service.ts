@@ -49,8 +49,6 @@ export class AuthService {
             user.id = decodedToken.user_id;
             user.email = decodedToken.email;
 
-            console.log(user);
-
             this._setCredentials.next(user);
           },
           error => {
@@ -68,10 +66,6 @@ export class AuthService {
   }
 
   // Helper methods
-
-  initAuthHttp() {
-
-  }
 
   /**
    * Extract the body data from the response
@@ -91,11 +85,14 @@ export class AuthService {
     if (error instanceof Response) {
       const body = error.json() || '';
       const err = body.error || JSON.stringify(body);
-      errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
+      errMsg = `${error.statusText || ''} ${err}`;
     } else {
       errMsg = error.message ? error.message : error.toString();
     }
     console.error(errMsg);
+    if (errMsg === '{"isTrusted":true}') {
+      return Observable.throw('Couldn\'t establish a connection to the server.');
+    }
     return Observable.throw(errMsg);
   }
 }

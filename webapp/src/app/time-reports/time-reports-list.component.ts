@@ -10,6 +10,7 @@ import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import * as moment from 'moment';
 
 import { Observable } from 'rxjs/Observable';
+import { Subscription }   from 'rxjs/Subscription';
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/observable/forkJoin';
 
@@ -48,6 +49,13 @@ export class TimeReportsListComponent implements OnInit, OnDestroy {
   };
 
   routerSubscriber;
+  timeReportsSubscription: Subscription;
+
+  isLoading = {
+    timeReports: false,
+    profilesTimeReports: false,
+    projectsTimeReports: false,
+  }
 
   constructor(
     private rootService: RootService,
@@ -98,6 +106,9 @@ export class TimeReportsListComponent implements OnInit, OnDestroy {
                                                   }
                                                 }
                                               );
+
+    this.timeReportsSubscription = this.timeReportsService.refreshTimeReportsSource$
+                                                          .subscribe(response => this.getTimeReportsData());
   }
 
   ngOnDestroy() {
@@ -108,7 +119,6 @@ export class TimeReportsListComponent implements OnInit, OnDestroy {
    * Create the form filters
    */
   createListTimeReportsForm() {
-
     this.listTimeReportsForm = this.fb.group({
       fromDate: ['', Validators.required],
       toDate: ['', Validators.required],
@@ -160,6 +170,19 @@ export class TimeReportsListComponent implements OnInit, OnDestroy {
     if (params.report) {
       const modalRef = this.modalService.open(ViewTimeReportComponent);
       modalRef.componentInstance.timeReportId = params.report;
+
+      modalRef.result.then(
+                       result => {
+                         var queryParams = Object.assign({}, this.route.snapshot.queryParams);
+                         delete queryParams.report;
+                         this.router.navigate(['/time-reports'], { queryParams: queryParams });
+                       },
+                       reason =>{
+                         var queryParams = Object.assign({}, this.route.snapshot.queryParams);
+                         delete queryParams.report;
+                         this.router.navigate(['/time-reports'], { queryParams: queryParams });
+                       }
+                     );
     }
   }
 
@@ -196,7 +219,12 @@ export class TimeReportsListComponent implements OnInit, OnDestroy {
     if (confirmResponse) {
       this.timeReportsService.delete(this.user, timeReport.id)
                              .subscribe(
-                                response => this.toastr.success('Your time report has been deleted successfully.', 'Done!', { positionClass: 'toast-bottom-right' }),
+                                response => {
+                                  this.timeReports = this.timeReports.filter(function(report) {
+                                    return report.id != timeReport.id;
+                                  })
+                                  this.toastr.success('Your time report has been deleted successfully.', 'Done!', { positionClass: 'toast-bottom-right' })
+                                },
                                 error => this.toastr.error(error, 'Error!', { positionClass: 'toast-bottom-right' })
                               );
     }
@@ -205,6 +233,11 @@ export class TimeReportsListComponent implements OnInit, OnDestroy {
   onEditTimeReport(timeReport: TimeReport) {
     const modalRef = this.modalService.open(AddTimeReportComponent);
     modalRef.componentInstance.timeReport = timeReport;
+
+    modalRef.result.then(
+                     result => this.timeReportsService.refreshTimeReports(result),
+                     reason => this.timeReportsService.refreshTimeReports(reason)
+                   );
   }
 
   /**
@@ -228,21 +261,34 @@ export class TimeReportsListComponent implements OnInit, OnDestroy {
       profile: formModel.profile,
     };
 
+    this.isLoading.timeReports = true;
+    this.isLoading.profilesTimeReports = true;
+    this.isLoading.projectsTimeReports = true;
+
     this.timeReportsService.getTimeReports(this.user, filters)
                            .subscribe(
-                              timeReports => this.timeReports = timeReports,
+                              timeReports => {
+                                this.timeReports = timeReports;
+                                this.isLoading.timeReports = false;
+                              },
                               error => this.toastr.error(error, 'Error!', { positionClass: 'toast-bottom-right' })
                             );
 
     this.timeReportsService.getProfilesTimeReports(this.user, filters)
                            .subscribe(
-                              profilesTimeReports => this.profilesTimeReports = profilesTimeReports,
+                              profilesTimeReports => {
+                                this.profilesTimeReports = profilesTimeReports;
+                                this.isLoading.profilesTimeReports = false;
+                              },
                               error => this.toastr.error(error, 'Error!', { positionClass: 'toast-bottom-right' })
                             );
 
     this.timeReportsService.getProjectsTimeReports(this.user, filters)
                            .subscribe(
-                              projectsTimeReports => this.projectsTimeReports = projectsTimeReports,
+                              projectsTimeReports => {
+                                this.projectsTimeReports = projectsTimeReports;
+                                this.isLoading.projectsTimeReports = false;
+                              },
                               error => this.toastr.error(error, 'Error!', { positionClass: 'toast-bottom-right' })
                             );
 

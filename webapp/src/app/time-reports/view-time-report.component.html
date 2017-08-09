@@ -2,7 +2,7 @@
   <h4 class="modal-title text-center">
     Time Report Details
   </h4>
-  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss()">
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss(isChanged)">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
@@ -45,5 +45,5 @@
 
 </div>
 <div class="modal-footer">
-  <button type="button" class="btn btn-secondary" (click)="activeModal.close()">Close</button>
+  <button type="button" class="btn btn-secondary" (click)="activeModal.close(isChanged)">Close</button>
 </div>

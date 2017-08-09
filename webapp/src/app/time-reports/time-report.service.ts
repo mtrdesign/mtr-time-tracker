@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 
 import { Observable } from 'rxjs/Observable';
+import { Subject }    from 'rxjs/Subject';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/throw';
@@ -22,6 +23,9 @@ export class TimeReportService {
   private getProfilesTimeReportsUrl = environment.apiUrl + 'time-reports/profiles/';
   private getProjectsTimeReportsUrl = environment.apiUrl + 'time-reports/projects/';
   private getTotalHoursTimeReportsUrl = environment.apiUrl + 'time-reports/total-hours/';
+
+  private refreshTimeReportsSource = new Subject<boolean>();
+  refreshTimeReportsSource$ = this.refreshTimeReportsSource.asObservable();
 
   constructor (private http: Http) {}
 
@@ -161,6 +165,18 @@ export class TimeReportService {
                     .catch(this.handleError);
   }
 
+  // Observable Streams
+
+  /**
+   * Listen for changes which should trigger refresh of the reports
+   * @param {boolean} isReadyForRefresh [description]
+   */
+  refreshTimeReports(isReadyForRefresh: boolean) {
+    if (isReadyForRefresh) {
+      this.refreshTimeReportsSource.next(isReadyForRefresh);
+    }
+  }
+
   // Helper methods
 
   private prepareRequest(user: User, filters: any) {
@@ -209,15 +225,24 @@ export class TimeReportService {
    * @param {Response | any} error [description]
    */
   private handleError (error: Response | any) {
-    let errMsg: string;
+    console.error(error);
+
+    if (error.status === 0) {
+      return Observable.throw('Could\'t establish a conenction with the server.');
+    }
+
+    let errMsg: string = '';
     if (error instanceof Response) {
       const body = error.json() || '';
-      const err = body.error || JSON.stringify(body);
-      errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
+      for(var errIndex in body) {
+        body[errIndex].forEach(function(errorMessage) {
+          errMsg += errorMessage + '<br>';
+        });
+      }
     } else {
       errMsg = error.message ? error.message : error.toString();
     }
-    console.error(errMsg);
-    return Observable.throw('Could\'t fetch Time Reports data from the server.');
+
+    return Observable.throw(errMsg);
   }
 }

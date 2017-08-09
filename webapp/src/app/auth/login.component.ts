@@ -41,7 +41,7 @@ export class LoginComponent implements OnInit {
 
     let isUserLogged = this.rootService.isLogged();
     if (isUserLogged) {
-      // Check for a saved refeer route
+      // Check for a saved referer route
       let redirecrUrl = this.rootService.redirectUrl || '/time-reports';
       this.router.navigate([redirecrUrl]);
     }

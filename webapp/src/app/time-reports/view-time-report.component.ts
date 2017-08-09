@@ -20,6 +20,7 @@ export class ViewTimeReportComponent implements OnInit {
   @Input() timeReportId: number;
   timeReport: TimeReport;
   user: User;
+  isChanged = false;
 
   config = {
     env: environment
@@ -39,7 +40,10 @@ export class ViewTimeReportComponent implements OnInit {
   getTimeReport() {
     this.timeReportsService.get(this.user, this.timeReportId)
                            .subscribe(
-                              timeReport => this.timeReport = timeReport,
+                              timeReport => {
+                                this.isChanged = true;
+                                this.timeReport = timeReport
+                              },
                               error => console.log(error)
                            );
   }
