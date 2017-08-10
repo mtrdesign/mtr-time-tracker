@@ -1,0 +1,5 @@
+
+# Configs
+gunicorn_conf/
+
+mysql_data/

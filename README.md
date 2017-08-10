@@ -1,8 +1,18 @@
+
+
 # Time Tracking Application #
 
 ## About ##
 
 This is a simple time tracking app written in Angular 4 and Django.
+
+TBD:
+cd rest
+create local settings file
+docker-compose build
+docker-compose up -d
+
+
 
 ## Requirements ##
 
