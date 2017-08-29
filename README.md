@@ -6,46 +6,32 @@
 
 This is a simple time tracking app written in Angular 4 and Django.
 
-TBD:
-cd rest
-create local settings file
-docker-compose build
-docker-compose up -d
-
-
-
 ## Requirements ##
 
-In order to run this project you'll need to have installed [Vagrant](https://www.vagrantup.com/) on your env.
-
-## Getting started ##
-
-## Run the server
-
-1. vagrant up && vagrant ssh
-2. vagrant@mtr-time-tracker:/srv/project/rest$ python manage.py runserver 0:8000 --settings=rest.env.local
-$$ Run the client
+In order to run this project you'll need to have installed [Docker](https://www.docker.com/). We also suggest to use [Vagrant](https://www.vagrantup.com/) as a base.
 
 ## Setup the project ##
 
-## Server configuration
+### Run the server
 
-1. vagrant up
-2. vagrant ssh
-3. vagrant@mtr-time-tracker:/srv/project/vmachines/vagrant$ sudo apt-get install dos2unix
-4. vagrant@mtr-time-tracker:/srv/project/vmachines/vagrant$ dos2unix bootstrap.sh
-5. vagrant@mtr-time-tracker:/srv/project/vmachines/vagrant$ ./bootstrap.sh all
-6. exit
-7. cp rest/rest/env/example.vagrant.py rest/rest/env/local.py
-8. vagrant ssh
-9. vagrant@mtr-time-tracker:/srv/project/$ pip install -r requirements.txt
-10. mysql -u root -p
-11. create database `mtr-time-tracker`;
-12. vagrant@mtr-time-tracker:/srv/project/rest$ python manage.py migrate --settings=rest.env.local
-13. vagrant@mtr-time-tracker:/srv/project/rest$ python manage.py createsuperuser --settings=rest.env.local
-14. vagrant@mtr-time-tracker:/srv/project/rest$ python manage.py runserver 0:8000 --settings=rest.env.local
+1. `cd rest`
+2. Create local settings file under `rest/rest/env/local.py`
+3. `docker-compose build`
+4. `docker-compose up -d`
+5. Open http://localhost:8888/ to interact with the REST API
 
-## Client configuration
+### Run the client
 
-1. npm install
-2. npm start
+1. `cd webapp`
+2. `docker-compose build`
+3. `docker-compose up -d`
+4. Open http://localhost:4200/ to see the Angular app
+
+## Deploy
+
+### Configure the server
+
+### Configure the client
+
+1. Create prod settings file under `webapp/src/environments/environment.prod.ts`
+2. ng build
