@@ -12,6 +12,14 @@ In order to run this project you'll need to have installed [Docker](https://www.
 
 ## Setup the project ##
 
+### Prerequisite (Optional)
+
+1. vagrant up
+2. vagrant ssh
+3. cd /srv/project
+4. ./vmachines/vagrant/bootstrap.sh all
+4. ./vmachines/vagrant/bootstrap.sh install_docker
+
 ### Run the server
 
 1. `cd rest`
