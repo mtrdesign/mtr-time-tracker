@@ -5,7 +5,7 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://0.0.0.0:8888/time-tracker/api/',
+  apiUrl: 'http://0.0.0.0:8000/time-tracker/api/',
   website: {
     company: "MTR Design",
     title: "Time Tracker",

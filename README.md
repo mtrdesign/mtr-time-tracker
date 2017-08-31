@@ -31,9 +31,10 @@ In order to run this project you'll need to have installed [Docker](https://www.
 ### Run the client
 
 1. `cd webapp`
-2. `docker-compose build`
-3. `docker-compose up -d`
-4. Open http://localhost:4200/ to see the Angular app
+2. Create local settings file under `webapp/src/environments/environment.ts`
+3. `docker-compose build`
+4. `docker-compose up -d`
+5. Open http://localhost:4200/ to see the Angular app
 
 ## Deploy
 
