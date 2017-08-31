@@ -164,4 +164,18 @@ export class AddTimeReportComponent implements OnInit {
     };
   }
 
+  /**
+   * Dismiss the modal and pass info about the changes which were made
+   */
+  dismiss() {
+    this.activeModal.dismiss(this.isChanged);
+  }
+
+  /**
+   * Close the modal and pass info about the changes which were made
+   */
+  close() {
+    this.activeModal.close(this.isChanged);
+  }
+
 }

@@ -43,4 +43,5 @@ In order to run this project you'll need to have installed [Docker](https://www.
 ### Configure the client
 
 1. Create prod settings file under `webapp/src/environments/environment.prod.ts`
-2. ng build
+2. ng build --target=production
+3. Point your webroot to /webapp/dist/
