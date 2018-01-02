@@ -3,5 +3,9 @@ version: '3'
 services:
   webapp:
     build: .
+    volumes:
+    - .:/webapp
+    - /webapp/node_modules
     ports:
-      - "127.0.0.1:8888:8080"
+      - '4200:4200'
+    entrypoint: ["/webapp/server-setup/entrypoint.sh"]

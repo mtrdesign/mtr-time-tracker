@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-NVM_VERSION=4.4.7
+NVM_VERSION=7.1
 PHPMYADMIN_VERSION=4.6.3
 
 # Color helpers
@@ -61,10 +61,10 @@ all() { # Configure everything on a new machine.
 }
 
 set_apache_rewrite_mode() {
-	sudo service apache2 reload
-	sudo a2enmod rewrite
-	sudo service apache2 restart
-	sudo mkdir /var/log/apache2/logs/
+    sudo service apache2 reload
+    sudo a2enmod rewrite
+    sudo service apache2 restart
+    sudo mkdir /var/log/apache2/logs/
 }
 
 install_apache() { # Install apache
@@ -73,15 +73,15 @@ install_apache() { # Install apache
 
 install_server_libs() { # Install server libs
     sudo apt-get update
-	sudo apt-get install make
-	sudo apt-get install -y libxml2
-	sudo apt-get install -y libxml2-dev
-	sudo apt-get install -y libssl-dev
-	sudo apt-get install -y openssl
-	sudo apt-get install -y git
-	sudo apt-get install -y curl
-	sudo apt-get install -y libsslcommon2-dev
-	sudo apt-get install -y libcurl4-openssl-dev
+    sudo apt-get install make
+    sudo apt-get install -y libxml2
+    sudo apt-get install -y libxml2-dev
+    sudo apt-get install -y libssl-dev
+    sudo apt-get install -y openssl
+    sudo apt-get install -y git
+    sudo apt-get install -y curl
+    sudo apt-get install -y libsslcommon2-dev
+    sudo apt-get install -y libcurl4-openssl-dev
     sudo apt-get install -y python-software-properties
     sudo apt-get install -y debconf-utils
     sudo apt-get install -y htop
@@ -117,6 +117,7 @@ install_dev_tools() { # Install dev tools
     # Add Bower
     npm install -g bower
     npm install -g typescript
+    npm install -g @angular/cli
 }
 
 install_mysql() { # Install mysql
@@ -125,7 +126,7 @@ install_mysql() { # Install mysql
     sudo apt-get update
     echo mysql-community-server mysql-community-server/re-root-pass password "parola" | sudo debconf-set-selections
     echo mysql-community-server mysql-community-server/root-pass password "parola" | sudo debconf-set-selections
-	sudo -E apt-get --force-yes -y install mysql-community-server
+    sudo -E apt-get --force-yes -y install mysql-community-server
     sudo apt-get install -y --force-yes libmysqlclient-dev
 }
 
@@ -149,12 +150,33 @@ install_python() { # Install Python
     echo 'source /srv/project/mtr-time-tracker-venv/bin/activate' >> ~/.bash_profile
 }
 
+install_docker() {
+    sudo apt-get update
+    sudo apt-get install -y \
+                        apt-transport-https \
+                        ca-certificates \
+                        curl \
+                        software-properties-common
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+    sudo add-apt-repository \
+        "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+        $(lsb_release -cs) \
+        stable"
+    sudo apt-get update
+    sudo apt-get install -y docker-ce
+
+    sudo curl -L https://github.com/docker/compose/releases/download/1.15.0/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
+    sudo chmod +x /usr/local/bin/docker-compose
+
+    sudo usermod -aG docker ${USER}
+}
+
 help() { # This help
     echo "Manage a local development server"
     echo
     echo "Usage: ${YELLOW}$0${NORMAL} <command> <arg1> ..."
     echo
-	echo "Commands:"
+    echo "Commands:"
     sed -r -n "s/([a-z_]+)\(\)+ *\{ *#(.*)$/  $BOLD\1$NORMAL:\2/gp" $0
 }
 

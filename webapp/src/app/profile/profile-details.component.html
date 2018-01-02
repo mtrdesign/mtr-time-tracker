@@ -1,0 +1,80 @@
+<div class="container">
+  <div class="card">
+    <div class="card-header">Profile Details</div>
+    <div class="card-block">
+      <div class="row">
+        <div class="col-md-6">
+          <h4 class="card-title">Personal Info</h4>
+          <form [formGroup]="profileForm" (ngSubmit)="onProfileDetailsFormSubmit()" novalidate>
+
+            <div class="form-group">
+              <label for="profileUsername">Username*</label>
+              <input type="text" class="form-control form-validate" id="profileUsername" formControlName="username">
+            </div>
+
+            <div class="form-group">
+              <label for="profileInputEmail">Email Address*</label>
+              <input type="email" class="form-control form-validate" id="profileInputEmail" formControlName="email">
+            </div>
+
+            <div class="form-group">
+              <label for="profileInputFirstName">First Name*</label>
+              <input type="text" class="form-control form-validate" id="profileInputFirstName" formControlName="firstName">
+            </div>
+
+            <div class="form-group">
+              <label for="profileInputLastName">Last Name*</label>
+              <input type="text" class="form-control form-validate" id="profileInputLastName" formControlName="lastName">
+            </div>
+
+            <div class="form-group">
+              <label for="profileInputJobTitle">Job Title</label>
+              <input type="text" class="form-control form-validate" id="profileInputJobTitle" formControlName="jobTitle">
+            </div>
+
+            <div class="form-group">
+              <label for="profileInputPhoneNumber">Phone Number</label>
+              <input type="text" class="form-control form-validate" id="profileInputPhoneNumber" formControlName="phoneNumber">
+            </div>
+
+            <div *ngIf="profileFormSuccessMessage" class="alert alert-success" [innerHTML]="profileFormSuccessMessage"></div>
+            <div *ngIf="profileFormErrorMessage" class="alert alert-danger" [innerHTML]="profileFormErrorMessage"></div>
+
+            <button type="submit" [disabled]="profileForm.pristine || profileForm.status === 'INVALID'" class="btn btn-primary">Save</button>
+            <div class="clearfix"></div>
+
+            <div class="hidden-md-up">
+              <br><br><br>
+            </div>
+          </form>
+        </div>
+        <div class="col-md-5 col-lg-4 offset-md-1 offset-lg-2">
+          <h4 class="card-title">Security</h4>
+          <form [formGroup]="securityForm" (ngSubmit)="onSecurityFormSubmit()" novalidate>
+
+            <div class="form-group">
+              <label for="securityCurrentPassword">Current Password*</label>
+              <input type="password" class="form-control form-validate" id="securityCurrentPassword" formControlName="currentPassword">
+            </div>
+
+            <div class="form-group">
+              <label for="securityNewPassword">New Password*</label>
+              <input type="password" class="form-control form-validate" id="securityNewPassword" formControlName="newPassword">
+            </div>
+
+            <div class="form-group">
+              <label for="securityConfirmNewPassword">Confirm New Password*</label>
+              <input type="password" class="form-control form-validate" id="securityConfirmNewPassword" formControlName="confirmNewPassword">
+            </div>
+
+            <div *ngIf="securityFormSuccessMessage" class="alert alert-success" [innerHTML]="securityFormSuccessMessage"></div>
+            <div *ngIf="securityFormErrorMessage" class="alert alert-danger" [innerHTML]="securityFormErrorMessage"></div>
+
+            <button type="submit" [disabled]="securityForm.pristine || securityForm.status === 'INVALID'" class="btn btn-primary">Save</button>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,9 +1,15 @@
-FROM node:4.4.7
-EXPOSE 8080
+FROM node:8.9.3
+
 RUN mkdir /webapp
 WORKDIR /webapp
-ADD . /webapp/
+COPY . /webapp/
+
+RUN chown -R node:node /usr/local/lib/node_modules
+RUN chown -R node:node /usr/local/bin
+RUN chown -R node:node /webapp
+USER node
+
+RUN npm install -g @angular/cli
 RUN npm install
-RUN npm install -g bower
-RUN bower install --allow-root
-ENTRYPOINT ["npm", "start"]
+ENTRYPOINT ["./server-setup/entrypoint.sh"]
+

@@ -26,6 +26,9 @@ mtr-time-tracker-venv/
 # IDE
 .idea/
 
+# Other
+.npm-debug.log
+
 # Configs
 gunicorn_conf/
 

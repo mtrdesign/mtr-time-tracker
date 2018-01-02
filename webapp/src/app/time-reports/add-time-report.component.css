@@ -1,0 +1,7 @@
+#addTimeReportProject .options {
+    z-index: 5;
+}
+
+.input-group {
+    z-index: 0;
+}

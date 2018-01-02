@@ -1,0 +1,26 @@
+
+th,
+td {
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.table-sm td,
+.table-sm th {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+
+.table tr.bg-primary td,
+.table tr.bg-info td,
+.table tr.bg-inverse td {
+  color: #fff;
+}
+
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 768px) {
+  .table-responsive {
+    display: table;
+  }
+}
