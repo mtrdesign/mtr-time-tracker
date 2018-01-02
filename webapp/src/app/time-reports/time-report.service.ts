@@ -234,10 +234,15 @@ export class TimeReportService {
     let errMsg: string = '';
     if (error instanceof Response) {
       const body = error.json() || '';
-      for(var errIndex in body) {
-        body[errIndex].forEach(function(errorMessage) {
-          errMsg += errorMessage + '<br>';
-        });
+      if (Array.isArray(body)) {
+        for(var errIndex in body) {
+          body[errIndex].forEach(function(errorMessage) {
+            errMsg += errorMessage + '<br>';
+          });
+        }
+      }
+      else {
+        errMsg += body.detail;
       }
     } else {
       errMsg = error.message ? error.message : error.toString();

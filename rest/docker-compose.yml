@@ -7,11 +7,9 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: "password"
       MYSQL_DATABASE: "mtr-time-tracker"
-      MYSQL_USER: "mtr-time-tracker"
-      MYSQL_PASS: "password"
     user: "1000:50"
     volumes:
-      - ./mysql_data:/var/lib/mysql
+      - /wd/trash/timetracker:/var/lib/mysql
   web:
     container_name: mtr.time-tracker.web
     build: .
@@ -24,4 +22,4 @@ services:
       - db
     links:
       - db
-    entrypoint: ["./wait-for-it.sh", "db:3306", "--timeout=30", "--", "./migrate-run.sh"]
+    entrypoint: ["/code/server-setup/wait-for-it.sh", "db:3306", "--timeout=30", "--", "/code/server-setup/entrypoint.sh"]

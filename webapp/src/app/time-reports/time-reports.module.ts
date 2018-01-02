@@ -25,12 +25,12 @@ import { TimeReportsRoutingModule } from './time-reports-routing.module';
     NgbModule,
     MomentModule,
     SharedModule,
-    TimeReportsRoutingModule,
+    TimeReportsRoutingModule
   ],
   declarations: [
     TimeReportsListComponent,
     AddTimeReportComponent,
-    ViewTimeReportComponent,
+    ViewTimeReportComponent
   ],
   providers: [
     AuthGuard,

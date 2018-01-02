@@ -26,7 +26,7 @@ export class UserService {
    * @return {Observable<User>}      [description]
    */
   getUser(user: User): Observable<User> {
-    let apiUrl = this.getUrl + user.id + '/';
+    let apiUrl = this.getUrl + '?user__id=' + user.id;
     let headers = new Headers({
       'Content-Type': 'application/json',
       'Authorization': 'JWT ' + user.token
@@ -103,13 +103,17 @@ export class UserService {
     let body = res.json();
     let user: User = new User();
 
-    if (body) {
-      user.id = body.id;
-      user.email = body.email_address;
-      user.firstName = body.first_name;
-      user.lastName = body.last_name;
-      user.jobTitle = body.job_title;
-      user.phoneNumber = body.phone_number;
+    if (body[0]) {
+      user.id = body[0].id;
+      user.email = body[0].email_address;
+      user.firstName = body[0].first_name;
+      user.lastName = body[0].last_name;
+      user.jobTitle = body[0].job_title;
+      user.phoneNumber = body[0].phone_number;
+
+      user.user_entry = {
+        is_superuser: body[0].user_entry.is_superuser
+      }
     }
 
     return user;

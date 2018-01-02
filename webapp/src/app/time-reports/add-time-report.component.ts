@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { NgbModal, NgbActiveModal, NgbDatepickerConfig, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
@@ -14,13 +14,15 @@ import { Project } from './../models/project.model';
 
 @Component({
   templateUrl: './add-time-report.component.html',
+  styleUrls: ['./add-time-report.component.css'],
   providers: [ NgbDatepickerConfig ]
 })
-export class AddTimeReportComponent implements OnInit {
+export class AddTimeReportComponent implements AfterViewInit {
 
   @Input() timeReport;
 
   addTimeReportForm: FormGroup;
+  projectSelected: any;
   user: User;
   projects: Array<Project> = [];
   isChanged = false;
@@ -45,7 +47,6 @@ export class AddTimeReportComponent implements OnInit {
    * Build the Add Time Report form and setup some validation rules
    */
   createAddTimeReportForm() {
-
     this.addTimeReportForm = this.fb.group({
       id: '',
       project: [0, Validators.required],
@@ -57,7 +58,6 @@ export class AddTimeReportComponent implements OnInit {
   }
 
   fillAddTimeReportsForm(isReset?: boolean) {
-
     isReset = isReset || false;
     let dateNow: moment.Moment = moment();
 
@@ -69,7 +69,7 @@ export class AddTimeReportComponent implements OnInit {
     if (this.timeReport !== undefined && !isReset) {
       let timeReportDate: moment.Moment = moment(this.timeReport.date);
 
-      this.addTimeReportForm.patchValue({
+      this.addTimeReportForm.setValue({
         id: this.timeReport.id,
         project: this.timeReport.project,
         date: { year: timeReportDate.year(), month: timeReportDate.month()+1, day: timeReportDate.date()},
@@ -80,16 +80,19 @@ export class AddTimeReportComponent implements OnInit {
     }
   }
 
-  ngOnInit() {
+  ngAfterViewInit() {
     this.user = this.rootService.user;
 
     this.projectService.getProjects(this.user)
                        .subscribe(
-                         projects => this.projects = projects,
+                         projects => {
+                           this.projects = projects;
+                           this.fillAddTimeReportsForm();
+                         },
                          error => console.log(error)
                        );
 
-    this.fillAddTimeReportsForm();
+    // /this.fillAddTimeReportsForm();
   }
 
   onAddTimeReportFormSubmit() {
@@ -106,7 +109,7 @@ export class AddTimeReportComponent implements OnInit {
 
                                   if (typeof timeReport.id !== 'number') {
                                     this.addTimeReportForm.reset();
-                                    this.fillAddTimeReportsForm(true);
+                                    this.fillAddTimeReportsForm(true);;
                                   }
                                 }
                                 else {
@@ -136,14 +139,12 @@ export class AddTimeReportComponent implements OnInit {
       seconds = moment.duration({'hours': formModel.hours}).asSeconds();
     }
 
-    console.log(seconds);
-
     var date = formModel.date.year + '-' + formModel.date.month + '-' + formModel.date.day;
 
-    const saveTimeReport: TimeReport = {
+    var saveTimeReport: TimeReport = {
       id: formModel.id as number,
       project: formModel.project as number,
-      profile: user.id as number,
+      profile: this.timeReport === undefined ? (user.id as number) : (this.timeReport.profile as number),
 
       name: formModel.name as string,
       seconds: seconds as number,

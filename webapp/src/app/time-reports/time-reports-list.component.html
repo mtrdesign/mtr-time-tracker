@@ -77,22 +77,34 @@
             </thead>
             <tbody>
 
-              <ng-template [ngIf]="isLoading.timeReports">
-                <tr>
-                  <td colspan="6"><div class="app-loading-spinner no-margin"></div></td>
-                </tr>
-              </ng-template>
+              <tr>
+                <td colspan="6">
+                  <ng-container *ngIf="isLoading.timeReports; then timeReportsLoadingBlock; else timeReportsLoadedBlock"></ng-container>
+                  <ng-template #timeReportsLoadingBlock>
+                    <div class="app-loading-spinner no-margin"></div>
+                  </ng-template>
+                  <ng-template #timeReportsLoadedBlock>
+                    <div class="no-margin">&nbsp;</div>
+                  </ng-template>
+                </td>
+              </tr>
               <ng-container *ngIf="timeReports && timeReports.length; then timeReportsSuccessBlock; else timeReportsErrorBlock"></ng-container>
               <ng-template #timeReportsSuccessBlock>
                 <tr *ngFor="let timeReport of timeReports">
                   <td>
                     <a [routerLink]="['/time-reports']" [queryParams]="{ fromDate: timeReport.date, toDate: timeReport.date }" queryParamsHandling="merge">
-                      <span class="hidden-md-down">{{timeReport.date | date:config.env.settings.datetime_long}}</span>
-                      <span class="hidden-lg-up">{{timeReport.date | date:config.env.settings.datetime_short}}</span>
+                      <span class="hidden-md-down">
+                        {{timeReport.date | date:config.env.settings.datetime_long}}
+                      </span>
+                      <span class="hidden-lg-up">
+                        {{timeReport.date | date:config.env.settings.datetime_short}}
+                      </span>
                     </a>
                   </td>
                   <td>
-                    <a [routerLink]="['/time-reports']" [queryParams]="{ project: timeReport.project }" queryParamsHandling="merge">{{timeReport.project_entry.name}}</a>
+                    <a [routerLink]="['/time-reports']" [queryParams]="{ project: timeReport.project }" queryParamsHandling="merge">
+                      {{timeReport.project_entry.name | limitTo : 20}}
+                    </a>
                   </td>
                   <td>
                     <a [routerLink]="['/time-reports']" [queryParams]="{ profile: timeReport.profile }" queryParamsHandling="merge">
@@ -102,7 +114,7 @@
                   </td>
                   <td class="hidden-md-down">
                     <a [routerLink]="['/time-reports']" [queryParams]="{ report: timeReport.id }" queryParamsHandling="merge"><i class="fa fa-info-circle"></i></a>
-                    {{timeReport.name}}
+                    {{timeReport.name | limitTo : 21}}
                   </td>
                   <td>
                     {{timeReport.hours}}
@@ -111,8 +123,8 @@
                     </span>
                   </td>
                   <td>
-                    <button *ngIf="user.id == timeReport.profile" class="btn btn-primary btn-sm" (click)="onEditTimeReport(timeReport)"><i class="fa fa-pencil"></i></button>
-                    <button *ngIf="user.id == timeReport.profile" class="btn btn-danger btn-sm" (click)="onDeleteTimeReport(timeReport)"><i class="fa fa-trash"></i></button>
+                    <button *ngIf="user.user_entry.is_superuser || user.id == timeReport.profile_entry.id" class="btn btn-primary btn-sm" (click)="onEditTimeReport(timeReport)"><i class="fa fa-pencil"></i></button>
+                    <button *ngIf="user.user_entry.is_superuser || user.id == timeReport.profile_entry.id" class="btn btn-danger btn-sm" (click)="onDeleteTimeReport(timeReport)"><i class="fa fa-trash"></i></button>
                   </td>
                 </tr>
               </ng-template>

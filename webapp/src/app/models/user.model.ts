@@ -11,4 +11,11 @@ export class User {
   lastName: string;
   jobTitle: string;
   phoneNumber: string;
+
+  user_entry?: {
+    // id: number;
+    // username: string;
+    // email: string;
+    is_superuser: boolean;
+  }
 }

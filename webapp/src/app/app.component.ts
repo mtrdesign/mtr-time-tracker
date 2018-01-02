@@ -8,6 +8,7 @@ import { AddTimeReportComponent } from './time-reports/add-time-report.component
 
 import { RootService } from './core/root.service';
 import { AuthService } from './auth/auth.service';
+import { UserService } from './shared/user.service';
 import { TimeReportService } from './time-reports/time-report.service';
 
 import { User } from './models/user.model';
@@ -31,6 +32,7 @@ export class AppComponent implements OnInit {
   constructor(
     private rootService: RootService,
     private authService: AuthService,
+    private userService: UserService,
     private timeReportsService: TimeReportService,
     private router: Router,
     private modalService: NgbModal,
@@ -50,7 +52,7 @@ export class AppComponent implements OnInit {
       // Check the token of the user
       this.authService.verifyToken(this.user)
                       .subscribe(
-                        response => console.log(response),
+                        response => {},
                         error => {
                           this.toastr.error(error, 'Error!', { positionClass: 'toast-bottom-right' });
                           this.rootService.logout();

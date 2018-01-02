@@ -8,3 +8,4 @@ services:
     - /webapp/node_modules
     ports:
       - '4200:4200'
+    entrypoint: ["/webapp/server-setup/entrypoint.sh"]

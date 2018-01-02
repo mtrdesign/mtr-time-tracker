@@ -7,3 +7,4 @@ djangorestframework-jwt==1.8.0
 django-cors-headers==1.1.0
 behave-django==0.3.0
 selenium==2.53.6
+gunicorn==19.7.1

@@ -81,21 +81,25 @@ export class TimeReportsListComponent implements OnInit, OnDestroy {
     this.titleService.setTitle(`${this.config.pageTitle} - ${this.config.env.website.title} | ${this.config.env.website.company}`);
     this.user = this.rootService.user;
 
+    let getUser = this.userService.getUser(this.user);
     let getProjects = this.projectService.getProjects(this.user);
     let getProfiles = this.userService.getProfiles(this.user);
 
-    Observable.forkJoin([getProjects, getProfiles])
+    Observable.forkJoin([getUser, getProjects, getProfiles])
               .subscribe(
                 response => {
-                  this.projects = response[0];
-                  this.profiles = response[1];
+                  this.user.user_entry = response[0].user_entry;
+                  this.projects = response[1];
+                  this.profiles = response[2];
 
                   this.fillListTimeReportsForm();
 
                   // Check for query params which are already in the URL
                   this.handleQueryParamsFilters(this.route.snapshot.queryParams);
                 },
-                error => this.toastr.error(error, 'Error!', { positionClass: 'toast-bottom-right' })
+                error => {
+                  this.toastr.error(error, 'Error!', { positionClass: 'toast-bottom-right' });
+                }
               );
 
     this.routerSubscriber = this.router.events.subscribe(

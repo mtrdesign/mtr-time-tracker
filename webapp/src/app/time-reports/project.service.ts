@@ -40,17 +40,6 @@ export class ProjectService {
   private extractProjectsData(res: Response) {
     let body = res.json();
 
-    // let user: User = new User();
-
-    // if (body) {
-    //   user.id = body.id;
-    //   user.email = body.email_address;
-    //   user.firstName = body.first_name;
-    //   user.lastName = body.last_name;
-    //   user.jobTitle = body.job_title;
-    //   user.phoneNumber = body.phone_number;
-    // }
-
     return body || {};
   }
 
