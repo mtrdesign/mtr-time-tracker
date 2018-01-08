@@ -81,16 +81,14 @@ export class TimeReportsListComponent implements OnInit, OnDestroy {
     this.titleService.setTitle(`${this.config.pageTitle} - ${this.config.env.website.title} | ${this.config.env.website.company}`);
     this.user = this.rootService.user;
 
-    let getUser = this.userService.getUser(this.user);
     let getProjects = this.projectService.getProjects(this.user);
     let getProfiles = this.userService.getProfiles(this.user);
 
-    Observable.forkJoin([getUser, getProjects, getProfiles])
+    Observable.forkJoin([getProjects, getProfiles])
               .subscribe(
                 response => {
-                  this.user.user_entry = response[0].user_entry;
-                  this.projects = response[1];
-                  this.profiles = response[2];
+                  this.projects = response[0];
+                  this.profiles = response[1];
 
                   this.fillListTimeReportsForm();
 
@@ -172,7 +170,10 @@ export class TimeReportsListComponent implements OnInit, OnDestroy {
 
     // Open a modal with info about the time report if provided
     if (params.report) {
-      const modalRef = this.modalService.open(ViewTimeReportComponent);
+      const modalRef = this.modalService.open(ViewTimeReportComponent, {
+        backdrop: "static",
+        size: "lg"
+      });
       modalRef.componentInstance.timeReportId = params.report;
 
       modalRef.result.then(
@@ -235,7 +236,10 @@ export class TimeReportsListComponent implements OnInit, OnDestroy {
   }
 
   onEditTimeReport(timeReport: TimeReport) {
-    const modalRef = this.modalService.open(AddTimeReportComponent);
+    const modalRef = this.modalService.open(AddTimeReportComponent, {
+      backdrop: "static",
+      size: "lg"
+    });
     modalRef.componentInstance.timeReport = timeReport;
 
     modalRef.result.then(

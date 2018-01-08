@@ -20,6 +20,7 @@ import { Project } from './../models/project.model';
 export class AddTimeReportComponent implements AfterViewInit {
 
   @Input() timeReport;
+  @Input() project;
 
   addTimeReportForm: FormGroup;
   projectSelected: any;
@@ -49,8 +50,8 @@ export class AddTimeReportComponent implements AfterViewInit {
   createAddTimeReportForm() {
     this.addTimeReportForm = this.fb.group({
       id: '',
-      project: [0, Validators.required],
-      name: ['', Validators.required],
+      project: [0, [Validators.required, Validators.min(1)]],
+      name: ['', [Validators.required, Validators.minLength(5)]],
       hours: ['', [Validators.required, Validators.pattern(/(|)(\d|\d{1}:\d{2}|\d{2}:\d{2})/)]],
       description: '',
       date: ['', Validators.required],
@@ -65,6 +66,12 @@ export class AddTimeReportComponent implements AfterViewInit {
       project: 0,
       date: { year: dateNow.year(), month: dateNow.month()+1, day: dateNow.date()}
     });
+
+    if (this.project !== undefined && this.timeReport === undefined) {
+      this.addTimeReportForm.patchValue({
+        project: this.project,
+      });
+    }
 
     if (this.timeReport !== undefined && !isReset) {
       let timeReportDate: moment.Moment = moment(this.timeReport.date);

@@ -31,7 +31,7 @@ class TimeReportViewSet(viewsets.ModelViewSet):
         Get total profiles hours for given filter
         """
         user = self.request.user
-        time_report = TimeReportFilter(request.GET, queryset=TimeReport.objects.total_time_by(user, 'profile'))
+        time_report = TimeReportFilter(request.GET, queryset=TimeReport.objects.total_time_by(user, 'profile', 'profile__first_name'))
 
         serializer = TimeReportProfileSerializer(time_report, many=True)
         return Response(serializer.data)
@@ -41,7 +41,7 @@ class TimeReportViewSet(viewsets.ModelViewSet):
         Get total projects hours for given filter
         """
         user = self.request.user
-        time_report = TimeReportFilter(request.GET, queryset=TimeReport.objects.total_time_by(user, 'project'))
+        time_report = TimeReportFilter(request.GET, queryset=TimeReport.objects.total_time_by(user, 'project', 'project__name'))
 
         serializer = TimeReportProjectSerializer(time_report, many=True)
         return Response(serializer.data)

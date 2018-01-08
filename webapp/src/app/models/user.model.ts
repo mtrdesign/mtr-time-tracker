@@ -13,9 +13,11 @@ export class User {
   phoneNumber: string;
 
   user_entry?: {
-    // id: number;
+    id: number;
     // username: string;
     // email: string;
     is_superuser: boolean;
   }
+
+  date_logged?: any;
 }

@@ -6,8 +6,10 @@ html {
 }
 
 body {
+  /* Margin top because of the fixed navbar */
+  margin-top: 80px !important;
   /* Margin bottom by footer height */
-  margin-bottom: 50px;
+  margin-bottom: 50px !important;
 }
 
 .app-loading {

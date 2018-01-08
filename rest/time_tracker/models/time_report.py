@@ -24,11 +24,11 @@ class TimeReportManager(models.Manager):
             active_filter = self.filter(Q(profile__user=user) | Q(project__in=user.profile.project_set.all()))
         return active_filter
 
-    def total_time_by(self, user, group_by, **kwargs):
+    def total_time_by(self, user, group_by, order_by, **kwargs):
         return (self.active_projects(user, **kwargs)
                 .values(group_by)
                 .annotate(total_seconds=Sum('seconds'))
-                .order_by(group_by))
+                .order_by(order_by))
 
 
 class TimeReport(models.Model):

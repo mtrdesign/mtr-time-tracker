@@ -5,6 +5,7 @@ import { Title } from '@angular/platform-browser';
 import { User } from './../models/user.model';
 
 import { AuthService } from './auth.service';
+import { UserService } from './../shared/user.service';
 import { RootService } from './../core/root.service';
 
 import { environment } from './../../environments/environment';
@@ -28,12 +29,28 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private rootService: RootService,
     private authService: AuthService,
+    private userService: UserService,
     private titleService: Title) {
 
-    authService.setCredentials$.subscribe(
-                                  user => {
-                                    this.successfullLogin(user);
-                                  });
+    authService.setCredentials$
+      .subscribe(
+        user => {
+          this.userService.getUserProfile(user)
+            .subscribe(
+              userResponse => {
+                this.user = userResponse;
+                this.user.token = user.token;
+                this.user.username = user.username;
+                this.user.remember = user.remember;
+                this.successfullLogin(this.user);
+              },
+              error => {
+                this.errorMessage = 'An error occured while obtaining some profile details.';
+                this.submitted = false;
+              }
+            );
+        }
+      );
   }
 
   ngOnInit() {
@@ -51,17 +68,17 @@ export class LoginComponent implements OnInit {
     this.submitted = true;
 
     this.authService.login(this.user)
-                    .subscribe(
-                      response => {
-                        this.user.token = response.token;
-                        this.authService.setCredentials(this.user);
-                      },
-                      error => {
-                        this.errorMessage = 'Unable to login with provided credentials.';
-                        this.submitted = false;
-                      },
-                      () => this.submitted = false
-                    );
+      .subscribe(
+        authResponse => {
+          this.user.token = authResponse.token;
+          this.authService.setCredentials(this.user);
+        },
+        error => {
+          this.errorMessage = 'Unable to login with provided credentials.';
+          this.submitted = false;
+        },
+        () => this.submitted = false
+      );
   }
 
   successfullLogin(user: User) {

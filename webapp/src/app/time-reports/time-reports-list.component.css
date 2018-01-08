@@ -17,6 +17,14 @@ td {
   color: #fff;
 }
 
+.is-loading {
+  opacity: 0.5;
+}
+
+.app-loading-spinner {
+  position: absolute;
+}
+
 
 /* Large devices (desktops, 992px and up) */
 @media (min-width: 768px) {

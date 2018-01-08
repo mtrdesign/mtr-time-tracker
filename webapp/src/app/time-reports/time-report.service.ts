@@ -206,17 +206,6 @@ export class TimeReportService {
   private extractTimeReportData(res: Response) {
     let body = res.json();
 
-    // let user: User = new User();
-
-    // if (body) {
-    //   user.id = body.id;
-    //   user.email = body.email_address;
-    //   user.firstName = body.first_name;
-    //   user.lastName = body.last_name;
-    //   user.jobTitle = body.job_title;
-    //   user.phoneNumber = body.phone_number;
-    // }
-
     return body || {};
   }
 
@@ -234,16 +223,17 @@ export class TimeReportService {
     let errMsg: string = '';
     if (error instanceof Response) {
       const body = error.json() || '';
-      if (Array.isArray(body)) {
+      console.log(body);
+        console.log('Array');
         for(var errIndex in body) {
           body[errIndex].forEach(function(errorMessage) {
             errMsg += errorMessage + '<br>';
           });
         }
-      }
-      else {
-        errMsg += body.detail;
-      }
+      // else {
+      //   console.log('Not array');
+      //   errMsg += body.detail;
+      // }
     } else {
       errMsg = error.message ? error.message : error.toString();
     }

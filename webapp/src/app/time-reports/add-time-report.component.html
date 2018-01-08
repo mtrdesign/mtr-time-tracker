@@ -19,25 +19,33 @@
         </select>
       </div>
 
-      <div class="form-group">
-        <label for="addTimeReportDate">Date*</label>
-        <div class="input-group">
-          <input class="form-control form-validate" placeholder="yyyy-mm-dd" id="addTimeReportDate"
-                 name="dp" ngbDatepicker #d="ngbDatepicker" formControlName="date">
-          <div class="input-group-addon" (click)="d.toggle()" >
-            <i class="fa fa-calendar"></i>
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label for="addTimeReportDate">Date*</label>
+            <div class="input-group">
+              <input class="form-control form-validate" placeholder="yyyy-mm-dd" id="addTimeReportDate"
+                     name="dp" ngbDatepicker #d="ngbDatepicker" formControlName="date">
+              <div class="input-group-addon" (click)="d.toggle()" >
+                <i class="fa fa-calendar"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label for="addTimeReportHours">Hours*</label>
+            <input type="text" class="form-control form-validate" id="addTimeReportHours" formControlName="hours" placeholder="h:mm">
           </div>
         </div>
       </div>
 
       <div class="form-group">
-        <label for="addTimeReportName">Name*</label>
+        <label for="addTimeReportName">
+          Name*
+          <i class="fa fa-info-circle" aria-hidden="true" placement="right" ngbTooltip="Min length of 5 symbols."></i>
+        </label>
         <input type="text" class="form-control form-validate" id="addTimeReportName" formControlName="name">
-      </div>
-
-      <div class="form-group">
-        <label for="addTimeReportHours">Hours*</label>
-        <input type="text" class="form-control form-validate" id="addTimeReportHours" formControlName="hours" placeholder="h:mm">
       </div>
 
       <div class="form-group">

@@ -26,6 +26,24 @@ export class UserService {
    * @return {Observable<User>}      [description]
    */
   getUser(user: User): Observable<User> {
+    let apiUrl = this.getUrl + user.id + '/';
+    let headers = new Headers({
+      'Content-Type': 'application/json',
+      'Authorization': 'JWT ' + user.token
+    });
+    let options = new RequestOptions({ headers: headers });
+
+    return this.http.get(apiUrl, options)
+                    .map(this.extractUserData)
+                    .catch(this.handleError);
+  }
+
+  /**
+   * Get User details from the API
+   * @param  {User}             user [description]
+   * @return {Observable<User>}      [description]
+   */
+  getUserProfile(user: User): Observable<User> {
     let apiUrl = this.getUrl + '?user__id=' + user.id;
     let headers = new Headers({
       'Content-Type': 'application/json',
@@ -102,17 +120,19 @@ export class UserService {
   private extractUserData(res: Response) {
     let body = res.json();
     let user: User = new User();
+    let data = body[0] ? body[0] : body;
 
-    if (body[0]) {
-      user.id = body[0].id;
-      user.email = body[0].email_address;
-      user.firstName = body[0].first_name;
-      user.lastName = body[0].last_name;
-      user.jobTitle = body[0].job_title;
-      user.phoneNumber = body[0].phone_number;
+    if (data) {
+      user.id = data.id;
+      user.email = data.email_address;
+      user.firstName = data.first_name;
+      user.lastName = data.last_name;
+      user.jobTitle = data.job_title;
+      user.phoneNumber = data.phone_number;
 
       user.user_entry = {
-        is_superuser: body[0].user_entry.is_superuser
+        id: data.user_entry.id,
+        is_superuser: data.user_entry.is_superuser
       }
     }
 
