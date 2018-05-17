@@ -71,6 +71,15 @@ class TimeReport(models.Model):
             self.seconds = 0
         return time.strftime("%H:%M", time.gmtime(self.seconds))
 
+    @property
+    def custom_hours(self):
+        """
+        Convert time from seconds to hours
+        """
+        if self.seconds is None or self.seconds < 1:
+            return 0
+        return '%.2f' % (self.seconds / 3600)
+
     @staticmethod
     def sec_to_hours(seconds):
         if seconds is None or seconds <= 0:
