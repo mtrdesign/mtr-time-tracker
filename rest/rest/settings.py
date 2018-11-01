@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'corsheaders',
 
     'time_tracker',
+    'django_admin_multiple_choice_list_filter',
 
     'behave_django'
 ]
