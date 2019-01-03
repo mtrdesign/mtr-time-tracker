@@ -186,8 +186,8 @@ export class TimeReportService {
     });
 
     let params: URLSearchParams = new URLSearchParams();
-    params.set('date_0', filters.fromDate);
-    params.set('date_1', filters.toDate);
+    params.set('date_after', filters.fromDate);
+    params.set('date_before', filters.toDate);
     params.set('profile__id', filters.profile != 0 ? filters.profile : '');
     params.set('project__id', filters.project != 0 ? filters.project : '');
 

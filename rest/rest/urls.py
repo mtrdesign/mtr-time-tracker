@@ -18,11 +18,16 @@ from django.contrib import admin
 from django.conf.urls import url, include
 from django.conf import settings
 from django.conf.urls.static import static
+from rest_framework_swagger.views import get_swagger_view
+from rest_framework.documentation import include_docs_urls
+
 
 urlpatterns = [
     url(r"", include("time_tracker.urls")),
     url(r"^admin/", admin.site.urls),
     url(r"^time-tracker/api/", include("time_tracker.urls")),
+    url(r'^docs', include_docs_urls(title='MTR Time Tracker API')),
+    url(r'^swagger$', get_swagger_view(title='MTR Time Tracker API')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 if settings.DEBUG:

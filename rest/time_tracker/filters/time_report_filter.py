@@ -1,19 +1,16 @@
-import django_filters
-
+import django_filters.rest_framework
 from django.db.models import F, Func
-
-from rest_framework import filters
 
 from time_tracker.models import TimeReport
 
 
-class TimeReportFilter(filters.FilterSet):
+class TimeReportFilter(django_filters.rest_framework.FilterSet):
     FILTERS = ['MONTH', "YEAR", "DAY"]
 
-    date = django_filters.DateFromToRangeFilter(name="date")
-    project__id = django_filters.NumberFilter(name="project__id")
-    profile__id = django_filters.NumberFilter(name="profile__id")
-    group_by = django_filters.MethodFilter()
+    date = django_filters.DateFromToRangeFilter(field_name="date")
+    project__id = django_filters.NumberFilter(field_name="project__id")
+    profile__id = django_filters.NumberFilter(field_name="profile__id")
+    group_by = django_filters.CharFilter(method='filter_group_by')
 
     class Meta:
         model = TimeReport
