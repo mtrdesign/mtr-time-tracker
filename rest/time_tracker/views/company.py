@@ -6,6 +6,13 @@ from time_tracker.permissions import CompanyPermission
 
 
 class CompanyViewSet(viewsets.ModelViewSet):
+    """
+        Working with company data
+
+        retrieve:
+        Return the given company.
+
+    """
     queryset = Company.objects.all()
     serializer_class = CompanySerializer
     permission_classes = (CompanyPermission,)
